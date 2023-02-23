@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 </script>
 
@@ -8,6 +8,6 @@
     </main>
 </template>
 
-<style>
+<style lang="scss">
 
 </style>
