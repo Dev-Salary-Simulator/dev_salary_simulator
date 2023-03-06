@@ -9,12 +9,19 @@ const app = express();
 
 app.use(cors())
 
-const dataSchema = new mongoose.Schema({
-    
+const jobSchema = new mongoose.Schema({
+    idUser: mongoose.ObjectId,
+    region: String,
+    title: String,
+    stack: [String],
+    experience: Number,
+    salary: Number,
+    companyName: String,
+    status: String
 });
 
 
-const Data = mongoose.model('Data', dataSchema);
+const Jobs = mongoose.model('Jobs', jobSchema);
 
 // Connexion à MongoDB
 mongoose.connect("mongodb://localhost:27017/Eval")
