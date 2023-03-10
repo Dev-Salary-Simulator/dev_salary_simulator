@@ -138,7 +138,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setBirthday(?\DateTimeInterface $birthday): self
     {
-        $this->birthday = $birthday->format('Y-m-d');
+        $this->birthday = $birthday;
 
         return $this;
     }
