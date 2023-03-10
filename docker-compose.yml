@@ -11,6 +11,7 @@ services:
       - "8080:8080"
       # The Web port
       - "3000:3000"
+      # - "8088:27017" mongodb
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
@@ -24,3 +25,36 @@ services:
       - "traefik.http.routers.chatapp.entrypoints=web"
     deploy:
       replicas: 1
+  auth:
+    build: ./auth
+    container_name: auth_symfony
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"
+      - "traefik.http.routers.auth.entrypoints=auth"
+    volumes:
+        - ./auth/vhosts:/etc/apache2/sites-enabled
+        - ./auth/projet:/var/www/projet
+
+
+  db-mongodb:
+      # In production, you may want to use a managed database service
+      image: mongo
+      environment:
+          - MONGO_INITDB_DATABASE=emploi
+          - MONGO_INITDB_ROOT_USERNAME=nassimgc
+          # You should definitely change the password in production
+          - MONGO_INITDB_ROOT_PASSWORD=nassimgc
+      ports:
+          - "8088:27017"
+      volumes:
+          - ./db/data:/data/db:rw
+      labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.mongo.rule=Host(`localhost`)"
+        - "traefik.http.routers.mongo.entrypoints=mongo"
+  mailer:
+    image: schickling/mailcatcher
+    ports: 
+      - "1025:1025" 
+      - "1080:1080"

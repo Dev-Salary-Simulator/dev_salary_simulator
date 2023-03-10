@@ -5,7 +5,7 @@ api:
   # Dashboard
   #
   #
-  dashboard: false
+  dashboard: true
   insecure: true
 ################################################################
 # Docker configuration backend
@@ -25,3 +25,7 @@ log:
 entryPoints:
   web:
     address: ":3000"
+  auth:
+    address: ":80"
+  mongo:
+    address: ":27017"
