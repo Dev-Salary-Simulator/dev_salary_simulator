@@ -24,3 +24,8 @@ services:
       - "traefik.http.routers.chatapp.entrypoints=web"
     deploy:
       replicas: 1
+
+  jobs :
+    build : "./data"
+    ports :
+      -  3000:3000
