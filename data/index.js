@@ -14,6 +14,16 @@ app.use(cors());
 
 mongoose.set('strictQuery', false);
 
+// Routes
+app.get('/api/jobs', async (req, res) => {
+    try {
+        const jobs = await Jobs.find({}, { _id: 0}).exec();
+        res.json(jobs);
+    } catch (error) {
+        console.error("Erreur lors de la récupération.\n" + error);
+    }
+});
+
 // Connexion à MongoDB
 mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
