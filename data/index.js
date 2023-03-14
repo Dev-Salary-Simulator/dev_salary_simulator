@@ -12,11 +12,18 @@ const app = express();
 
 app.use(cors());
 
+const router = express.Router();
+
 // Mongoose deprecated strictQuery
 mongoose.set('strictQuery', false);
 
+// Connexion à MongoDB
+mongoose.connect(MONGO)
+.then ( () => console.log("Successfully connected to MongoDB") )
+.catch( () => console.log("Connection failed") )
+
 // Routes
-app.get('/api/jobs', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const jobs = await Jobs.find({}, { _id: 0}).exec();
         res.json(jobs);
@@ -25,7 +32,7 @@ app.get('/api/jobs', async (req, res) => {
     }
 });
 
-app.get('/api/jobs/titles', async (req, res) => {
+router.get('/titles', async (req, res) => {
     try {
         const titles = await Jobs.find().distinct("title");
         res.json(titles);
@@ -34,7 +41,7 @@ app.get('/api/jobs/titles', async (req, res) => {
     }
 });
 
-app.get('/api/jobs/regions', async (req, res) => {
+router.get('/regions', async (req, res) => {
     try {
         const regions = await Jobs.find().distinct("region");
         res.json(regions);
@@ -43,11 +50,6 @@ app.get('/api/jobs/regions', async (req, res) => {
     }
 });
 
-// Connexion à MongoDB
-mongoose.connect(MONGO)
-.then ( () => console.log("Successfully connected to MongoDB") )
-.catch( () => console.log("Connection failed") )
+app.use('/api/jobs', router);
 
-app.listen(3000, () => {
-    console.log("Listening on port 3000");   
-});
+app.listen(3000, () => console.log("Listening on port 3000") );
