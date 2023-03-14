@@ -44,9 +44,9 @@ class RegistrationController extends AbstractController
         // Etape 1 : Récupération des données depuis le JSON 
         $decoded = json_decode($request->getContent());
         $email = $decoded->email;
-        $firstname = $decoded->firstname;
-        $lastname = $decoded->lastname;
-        $birthday = $decoded->birthday;
+        // $firstname = $decoded->firstname;
+        // $lastname = $decoded->lastname;
+        // $birthday = $decoded->birthday;
         $plaintextPassword = $decoded->password;
 
         // Etape 2 : Vérification de l'existence du mail en BDD
@@ -75,9 +75,9 @@ class RegistrationController extends AbstractController
         // Etape 4 : Enregistrement de l'utilisateur
         $user = new User();
         $user->setEmail($email);
-        $user->setFirstName($firstname);
-        $user->setLastName($lastname);
-        $user->setBirthday(new \DateTime($birthday));
+        // $user->setFirstName($firstname);
+        // $user->setLastName($lastname);
+        // $user->setBirthday(new \DateTime($birthday));
         $hashedPassword = $passwordHasher->hashPassword(
             $user,
             $plaintextPassword

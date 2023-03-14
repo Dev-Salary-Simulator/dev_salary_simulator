@@ -28,6 +28,8 @@ services:
   auth:
     build: ./auth
     container_name: auth_symfony
+    depends_on:
+      - db-mongodb
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"

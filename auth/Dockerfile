@@ -9,10 +9,17 @@ RUN chmod +x /usr/local/bin/install-php-extensions && \
 
 COPY --from=composer/composer:latest-bin /composer /usr/local/bin/composer
 
-# COPY /project /var/www/
+COPY /projet /var/www/projet
 
 # COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
+WORKDIR /var/www/projet/
+RUN composer install && \
+php bin/console c:c && \
+php bin/console doctrine:cache:clear-metadata && \
+php bin/console doctrine:cache:clear-query && \
+php bin/console doctrine:cache:clear-result && \
+php bin/console doctrine:mongodb:generate:hydrators
 
-WORKDIR /var/www/projet
+RUN chmod -R 777 var/cache var/log
 
 EXPOSE 80
