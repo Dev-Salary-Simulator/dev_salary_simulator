@@ -34,6 +34,15 @@ app.get('/api/jobs/titles', async (req, res) => {
     }
 });
 
+app.get('/api/jobs/regions', async (req, res) => {
+    try {
+        const regions = await Jobs.find().distinct("region");
+        res.json(regions);
+    } catch (error) {
+        console.error("Erreur lors de la récupération.\n" + error);
+    }
+});
+
 // Connexion à MongoDB
 mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
