@@ -50,6 +50,27 @@ router.get('/regions', async (req, res) => {
     }
 });
 
+router.get('/stack', async (req, res) => {
+    const stacks = [];
+
+    try {
+        await Jobs.find().exec()
+        .then(jobs => {
+            jobs.map(job => {
+                job.stack.map(stack => {
+                    if (!stacks.includes(stack.toLowerCase())) {
+                        stacks.push(stack.toLowerCase());
+                    }
+                })
+            })
+        })
+        ;
+        res.json(stacks.sort());
+    } catch (error) {
+        console.error("Erreur lors de la récupération.\n" + error);
+    }
+});
+
 app.use('/api/jobs', router);
 
 app.listen(3000, () => console.log("Listening on port 3000") );
