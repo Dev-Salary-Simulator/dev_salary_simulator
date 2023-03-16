@@ -58,7 +58,7 @@ router.get('/stack', async (req, res) => {
         .then(jobs => {
             jobs.map(job => {
                 job.stack.map(stack => {
-                    if (!stacks.includes(stack.toLowerCase())) {
+                    if (stack && !stacks.includes(stack.toLowerCase())) {
                         stacks.push(stack.toLowerCase());
                     }
                 })
