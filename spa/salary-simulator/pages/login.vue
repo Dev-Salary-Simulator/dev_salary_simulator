@@ -5,12 +5,15 @@ const loginForm = async () => {
     console.log(data);
     console.log(error);
     console.log(userLogged());
+    console.log(email.value)
 }
+const email = useState<string>('email', () => 'Hello');
 </script>
 
 <template>
     <main>
         <h1>Hello login</h1>
+        <Input v-model="email"/>
         <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => loginForm()">Call without token"</button>
         <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => autoLogin()">Call with token"</button>
     </main>
