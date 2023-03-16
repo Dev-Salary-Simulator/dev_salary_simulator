@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {login, autoLogin, userLogged} = useAuth();
+const {login, userLogged} = useAuth();
 const loginForm = async () => {
     const {data, error} = await login()
     console.log(data);
@@ -11,12 +11,11 @@ const email = useState<string>('email', () => 'Hello');
 </script>
 
 <template>
-    <main>
+    <main class="container">
         <h1 class="title-l">Hello login</h1>
         <Label forInput="email">E-mail</Label>
         <Input v-model="email" id="email"/>
-        <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => loginForm()">Call without token"</button>
-        <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => autoLogin()">Call with token"</button>
+        <Button :click="(ev: MouseEvent) => loginForm()">Login</Button>
     </main>
 </template>
 

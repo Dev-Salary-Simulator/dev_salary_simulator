@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {modelValue, type} = defineProps<{
+const {modelValue, type, id} = defineProps<{
     modelValue: string | number,
     type?: string,
     id?: string
