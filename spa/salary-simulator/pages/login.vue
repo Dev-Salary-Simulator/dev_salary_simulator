@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import useAuthService from '~~/services/authService';
-
-const {login, autoLogin} = await useAuthService();
+const {login, autoLogin, userLogged} = useAuth();
 const loginForm = async () => {
     const {data, error} = await login()
     console.log(data);
     console.log(error);
+    console.log(userLogged());
 }
 </script>
 
