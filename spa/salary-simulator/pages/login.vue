@@ -12,8 +12,9 @@ const email = useState<string>('email', () => 'Hello');
 
 <template>
     <main>
-        <h1>Hello login</h1>
-        <Input v-model="email"/>
+        <h1 class="title-l">Hello login</h1>
+        <Label forInput="email">E-mail</Label>
+        <Input v-model="email" id="email"/>
         <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => loginForm()">Call without token"</button>
         <button class="btn btn-primary mx-2" @click="(ev: MouseEvent) => autoLogin()">Call with token"</button>
     </main>
