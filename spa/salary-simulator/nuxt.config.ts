@@ -8,7 +8,6 @@ export default defineNuxtConfig({
     },
     // Import SCSS
     css: [
-        '@/assets/scss/bootstrap.scss',
         '@/assets/scss/main.scss'
     ],
     // Meta tag & SEO
