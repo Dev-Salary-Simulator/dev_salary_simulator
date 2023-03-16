@@ -1,4 +1,7 @@
+// Import bootstrap & colors
 @import "./bootstrap.scss";
+// Import font
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
 
 body, html, #__nuxt{
     width: 100%;
@@ -9,4 +12,6 @@ body, html, #__nuxt{
 }
 *{
     box-sizing: border-box;
+    font-family: "Barlow";
+    font-weight: 500;
 }
