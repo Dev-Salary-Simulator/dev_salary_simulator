@@ -102,7 +102,7 @@ router.post("/search", async (req, res) => {
     if (regexTitle)  findObj.title = regexTitle;
     if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
-    if (stack)       findObj.stack = stack; // TODO : La stack entière de la recherche doit être dans chaque résultat
+    if (stack)       findObj.stack = { $all: stack };
 
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
