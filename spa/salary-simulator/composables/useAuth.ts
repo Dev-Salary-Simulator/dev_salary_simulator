@@ -1,6 +1,6 @@
 export default () => {
     const runtimeConfig = useRuntimeConfig();
-    const userLogged = () => useState('userLogged', () => null);
+    const userLogged = () => useState<TUser | null>('userLogged', () => null);
     
     async function login(){
         const {data: data, error} = await useFetch(`${runtimeConfig.public.apiBase}/login`)
