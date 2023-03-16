@@ -8,9 +8,18 @@ export default defineNuxtConfig({
     },
     // Import SCSS
     css: [
-        '@/assets/scss/bootstrap.scss',
         '@/assets/scss/main.scss'
     ],
+    // Add colors for vue files
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: '@use "@/assets/scss/colors.scss" as *;'
+                }
+            }
+        }
+    },
     // Meta tag & SEO
     app: {
         head: {
