@@ -1,10 +1,49 @@
+@import "./colors.scss";
+@import '~/node_modules/bootstrap/scss/bootstrap.scss';
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
+
 body, html, #__nuxt{
     width: 100%;
     height: 100%;
     margin: 0;
-    background-color: #161820;
-    color: #FFFFFF;
+    background: $background;
+    color: $light;
 }
 *{
     box-sizing: border-box;
+    font-family: "Barlow";
+    font-weight: 500;
+}
+
+// Font classes
+.title-l{
+    font-size: 42px;
+    line-height: 50px;
+    font-weight: 700;
+}
+.title-m{
+    font-size: 35px;
+    line-height: 42px;  
+    font-weight: 700;  
+}
+.title-s{
+    font-size: 30px;
+    line-height: 36px; 
+    font-weight: 700;   
+}
+.text-l{
+    font-size: 35px;
+    line-height: 42px; 
+    font-weight: 500;
+    text-transform: uppercase;  
+}
+.text-m{
+    font-size: 25px;
+    line-height: 30px; 
+    font-weight: 500;   
+}
+.text-s{
+    font-size: 20px;
+    line-height: 24px; 
+    font-weight: 500;   
 }
