@@ -12,8 +12,10 @@ const { Jobs } = require("./model/Jobs");
 
 const app = express();
 
+const port = process.env.PORT || 3001;
+
 app.set('host', process.env.IP || '127.0.0.1');
-app.set('port', process.env.PORT || 3000);
+app.set('port', port);
 app.disable('x-powered-by'); 
 
 app.use(session({
@@ -115,4 +117,4 @@ router.post("/search", async (req, res) => {
 
 app.use('/api/jobs', router);
 
-app.listen(3000, () => console.log("Listening on port 3000") );
+app.listen(port, () => console.log(`Listening on port ${port}`) );

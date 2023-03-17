@@ -25,3 +25,5 @@ log:
 entryPoints:
   web:
     address: ":3000"
+  back:
+    address: ":3001"
