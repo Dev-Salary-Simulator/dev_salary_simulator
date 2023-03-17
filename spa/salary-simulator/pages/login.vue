@@ -4,7 +4,7 @@ const loginForm = async () => {
     const {data, error} = await login()
     console.log(data);
     console.log(error);
-    console.log(userLogged());
+    console.log(userLogged.value);
     console.log(email.value)
 }
 const email = useState<string>('email', () => 'Hello');
