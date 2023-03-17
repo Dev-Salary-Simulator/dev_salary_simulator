@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 
-#[Route('/api', name: "api_")]
+#[Route('/api/user', name: "api_")]
 class DashboardController extends AbstractController
 {
     #[Route('/profile', name: 'profile')]
@@ -25,12 +25,14 @@ class DashboardController extends AbstractController
         $normalizers = [new ObjectNormalizer()];
         $serializer = new Serializer($normalizers, $encoders);
 
-        $data = $serializer->normalize($this->getUser(), null, [AbstractNormalizer::IGNORED_ATTRIBUTES => ['password','salt', 'username','userIdentifier'], 
-                AbstractNormalizer::CALLBACKS => [
-                    'birthday' => function ($date) {
-                        return $date instanceof \DateTime ? $date->format('d-m-Y') : '';
-                    }
-                ]]);
+        $data = $serializer->normalize($this->getUser(), null, [
+            AbstractNormalizer::IGNORED_ATTRIBUTES => ['password', 'salt', 'username', 'userIdentifier'],
+            AbstractNormalizer::CALLBACKS => [
+                'birthday' => function ($date) {
+                    return $date instanceof \DateTime ? $date->format('d-m-Y') : '';
+                }
+            ]
+        ]);
 
         $response =  new JsonResponse([
             // 'user'=> $data
