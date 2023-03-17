@@ -3,14 +3,23 @@ export default defineNuxtConfig({
     runtimeConfig: {
         apiSecret: '123', // File .env => NUXT_API_SECRET
         public: {
-            apiBase: '/api' // File .env => NUXT_PUBLIC_API_BASE
+            apiBase: 'http://api.localhost:3000/api' // File .env => NUXT_PUBLIC_API_BASE
         }
     },
     // Import SCSS
     css: [
-        '@/assets/scss/bootstrap.scss',
         '@/assets/scss/main.scss'
     ],
+    // Add colors for vue files
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: '@use "@/assets/scss/colors.scss" as *;'
+                }
+            }
+        }
+    },
     // Meta tag & SEO
     app: {
         head: {

@@ -3,7 +3,7 @@ services:
     # The official v2 Traefik docker image
     image: traefik:v2.9
     # Enables the web UI and tells Traefik to listen to docker
-    command: --api.insecure=true --providers.docker
+    command: --api.insecure=false --providers.docker
     ports:
       # The HTTP port
       - "80:80"
@@ -21,8 +21,16 @@ services:
     build: ./spa
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.chatapp.rule=Host(`localhost`)"
-      - "traefik.http.routers.chatapp.entrypoints=web"
+      - "traefik.http.routers.frontend.rule=Host(`localhost`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+    deploy:
+      replicas: 1
+
+  jobs :
+    build : "./data"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jobs.rule=Host(`api.localhost`) && PathPrefix(`/api/jobs`)"
     deploy:
       replicas: 1
   auth:
