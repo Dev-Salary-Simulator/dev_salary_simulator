@@ -12,7 +12,7 @@ const { Jobs } = require("./model/Jobs");
 
 const app = express();
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 
 app.set('host', process.env.IP || '127.0.0.1');
 app.set('port', port);
@@ -76,7 +76,7 @@ router.get('/stack', async (req, res) => {
                 jobs.map(job => {
                     // Pour chaque élément de la stack, on vérifie s'il est déjà dans le tableau
                     job.stack.map(stack => {
-                        if (stack && !stacks.includes(stack.toLowerCase())) {
+                        if (stack !== "" && !stacks.includes(stack.toLowerCase())) {
                             stacks.push(stack.toLowerCase());
                         }
                     })
