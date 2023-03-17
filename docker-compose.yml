@@ -11,6 +11,7 @@ services:
       - "8080:8080"
       # The Web port
       - "3000:3000"
+      - "3001:3001"
       # - "8088:27017" mongodb
     volumes:
       # So that Traefik can listen to the Docker events
@@ -31,6 +32,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jobs.rule=Host(`api.localhost`) && PathPrefix(`/api/jobs`)"
+      - "traefik.http.routers.jobs.entrypoints=web"
     deploy:
       replicas: 1
   auth:
@@ -40,7 +42,7 @@ services:
       - db-mongodb
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.auth.rule=Host(`auth.localhost`)"
+      - "traefik.http.routers.auth.rule=Host(`api.localhost`)"
       - "traefik.http.routers.auth.entrypoints=auth"
     volumes:
         - ./auth/vhosts:/etc/apache2/sites-enabled
