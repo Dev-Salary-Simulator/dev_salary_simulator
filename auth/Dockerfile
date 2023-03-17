@@ -22,4 +22,4 @@ php bin/console doctrine:mongodb:generate:hydrators
 
 RUN chmod -R 777 var/cache var/log
 
-EXPOSE 80
+EXPOSE 3001
