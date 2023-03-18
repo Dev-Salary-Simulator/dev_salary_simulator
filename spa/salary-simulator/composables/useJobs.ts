@@ -6,7 +6,10 @@ export default () => {
 
     async function getNamesOfJobs(){
         await nextTick();
-        const {data} = await useLazyFetch<string[]>(`${runtimeConfig.public.apiBase}/jobs/titles`);
+        const {data} = await useLazyFetch(`${runtimeConfig.public.apiBase}/jobs/titles`)
+        .then(res => {
+            return {data: res.data as Ref<string[]>}
+        });
         if (isProxy(data.value)){
             data.value = toRaw(data.value);
         }
