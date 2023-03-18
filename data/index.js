@@ -5,14 +5,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const session = require('express-session');
+const jwt  = require('jsonwebtoken');
 
-const { MONGO, SECRET } = process.env;
+const { MONGO, SECRET, JWT_KEY } = process.env;
 
 const { Jobs } = require("./model/Jobs");
 
 const app = express();
 
-const port = process.env.PORT || 3000;
+const port = 3000;
 
 app.set('host', process.env.IP || '127.0.0.1');
 app.set('port', port);
@@ -37,6 +38,16 @@ mongoose.set('strictQuery', false);
 mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
 .catch( () => console.log("Connection failed") )
+
+let token = null;
+let user = null;
+
+const isAuthenticated = (req, res, next) => {
+    if (!user) 
+        return res.status(401).json({ error: "Vous devez être connecté pour lancer une recherche" });
+
+    next();
+};
 
 // Routes
 router.get('/', async (req, res) => {
@@ -91,9 +102,7 @@ router.get('/stack', async (req, res) => {
     }
 });
 
-router.post("/search", async (req, res) => {
-    // TODO : Middleware pour savoir qui a fait la requête
-    
+router.post("/search", [ isAuthenticated ], async (req, res) => {
     const { title, experience, stack, region } = req.body;
 
     const regexTitle = new RegExp(title, "i");
@@ -113,6 +122,22 @@ router.post("/search", async (req, res) => {
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
+});
+
+router.post("/saveUser", (req, res) => {
+    const { token: tokenReceived } = req.body;
+
+    if (!tokenReceived) return res.json({ error: "Vous n'avez pas envoyé de token" }).status(400);
+
+    try {
+        const decoded = jwt.verify(tokenReceived, JWT_KEY);
+        user = decoded;
+        token = tokenReceived;
+    } catch (err) {
+        return res.json({erreur: "Token Invalide"}).status(403);
+    }
+
+    return res.send("Token enregistré").status(200);
 });
 
 app.use('/api/jobs', router);
