@@ -103,7 +103,7 @@ router.get('/stack', async (req, res) => {
     }
 });
 
-router.post("/search", [ isAuthenticated ], async (req, res) => {
+router.post("/search", async (req, res) => {
     const { title, experience, stack, region } = req.body;
 
     const regexTitle = new RegExp(title, "i");
@@ -121,8 +121,10 @@ router.post("/search", [ isAuthenticated ], async (req, res) => {
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
 
-        // On enregistre la recherche dans les simulations du User
-        const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : simulationObj } } ).exec();
+        if (user !== null) {
+            // On enregistre la recherche dans les simulations du User
+            const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : simulationObj } } ).exec();
+        }
 
         return res.json(jobs).status(200);
     } catch (error) {
