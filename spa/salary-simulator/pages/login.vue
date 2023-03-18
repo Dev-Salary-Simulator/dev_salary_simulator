@@ -1,11 +1,7 @@
 <script setup lang="ts">
-const {login, userLogged} = useAuth();
+const {login} = useAuth();
 const loginForm = async () => {
-    const {data, error} = await login()
-    console.log(data);
-    console.log(error);
-    console.log(userLogged.value);
-    console.log(email.value)
+    await login({email: "test", password: "test"})
 }
 const email = useState<string>('email', () => 'Hello');
 </script>
