@@ -10,6 +10,7 @@ const jwt  = require('jsonwebtoken');
 const { MONGO, SECRET, JWT_KEY } = process.env;
 
 const { Jobs } = require("./model/Jobs");
+const { User } = require("./model/User");
 
 const app = express();
 
@@ -114,9 +115,14 @@ router.post("/search", [ isAuthenticated ], async (req, res) => {
     if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
+    
+    const simulationObj = { ...findObj, stack : stack };
 
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
+
+        // On enregistre la recherche dans les simulations du User
+        const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : simulationObj } } ).exec();
 
         return res.json(jobs).status(200);
     } catch (error) {
