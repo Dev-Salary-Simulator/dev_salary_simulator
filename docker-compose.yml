@@ -29,12 +29,14 @@ services:
 
   jobs :
     build : "./data"
+    container_name: jobs_service
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jobs.rule=Host(`api.localhost`) && PathPrefix(`/api/jobs`)"
       - "traefik.http.routers.jobs.entrypoints=web"
     deploy:
       replicas: 1
+
   auth:
     build: ./auth
     container_name: auth_symfony
