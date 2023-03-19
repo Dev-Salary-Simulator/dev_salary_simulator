@@ -6,14 +6,16 @@ export default () => {
 
     async function getNamesOfJobs(){
         await nextTick();
-        const {data} = await useLazyFetch(`${runtimeConfig.public.apiBase}/jobs/titles`)
+        const {data, error} = await useLazyFetch(`${runtimeConfig.public.apiBase}/jobs/titles`)
         .then(res => {
-            return {data: res.data as Ref<string[]>}
+            return {...res, data: res.data as Ref<string[]> | null}
         });
-        if (isProxy(data.value)){
-            data.value = toRaw(data.value);
+        if (!error?.value && data?.value) {
+            if (isProxy(data.value)){
+                data.value = toRaw(data.value);
+            }
+            namesJob.value = data.value ?? namesJob.value;
         }
-        namesJob.value = data.value ?? namesJob.value;
     }
 
     return {namesJob, getNamesOfJobs};
