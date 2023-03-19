@@ -1,7 +1,9 @@
 <script setup>
 const {getNamesOfJobs} = useJobs();
+const {autoLogin} = useAuth();
 onMounted(async () => {
-    await getNamesOfJobs();
+    getNamesOfJobs();
+    await autoLogin();
 })
 </script>
 
