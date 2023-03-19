@@ -1,13 +1,12 @@
 <script setup lang="ts">
-const {namesJob} = useJobs();
-
+const {namesJobs} = useJobs();
 </script>
 
 <template>
     <main>
         <h1>Hello Index</h1>
         <ul>
-            <li v-for="j in namesJob">{{ j }}</li>
+            <li v-for="n in namesJobs">{{ n }}</li>
         </ul>
     </main>
 </template>

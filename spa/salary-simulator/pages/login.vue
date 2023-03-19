@@ -1,11 +1,10 @@
 <script setup lang="ts">
-const {login, userLogged} = useAuth();
+const {login, register} = useAuth();
 const loginForm = async () => {
-    const {data, error} = await login()
-    console.log(data);
-    console.log(error);
-    console.log(userLogged.value);
-    console.log(email.value)
+    await login({email: "test@test.com", password: "test1234"})
+}
+const registerForm = async () => {
+    await register({email: "test@test.com", password: "test1234"})
 }
 const email = useState<string>('email', () => 'Hello');
 </script>
@@ -15,6 +14,7 @@ const email = useState<string>('email', () => 'Hello');
         <h1 class="title-l">Hello login</h1>
         <Label forInput="email">E-mail</Label>
         <Input v-model="email" id="email"/>
+        <Button :click="(ev: MouseEvent) => registerForm()">Register</Button>
         <Button :click="(ev: MouseEvent) => loginForm()">Login</Button>
     </main>
 </template>

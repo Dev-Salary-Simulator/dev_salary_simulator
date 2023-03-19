@@ -3,7 +3,8 @@ export default defineNuxtConfig({
     runtimeConfig: {
         apiSecret: '123', // File .env => NUXT_API_SECRET
         public: {
-            apiBase: 'http://api.localhost:3000/api' // File .env => NUXT_PUBLIC_API_BASE
+            apiBase: 'http://api.localhost:3000/api', // File .env => NUXT_PUBLIC_API_BASE
+            authBase: 'http://auth.localhost:3000/api' // File .env => NUXT_PUBLIC_AUTH_BASE
         }
     },
     // Import SCSS
