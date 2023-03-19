@@ -37,18 +37,20 @@ export default () => {
     }
     
     async function autoLogin(){
-        await nextTick();
-        const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/auto`, {
-            headers: {Authorization: localStorage.getItem('tokenDSS') ? `Bearer ${localStorage.getItem('tokenDSS')}` : ''}
-        }).then(res => {
-            return {...res, data: res.data as Ref<{user: TUser, jwt: string}> | null}
-        });
-        if (!error?.value && data?.value) {
-            if (isProxy(data.value)){
-                data.value = toRaw(data.value);
+        if (localStorage.getItem('tokenDSS')) {
+            await nextTick();
+            const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/auto`, {
+                headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`}
+            }).then(res => {
+                return {...res, data: res.data as Ref<{user: TUser, jwt: string}> | null}
+            });
+            if (!error?.value && data?.value) {
+                if (isProxy(data.value)){
+                    data.value = toRaw(data.value);
+                }
+                userLogged.value = data.value.user;
+                localStorage.setItem('tokenDSS', data.value.jwt)
             }
-            userLogged.value = data.value.user;
-            localStorage.setItem('tokenDSS', data.value.jwt)
         }
     }
 
