@@ -62,31 +62,28 @@ router.get('/', async (req, res) => {
 
 router.get('/titles', async (req, res) => {
     try {
-        // const titlesInit = await Jobs.find().distinct("title");
-
-        // Ce code utilise l’opérateur $toLower pour convertir les titres en minuscules avant de les regrouper avec l’opérateur $group. 
-        // L’opérateur $first renvoie le premier titre trouvé pour chaque groupe. 
-        // Enfin, l’opérateur $project est utilisé pour ne renvoyer que les titres.
+        // $toLower : titres en minuscules,
+        // $group : les regrouper,
+        // $first : premier titre pour chaque groupe. 
+        // $project : renvoyer que les titres.
         const result = await Jobs.aggregate([
             {
-              $group: {
-                _id: { $toLower: "$title" },
-                title: { $first: "$title" }
-              }
+                $group: {
+                    _id: { $toLower: "$title" },
+                    title: { $first: "$title" }
+                }
             },
             {
-              $project: {
-                _id: 0,
-                title: 1
-              }
+                $project: {
+                    _id: 0,
+                    title: 1
+                }
             }
         ]);
         
         // titles est un array qui ne contient que les intitulés des jobs
         const titles = result.map(item => item.title);
 
-        // console.log(titlesInit.length, titles.length);
-          
         return res.json(titles.filter(item => item !== "").sort()).status(200);
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
