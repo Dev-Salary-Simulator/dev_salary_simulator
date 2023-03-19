@@ -5,7 +5,7 @@ export default () => {
     const userLogged = useState<TUser | null>('userLogged', () => null);
 
     async function login(payload: {email: string, password: string}){
-        const {data, error}= await useFetch(`${runtimeConfig.public.apiBase}/login`, {
+        const {data, error}= await useFetch(`${runtimeConfig.public.authBase}/auth/login`, {
             body: payload,
             method: "POST",
         }).then(res => {
@@ -21,7 +21,7 @@ export default () => {
     }
     
     async function register(payload: {email: string, password: string}){
-        const {data, error} = await useFetch(`${runtimeConfig.public.apiBase}/register`, {
+        const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/register`, {
             body: payload,
             method: "POST"
         }).then(res => {
@@ -38,7 +38,7 @@ export default () => {
     
     async function autoLogin(){
         await nextTick();
-        const {data, error} = await useFetch(`${runtimeConfig.public.apiBase}/auto`, {
+        const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/auto`, {
             headers: {Authorization: localStorage.getItem('tokenDSS') ? `Bearer ${localStorage.getItem('tokenDSS')}` : ''}
         }).then(res => {
             return {...res, data: res.data as Ref<{user: TUser, jwt: string}> | null}
