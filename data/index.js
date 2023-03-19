@@ -63,7 +63,7 @@ router.get('/', async (req, res) => {
 router.get('/titles', async (req, res) => {
     try {
         const titles = await Jobs.find().distinct("title");
-        return res.json(titles.sort()).status(200);
+        return res.json(titles.filter(item => item !== "").sort()).status(200);
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
@@ -72,7 +72,7 @@ router.get('/titles', async (req, res) => {
 router.get('/regions', async (req, res) => {
     try {
         const regions = await Jobs.find().distinct("region");
-        return res.json(regions.sort()).status(200);
+        return res.json(regions.filter(item => item !== "").sort()).status(200);
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
@@ -88,7 +88,7 @@ router.get('/stack', async (req, res) => {
                 jobs.map(job => {
                     // Pour chaque élément de la stack, on vérifie s'il est déjà dans le tableau
                     job.stack.map(stack => {
-                        if (stack !== "" && !stacks.includes(stack.toLowerCase())) {
+                        if (stack && !stacks.includes(stack.toLowerCase())) {
                             stacks.push(stack.toLowerCase());
                         }
                     })
@@ -97,7 +97,7 @@ router.get('/stack', async (req, res) => {
             .catch(error => console.error("Erreur lors de la récupération.\n" + error))
         ;
 
-        return res.json(stacks.sort()).status(200);
+        return res.json(stacks.filter(item => item !== "").sort()).status(200);
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
