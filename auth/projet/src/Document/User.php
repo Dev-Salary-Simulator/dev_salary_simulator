@@ -45,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\DateTime]
     protected ?\DateTimeInterface $birthday = null;
 
+    
+    #[MongoDB\Field(type: 'boolean')]
+    #[Assert\NotBlank]
+    protected ?bool $resetPassword = false;
+
     #[MongoDB\Field(type: "collection")]
     private array $roles = [];
 
@@ -139,6 +144,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setBirthday(?\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+    
+    public function isResetPassword(): ?bool
+    {
+        return $this->resetPassword;
+    }
+
+    public function setResetPassword(bool $resetPassword): self
+    {
+        $this->resetPassword = $resetPassword;
 
         return $this;
     }

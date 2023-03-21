@@ -96,6 +96,7 @@ class DashboardController extends AbstractController
                 $plainTextPassword
             );
             $user->setPassword($hashedPassword);
+            $user->setResetPassword(false);
         }
         
         $this->doctrine->persist($user);

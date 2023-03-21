@@ -66,6 +66,7 @@ class ResetPasswordController extends AbstractController
             $newPassword
         );
         $user->setPassword($hashedPassword);
+        $user->setResetPassword(true);
         $this->doctrine->persist($user);
         $this->doctrine->flush();
 
