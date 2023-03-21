@@ -16,6 +16,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use Doctrine\ODM\MongoDB\DocumentManager as DocumentManager;
 use App\Repository\UserRepository;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 #[Route('/api/user', name: "api_")]
@@ -27,11 +28,13 @@ class DashboardController extends AbstractController
     private $encoders;
     private $normalizers;
     private $serializer;
+    private $passwordHasher;
 
-    public function __construct(DocumentManager $doctrine, UserRepository $userRepository)
+    public function __construct(DocumentManager $doctrine, UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher)
     {
         $this->doctrine = $doctrine;
         $this->userRepository = $userRepository;
+        $this->passwordHasher = $passwordHasher;
 
         $this->encoders = [new XmlEncoder(), new JsonEncoder()];
         $this->normalizers = [new ObjectNormalizer()];
@@ -62,7 +65,7 @@ class DashboardController extends AbstractController
         return $response;
     }
 
-    #[Route('/', name: 'update_profile', methods: ['PATCH'])]
+    #[Route('/', name: 'update_profile', methods: ['PUT'])]
     #[IsGranted('ROLE_USER', statusCode: 401, message: 'Vous devez vous connecter pour accéder à cette page.')]
     public function updateUserProfile(Request $request): Response
     {
@@ -76,7 +79,7 @@ class DashboardController extends AbstractController
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
         // On vérifie si l'utilisateur a renseigné un nouveau mot de passe
-        if(isset($plaintextPassword)){
+        if(isset($plainTextPassword) && !is_null($plainTextPassword)){
             if (
                 strlen($plainTextPassword) < 14 || !preg_match('/[A-Z]/', $plainTextPassword) || !preg_match('/[a-z]/', $plainTextPassword)
                 || !preg_match('/[0-9]/', $plainTextPassword) || !preg_match('/[^A-Za-z0-9]/', $plainTextPassword)
@@ -88,7 +91,7 @@ class DashboardController extends AbstractController
                 return $response;
             }
 
-            $hashedPassword = $passwordHasher->hashPassword(
+            $hashedPassword = $this->passwordHasher->hashPassword(
                 $user,
                 $plainTextPassword
             );
