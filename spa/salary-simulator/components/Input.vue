@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{
+const {modelValue} = defineProps<{
     modelValue: string | number,
     type?: string,
     id?: string,
@@ -12,7 +12,7 @@ const emit = defineEmits<{
 }>();
 const handleInput = (ev: Event) => {
     const target = ev.target as HTMLInputElement;
-    emit('update:modelValue', target.value);
+    emit('update:modelValue', typeof modelValue === "number" ? parseInt(target.value) : target.value);
 }
 </script>
 
@@ -38,3 +38,5 @@ input{
     }
 }
 </style>
+
+

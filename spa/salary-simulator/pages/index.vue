@@ -8,8 +8,11 @@ const statusForm = useState<string>('statusForm', () => '');
 function sendForm(){
     // TODO : Sending form simulation
     console.log('Send form');
+    console.log(nameJobForm.value);
+    console.log(Math.round(experienceForm.value)); // Number rounded because of input range
+    console.log(stacksForm.value);
+    console.log(statusForm.value);
 }
-
 </script>
 
 <template>
@@ -26,15 +29,15 @@ function sendForm(){
         <form class="row simulation-form" @submit.prevent="() => sendForm()">
             <div class="col-12 d-flex flex-column">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
-                <Input v-model="nameJobForm" id="nameJobForm"/>
+                <Input v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..."/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='experienceForm'>Years of experience</Label>
-                <Input v-model="experienceForm" id="experienceForm" type="number"/>
+                <InputRange v-model="experienceForm" id="experienceForm" :min="0" :max="16"/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='stacksForm'>Tell us about your stacks</Label>
-                <Input v-model="stacksForm" id="stacksForm"/>
+                <Input v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..."/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
