@@ -34,13 +34,16 @@ const enumRange: {[key: number]: string} = {
     16: "Staff"
 }
 
-const inputWidth = ref(0);
-const blocInfoWidth = ref(0);
-const positionTooltip = ref(0);
+const inputWidth = ref<number>(0);
+const blocInfoWidth = ref<number>(0);
+const positionTooltip = ref<number>(0);
+const percent = ref<number>(0);
+
 function calculateLeftPosition(value: number){
     inputWidth.value = document.querySelector('.input-range')?.querySelector('input')?.clientWidth ?? 0;
     blocInfoWidth.value = document.querySelector('.input-range')?.querySelector('.bloc-info')?.clientWidth ?? 0;
-    positionTooltip.value = (((+value - min) / (max - min)) * ((inputWidth.value - 12) - 12) + 12 - (blocInfoWidth.value / 2) );
+    positionTooltip.value = (((+value - min) / (max - min)) * ((inputWidth.value - 14) - 14) + 14);
+    percent.value = (+value) * 100 / max;
 }
 
 onMounted(() => {
@@ -51,9 +54,20 @@ onMounted(() => {
 <template>
     <div class="input-range">
         <input :id="id" type="range" :value="modelValue" @input="handleInput" :min="min" :max="max" :step="0.01">
-        <div class="bloc-info text-center" :style="{ left: positionTooltip + 'px' }">
+        <div class="bloc-info text-center" :style="{left: (positionTooltip - blocInfoWidth / 2) + 'px'}">
             <span class="info-number">{{ Math.round(modelValue) + " years" }}</span>
             <span class="info-text title-s">{{ enumRange[Math.round(modelValue)] }}</span>
+        </div>
+        <div class="thumb-bright" 
+            :style="{
+                left: (positionTooltip - 35) + 'px',
+                background: `radial-gradient(circle at center, 
+                    rgba(32, 93, 136, 0.6) ${percent/2}%, 
+                    rgba(32, 93, 136, 0.4) ${percent/2}%, 
+                    rgba(32, 93, 136, 0.4) ${percent/2}%, 
+                    transparent, transparent) 
+                    center no-repeat`
+            }">
         </div>
     </div>
 </template>
@@ -66,6 +80,7 @@ onMounted(() => {
         padding: 0;
         width: 100%;
         &[type=range]{
+            cursor: pointer;
             background: unset;
             &::-webkit-slider-runnable-track, &::-moz-range-track{
                 background-color: $primary;
@@ -91,6 +106,26 @@ onMounted(() => {
             display: block;
             color: $primary;
         }
+    }
+    .thumb-bright{
+        z-index: -1;
+        position: absolute;
+        top: -9px;
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;   
+        animation: shineRange 4s infinite ease-in-out;
+    }
+}
+@keyframes shineRange {
+    0% {
+        scale: 1;
+    }
+    50% {
+        scale: 1.2;
+    }
+    100% {
+        scale: 1;
     }
 }
 </style>
