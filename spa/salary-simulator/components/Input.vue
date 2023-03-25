@@ -26,13 +26,13 @@ input{
     border: none;
     border-radius: 10px;
     padding: 12px 18px;
-}
-input:placeholder-shown{
-    font-size: 20px;
-    color: $grey;
-    text-transform: uppercase;
-}
-input:focus{
-    outline: none
+    &:placeholder-shown{
+        font-size: 20px;
+        color: $grey;
+        text-transform: uppercase;
+    }
+    &:focus{
+        outline: none
+    }
 }
 </style>
