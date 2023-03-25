@@ -12,6 +12,6 @@ const {forInput} = defineProps<{
 
 <style lang="scss">
 label{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 </style>

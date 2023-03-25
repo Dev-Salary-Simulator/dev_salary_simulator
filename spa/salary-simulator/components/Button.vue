@@ -16,10 +16,10 @@ const {click, submit} = defineProps<{
 <style lang="scss">
 .btn{
     text-transform: uppercase;
-    padding: 22px 54px;
+    padding: 15px 30px;
     border-radius: 10px;
     box-shadow: $box-shadow;
-    font-size: 20px;
+    font-size: 15px;
     outline: none;
 }
 .btn:focus{

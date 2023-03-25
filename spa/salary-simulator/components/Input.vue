@@ -19,13 +19,13 @@ const handleInput = (ev: Event) => {
 
 <style lang="scss">
 input{
-    height: 87px;
+    height: 52px;
     font-size: 20px;
     color: $dark;
     background-color: rgba($light, 0.3);
     border: none;
     border-radius: 10px;
-    padding: 30px;
+    padding: 12px 18px;
 }
 input:placeholder-shown{
     font-size: 20px;
