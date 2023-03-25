@@ -36,6 +36,9 @@ input{
     &:focus{
         outline: none
     }
+    &:disabled{
+        color: rgba($light, 0.7);
+    }
 }
 </style>
 

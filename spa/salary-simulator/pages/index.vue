@@ -4,14 +4,15 @@ const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string>('stacksForm', () => '');
 const statusForm = useState<string>('statusForm', () => '');
-
+const mokeNamesJob = ref<string[]>(['Ux Designer', "UI, designer", "Developer front", "Data scientist"]);
 function sendForm(){
     // TODO : Sending form simulation
-    console.log('Send form');
-    console.log(nameJobForm.value);
-    console.log(Math.round(experienceForm.value)); // Number rounded because of input range
-    console.log(stacksForm.value);
-    console.log(statusForm.value);
+    console.log('Send form:', {
+        nameJob: nameJobForm.value, 
+        experience: Math.round(experienceForm.value),
+        stacks: stacksForm.value,
+        status: statusForm.value
+    });
 }
 </script>
 
@@ -29,7 +30,7 @@ function sendForm(){
         <form class="row simulation-form" @submit.prevent="() => sendForm()">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
-                <Input v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..."/>
+                <Select :elements="mokeNamesJob" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
             </div>
             <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='experienceForm'>Years of experience</Label>
