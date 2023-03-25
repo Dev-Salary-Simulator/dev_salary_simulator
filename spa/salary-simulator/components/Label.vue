@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {forInput} = defineProps<{
+defineProps<{
     forInput?: string,
 }>();
 </script>
@@ -12,6 +12,6 @@ const {forInput} = defineProps<{
 
 <style lang="scss">
 label{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 </style>
