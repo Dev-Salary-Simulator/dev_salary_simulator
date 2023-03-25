@@ -1,10 +1,9 @@
 <script setup lang="ts">
-// const {namesJobs} = useJobs();
+const {namesJobs} = useJobs();
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string>('stacksForm', () => '');
 const statusForm = useState<string>('statusForm', () => '');
-const mokeNamesJob = ref<string[]>(['Ux Designer', "UI, designer", "Developer front", "Data scientist"]);
 function sendForm(){
     // TODO : Sending form simulation
     console.log('Send form:', {
@@ -30,7 +29,7 @@ function sendForm(){
         <form class="row simulation-form" @submit.prevent="() => sendForm()">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
-                <Select :elements="mokeNamesJob" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
+                <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
             </div>
             <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='experienceForm'>Years of experience</Label>
