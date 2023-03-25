@@ -24,7 +24,7 @@ const handleInput = (ev: Event) => {
 input{
     height: 52px;
     font-size: 20px;
-    color: $dark;
+    color: $light;
     background-color: rgba($light, 0.3);
     border: none;
     border-radius: 10px;

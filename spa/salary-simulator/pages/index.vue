@@ -27,15 +27,15 @@ function sendForm(){
             </div>
         </section>
         <form class="row simulation-form" @submit.prevent="() => sendForm()">
-            <div class="col-12 d-flex flex-column">
+            <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Input v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..."/>
             </div>
-            <div class="col-12 d-flex flex-column">
+            <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='experienceForm'>Years of experience</Label>
                 <InputRange v-model="experienceForm" id="experienceForm" :min="0" :max="16"/>
             </div>
-            <div class="col-12 d-flex flex-column">
+            <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='stacksForm'>Tell us about your stacks</Label>
                 <Input v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..."/>
             </div>
@@ -47,13 +47,6 @@ function sendForm(){
                 <Button submit>Simulate your value</Button>
             </div>
         </form>
-
-
-
-
-        <!-- <ul>
-            <li v-for="n in namesJobs">{{ n }}</li>
-        </ul> -->
     </main>
 </template>
 
