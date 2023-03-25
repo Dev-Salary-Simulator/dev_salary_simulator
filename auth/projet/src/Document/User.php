@@ -9,9 +9,11 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 #[MongoDB\Document(collection: 'users', repositoryClass: UserRepository::class)]
-#[MongoDB\Unique(fields: 'email')]
 #[MongoDB\Unique(fields: 'email')]
 
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -52,6 +54,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[MongoDB\Field(type: "collection")]
     private array $roles = [];
+
+
+    // Jobs :
+    #[MongoDB\ReferenceOne(targetDocument: Job::class)]
+    private ?Job $currentJob = null;
+
+    #[MongoDB\ReferenceMany(targetDocument: Job::class)]
+    private Collection $oldJobs;
+
+
+    public function __construct()
+    {
+        $this->oldJobs = new ArrayCollection();
+    }
 
     public function getId(): string
     {
@@ -160,6 +176,41 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getCurrentJob(): ?Job
+    {
+        return $this->currentJob;
+    }
+
+    public function setCurrentJob(?Job $currentJob): self
+    {
+        $this->currentJob = $currentJob;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Job>
+     */
+    public function getOldJobs(): Collection
+    {
+        return $this->oldJobs;
+    }
+
+    public function addOldJob(Job $job): self
+    {
+        if (!$this->oldJobs->contains($job)) {
+            $this->oldJobs->add($job);
+        }
+
+        return $this;
+    }
+
+    public function removeOldJobs(Job $job): self
+    {
+        $this->oldJobs->removeElement($job);
+
+        return $this;
+    }
 
     /**
      * Returning a salt is only needed, if you are not using a modern
