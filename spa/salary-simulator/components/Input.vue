@@ -1,9 +1,11 @@
 <script setup lang="ts">
-const {modelValue, type, id} = defineProps<{
+defineProps<{
     modelValue: string | number,
     type?: string,
     id?: string,
-    placeholder?: string
+    placeholder?: string,
+    min?: number,
+    max?: number
 }>();
 const emit = defineEmits<{
     (ev: 'update:modelValue', value: string | number): void
@@ -15,7 +17,7 @@ const handleInput = (ev: Event) => {
 </script>
 
 <template>
-    <input :id="id" :type="type || 'text'" :placeholder="placeholder || 'Default placeholder'" :value="modelValue" @input="handleInput">
+    <input :id="id" :type="type || 'text'" :placeholder="placeholder || 'Default placeholder'" :value="modelValue" @input="handleInput" :min="min" :max="max">
 </template>
 
 <style lang="scss">

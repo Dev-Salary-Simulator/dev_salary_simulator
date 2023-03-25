@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {forInput} = defineProps<{
+defineProps<{
     forInput?: string,
 }>();
 </script>

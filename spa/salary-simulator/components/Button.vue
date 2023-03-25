@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {click, submit} = defineProps<{
+defineProps<{
     submit?: boolean,
     click?: (ev: MouseEvent) => void
 }>();
