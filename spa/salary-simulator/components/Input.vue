@@ -2,7 +2,8 @@
 const {modelValue, type, id} = defineProps<{
     modelValue: string | number,
     type?: string,
-    id?: string
+    id?: string,
+    placeholder?: string
 }>();
 const emit = defineEmits<{
     (ev: 'update:modelValue', value: string | number): void
@@ -14,7 +15,7 @@ const handleInput = (ev: Event) => {
 </script>
 
 <template>
-    <input :id="id" :type="type || 'text'" placeholder="test" :value="modelValue" @input="handleInput">
+    <input :id="id" :type="type || 'text'" :placeholder="placeholder || 'Default placeholder'" :value="modelValue" @input="handleInput">
 </template>
 
 <style lang="scss">
@@ -29,7 +30,6 @@ input{
     &:placeholder-shown{
         font-size: 20px;
         color: $grey;
-        text-transform: uppercase;
     }
     &:focus{
         outline: none

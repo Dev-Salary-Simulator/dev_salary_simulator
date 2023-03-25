@@ -16,7 +16,7 @@ const {click, submit} = defineProps<{
 <style lang="scss">
 .btn{
     text-transform: uppercase;
-    padding: 15px 30px;
+    padding: 12px 30px;
     border-radius: 10px;
     box-shadow: $box-shadow;
     font-size: 15px;

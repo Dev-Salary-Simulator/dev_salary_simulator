@@ -2,17 +2,33 @@
 @import '~/node_modules/bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
 
-body, html, #__nuxt{
+// General CSS
+html{
     width: 100%;
     height: 100%;
     margin: 0;
-    background: $background;
-    color: $light;
+    body{
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        #__nuxt{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            background: $background;
+            color: $light;
+        }
+    }    
 }
 *{
     box-sizing: border-box;
     font-family: "Barlow";
-    font-weight: 500;
+}
+.container, .container-fluid, .row, [class~=col-]{
+    transition: all 0.15s ease-in-out;
 }
 
 // Font classes
@@ -46,4 +62,9 @@ body, html, #__nuxt{
     font-size: 15px;
     line-height: 20px; 
     font-weight: 500;   
+}
+
+// Color Classes
+.text-grey{
+    color: $grey;
 }
