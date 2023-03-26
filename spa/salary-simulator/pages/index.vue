@@ -20,13 +20,14 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
 
 <template>
     <main class="container mb-5" id="index-page">
-        <section class="row align-items-center justify-content-between">
-            <div class="col-6">
+        <section class="header-simulation-form row align-items-center justify-content-between">
+            <div class="col-12 col-lg-5">
                 <h1 class="title-l">Find your <span class="text-primary">perfect</span> salary</h1>
                 <p class="text-grey">Lorem ipsum dolor sit amet consectetur. Id mauris morbi ornare sapien curabitur pretium. Tellus faucibus sit lobortis eleifend.</p>
             </div>
-            <div class="col-6 text-center">
-                <img src="#" alt="rocket">
+            <div class="header-img d-none d-lg-block col-lg-7 text-center">
+                <img :src="'/img/rocket.png'" alt="rocket">
+                <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
         <form class="row simulation-form" @submit.prevent="() => sendForm()">
@@ -58,10 +59,67 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
     & >.row{
         padding: 51px 84px;
     }
+    & .simulation-form{
+        background: rgba(63, 102, 159, 0.1);
+        backdrop-filter: blur(25px);
+        border-radius: 10px;
+    }
+    & .header-simulation-form{
+        & .header-img{
+            position: relative;
+            height: 100%;
+            & img{
+                position: absolute;
+                z-index: 5;
+                &:nth-child(1){
+                    width: 50%;
+                    left: 0;
+                    right: 0;
+                    transform: translateY(-50%) translateX(50%);
+                    animation: rocketEffect 3s ease-in-out infinite;
+                }
+                &:nth-child(2){
+                    width: 30%;
+                    right: 0;
+                    top: 0;
+                    animation: cloudEffect 4s linear infinite;
+                }
+            }
+        }
+    }
 }
-.simulation-form{
-    background: rgba(63, 102, 159, 0.1);
-    backdrop-filter: blur(25px);
-    border-radius: 10px;
+@keyframes rocketEffect{
+    0%{
+        transform: translateY(-50%) translateX(50%);
+    }
+    50%{
+        transform: translateY(-45%) translateX(50%);
+    }
+    100%{
+        transform: translateY(-50%) translateX(50%);
+    }
+}
+@keyframes cloudEffect{
+    0%{transform: translateX(0%) translateY(1%);}
+    5%{transform: translateX(1%) translateY(1%);}
+    10%{transform: translateX(2%) translateY(2%);}
+    15%{transform: translateX(3%) translateY(3%);}
+    20%{transform: translateX(4%) translateY(4%);}
+    25%{transform: translateX(4%) translateY(5%);}
+    30%{transform: translateX(4%) translateY(6%);}
+    35%{transform: translateX(3%) translateY(7%);}
+    40%{transform: translateX(2%) translateY(8%);}
+    45%{transform: translateX(1%) translateY(9%);}
+    50%{transform: translateX(0%) translateY(9%);}
+    55%{transform: translateX(-1%) translateY(9%);}
+    60%{transform: translateX(-2%) translateY(8%);}
+    65%{transform: translateX(-3%) translateY(7%);}
+    70%{transform: translateX(-4%) translateY(6%);}
+    75%{transform: translateX(-4%) translateY(5%);}
+    80%{transform: translateX(-4%) translateY(4%);}
+    85%{transform: translateX(-3%) translateY(3%);}
+    90%{transform: translateX(-2%) translateY(2%);}
+    95%{transform: translateX(-1%) translateY(1%);}
+    100%{transform: translateX(0%) translateY(1%);}
 }
 </style>

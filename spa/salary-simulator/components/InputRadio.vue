@@ -17,7 +17,7 @@ const handleInput = (ev: Event) => {
     <div :id="id" class="input-radio row justify-content-center">
         <div class="col-12 col-lg-6 text-center" v-for="elm, index in elements">
             <Label :forInput="`radio-${id}-${index}`" :classSup="`mx-auto mt-5 ${modelValue !== elm.text && modelValue ? ' no-check' : ''}`">
-                <img v-if="elm.img" :src="`/${elm.img}`" :alt="elm.text" class="mx-auto">
+                <img v-if="elm.img" :src="`/img/${elm.img}`" :alt="elm.text" class="mx-auto">
                 <input type="radio" tabindex="-1" :value="elm.text" @click="handleInput" :name="`radio-${id}`" :id="`radio-${id}-${index}`" hidden>
                 <span class="mt-3">{{ elm.text }}</span>
             </Label>
