@@ -1,12 +1,13 @@
 <script setup lang="ts">
 defineProps<{
     forInput?: string,
-    blueLabel?: boolean
+    blueLabel?: boolean,
+    classSup?: string
 }>();
 </script>
 
 <template>
-    <label :for="forInput" :class="`text-l ${blueLabel ? 'blue-label' : ''}`">
+    <label :for="forInput" :class="`text-l${blueLabel ? ' blue-label' : ''} ${classSup}`">
         <slot></slot>
     </label>
 </template>
