@@ -8,25 +8,25 @@ const {elements, id} = defineProps<{
 const emit = defineEmits<{
     (ev: 'update:modelValue', value: string): void
 }>();
-const filter = useState<string>('filterSelect', () => '');
+const filter = ref('');
 const filteredElements = computed<string[]>(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
 const displayList = ref<boolean>(false);
 const disabled = ref<boolean>(false);
 
-const handleSelect = (ev: KeyboardEvent | MouseEvent) => {
+const handleSelect = (ev: KeyboardEvent | MouseEvent, elementSelected: string) => {
     const target = ev.target as HTMLElement;
     // @ts-ignore
     if (ev.type === "keyup" && ev.key === "Enter") {
-        filter.value = target.innerText;
+        filter.value = elementSelected;
         disabled.value = true;
         displayList.value = false;
-        emit('update:modelValue', target.innerText);
+        emit('update:modelValue', elementSelected);
     }
     else if(ev.type === "click"){
-        filter.value = target.innerText;
+        filter.value = elementSelected;
         disabled.value = true;
         displayList.value = false;
-        emit('update:modelValue', target.innerText);
+        emit('update:modelValue', elementSelected);
     }
 }
 
@@ -50,9 +50,9 @@ const handleReset = () => {
     <div class="input-select">
         <input :id="id" type='text' :placeholder="placeholder || 'Default placeholder'" v-model="filter" :disabled="disabled" 
             @focusin="() => displayList = true" @focusout="handleFocus">
-        <ul v-if="displayList" ref="refList" tabindex="-1">
+        <ul v-if="displayList" tabindex="-1">
             <li v-if="!filteredElements.length" class="no-data">No elements found</li>
-            <li v-else v-for="elm in filteredElements" @click="handleSelect" @keyup="handleSelect" tabindex="0" class="input-select-element" @focusout="handleFocus">{{elm}}</li>
+            <li v-else v-for="elm in filteredElements" @click="(ev) => handleSelect(ev, elm)" @keyup="(ev) => handleSelect(ev, elm)" tabindex="0" class="input-select-element" @focusout="handleFocus">{{elm}}</li>
         </ul>
         <button v-if="disabled" class="btn input-select-reset" @click="handleReset">Remove</button>
     </div>
