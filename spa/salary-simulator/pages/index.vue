@@ -13,8 +13,9 @@ function sendForm(){
         status: statusForm.value
     });
 }
-const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer'];
-const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#'];
+const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
+const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
+    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
 </script>
 
 <template>
