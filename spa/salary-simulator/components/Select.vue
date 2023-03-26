@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {elements} = defineProps<{
+const {elements, id} = defineProps<{
     modelValue: string,
     elements: string[],
     id?: string,
@@ -9,26 +9,52 @@ const emit = defineEmits<{
     (ev: 'update:modelValue', value: string): void
 }>();
 const filter = useState<string>('filterSelect', () => '');
-const filteredElements = computed(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
+const filteredElements = computed<string[]>(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
 const displayList = ref<boolean>(false);
-const disabled = ref(false);
+const disabled = ref<boolean>(false);
 
-const handleSelect = (ev: Event) => {
+const handleSelect = (ev: KeyboardEvent | MouseEvent) => {
     const target = ev.target as HTMLElement;
-    filter.value = target.innerText;
-    disabled.value = true;
+    // @ts-ignore
+    if (ev.type === "keyup" && ev.key === "Enter") {
+        filter.value = target.innerText;
+        disabled.value = true;
+        displayList.value = false;
+        emit('update:modelValue', target.innerText);
+    }
+    else if(ev.type === "click"){
+        filter.value = target.innerText;
+        disabled.value = true;
+        displayList.value = false;
+        emit('update:modelValue', target.innerText);
+    }
+}
+
+const handleFocus = (ev: FocusEvent) => {
+    const relatedTarget = ev.relatedTarget as HTMLElement | null;
+    if (relatedTarget?.classList.contains('input-select-element') || relatedTarget?.getAttribute('id') === id) {
+        displayList.value = true;
+        return;
+    }
     displayList.value = false;
-    emit('update:modelValue', target.innerText);
+}
+
+const handleReset = () => {
+    disabled.value = false;
+    filter.value = '';
+    emit('update:modelValue', '');
 }
 </script>
 
 <template>
     <div class="input-select">
-        <input :id="id" type='text' :placeholder="placeholder || 'Default placeholder'" v-model="filter" @focus="() => displayList = !displayList" :disabled="disabled">
-        <ul v-if="displayList || (filter && !disabled)">
+        <input :id="id" type='text' :placeholder="placeholder || 'Default placeholder'" v-model="filter" :disabled="disabled" 
+            @focusin="() => displayList = true" @focusout="handleFocus">
+        <ul v-if="displayList" ref="refList" tabindex="-1">
             <li v-if="!filteredElements.length" class="no-data">No elements found</li>
-            <li v-else v-for="elm in filteredElements" @click="handleSelect">{{elm}}</li>
+            <li v-else v-for="elm in filteredElements" @click="handleSelect" @keyup="handleSelect" tabindex="0" class="input-select-element" @focusout="handleFocus">{{elm}}</li>
         </ul>
+        <button v-if="disabled" class="btn input-select-reset" @click="handleReset">Remove</button>
     </div>
 </template>
 
@@ -48,9 +74,12 @@ const handleSelect = (ev: Event) => {
         border-radius: 0px 0px 10px 10px;
         width: calc(100% - 60px);
         z-index: 5;
+        max-height: 200px;
+        overflow-y: auto;
         li{
             font-size: 15px;
             font-weight: 500;
+            outline: none;
             &:not(:last-child){
                 border-bottom: 1px solid rgba($light, 0.2);
                 padding-bottom: 8px;
@@ -59,10 +88,23 @@ const handleSelect = (ev: Event) => {
             &.no-data{
                 color: $grey;
             }
-            &:not(.no-data):hover{
-                text-decoration: underline;
+            &:not(.no-data){
                 cursor: pointer;
+                &:hover, &:focus{
+                    text-decoration: underline;
+                }
             }
+        }
+    }
+    button.input-select-reset{
+        position: absolute;
+        right: 0;
+        top: 5px;
+        padding: 8px;
+        box-shadow: unset;
+        color: $danger;
+        &:hover{
+            text-decoration: underline;
         }
     }
 }
