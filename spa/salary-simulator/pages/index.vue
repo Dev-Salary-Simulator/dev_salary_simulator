@@ -1,18 +1,20 @@
 <script setup lang="ts">
-const {namesJobs} = useJobs();
+//const {namesJobs} = useJobs();
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
-const stacksForm = useState<string>('stacksForm', () => '');
+const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
 function sendForm(){
     // TODO : Sending form simulation
     console.log('Send form:', {
         nameJob: nameJobForm.value, 
         experience: Math.round(experienceForm.value),
-        stacks: stacksForm.value,
+        stacks: toRaw(stacksForm.value),
         status: statusForm.value
     });
 }
+const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer'];
+const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#'];
 </script>
 
 <template>
@@ -37,7 +39,7 @@ function sendForm(){
             </div>
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='stacksForm'>Tell us about your stacks</Label>
-                <Input v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..."/>
+                <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="stacks"/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
