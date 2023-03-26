@@ -38,12 +38,12 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <InputRange v-model="experienceForm" id="experienceForm" :min="0" :max="16"/>
             </div>
             <div class="col-12 d-flex flex-column mb-5">
-                <Label forInput='stacksForm'>Tell us about your stacks</Label>
+                <Label forInput='stacksForm' blueLabel>Tell us about your stacks</Label>
                 <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="stacks"/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
-                <Input v-model="statusForm" id="statusForm"/>
+                <InputRadio :elements="[{text: 'self-employed', img: 'self-employed.png'}, {text: 'full time employee', img: 'full-time-employee.png'}]" v-model="statusForm" id="statusForm"/>
             </div>
             <div class="col-12 text-center mt-5">
                 <Button submit>Simulate your value</Button>
@@ -54,7 +54,7 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
 
 <style lang="scss">
 #index-page{
-    .row{
+    & >.row{
         padding: 51px 84px;
     }
 }
