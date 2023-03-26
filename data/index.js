@@ -7,7 +7,7 @@ const cors = require('cors');
 const session = require('express-session');
 const jwt  = require('jsonwebtoken');
 
-const { MONGO, SECRET, JWT_KEY } = process.env;
+const { MONGO, SECRET, JWT_KEY, IP } = process.env;
 
 const { Jobs } = require("./model/Jobs");
 const { User } = require("./model/User");
@@ -16,7 +16,7 @@ const app = express();
 
 const port = 3000;
 
-app.set('host', process.env.IP || '127.0.0.1');
+app.set('host', IP || '127.0.0.1');
 app.set('port', port);
 app.disable('x-powered-by'); 
 
