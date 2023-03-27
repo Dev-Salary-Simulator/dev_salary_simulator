@@ -1,12 +1,29 @@
 <script setup lang="ts">
+const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
+const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
+    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
+const mockResult = ref<TSimulation>({
+    averageSalary: 50000,
+    lowestSalary: 34000,
+    highestSalary: 67000,
+    parameters: {
+        nameJob: "UX designer",
+        nameRegion: "Paris France",
+        namesStack: ['Figma', 'Photoshop', 'HTML', 'Word', 'Adobe Premiere'],
+        experience: 5,
+        status: 'Self employed'
+    }
+})
+const {userLogged} = useAuth();
 //const {namesJobs} = useJobs();
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
 const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
+const resultForm = useState<TSimulation | null>('resultForm', () => null);
 function sendForm(){
-    // TODO : Sending form simulation
+    // TODO : Sending form simulation + check
     console.log('Send form:', {
         nameJob: nameJobForm.value, 
         experience: Math.round(experienceForm.value),
@@ -15,9 +32,6 @@ function sendForm(){
         valid: validForm.value
     });
 }
-const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
-const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
-    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
 </script>
 
 <template>
@@ -32,7 +46,7 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
-        <form class="row simulation-form" @submit.prevent="() => sendForm()">
+        <form class="row simulation-form" @submit.prevent="() => sendForm()" v-if="!mockResult">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
@@ -53,6 +67,27 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
+        <div class="row" v-else>
+            <RecapForm :data="mockResult"/>
+        </div>
+        <div class="row simulation-form-result" v-if="mockResult">
+            <div class="col-12 text-center">
+                <h2>Your average salary</h2>
+            </div>
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="other-salary text-center">
+                    <span>{{ mockResult.lowestSalary }}</span>
+                    <span class="text-s">LOWEST</span>
+                </div>
+                <div class="average-salary mx-5">{{ mockResult.averageSalary }}</div>
+                <div class="other-salary text-center">
+                    <span>{{ mockResult.highestSalary }}</span>
+                    <span class="text-s">HIGHEST</span>
+                </div>
+            </div>
+            <Button v-if="!userLogged">Register</Button>
+            <Button v-if="userLogged">Save simulation</Button>
+        </div>
     </main>
 </template>
 
@@ -60,11 +95,6 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
 #index-page{
     & >.row{
         padding: 51px 84px;
-    }
-    & .simulation-form{
-        background: rgba(63, 102, 159, 0.1);
-        backdrop-filter: blur(25px);
-        border-radius: 10px;
     }
     & .header-simulation-form{
         & .header-img{
@@ -86,6 +116,28 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                     top: 0;
                     animation: cloudEffect 4s linear infinite;
                 }
+            }
+        }
+    }
+    & .simulation-form, .simulation-form-result{
+        background: rgba(63, 102, 159, 0.1);
+        backdrop-filter: blur(25px);
+        border-radius: 10px;
+    }
+    & .simulation-form-result{
+        .average-salary{
+            font-size: 80px;
+            font-weight: 600;
+            color: #3A9EE4;
+        }
+        .other-salary{
+            font-size: 42px;
+            font-weight: 600;
+            color: #C0C0C0;
+            padding-top: 50px;
+            & span:nth-child(2){
+                display: block;
+                color: $grey;
             }
         }
     }
