@@ -144,7 +144,7 @@ router.post("/search", async (req, res) => {
 
         if (user !== null) {
             // On enregistre la recherche dans les simulations du User
-            const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : simulationObj } } ).exec();
+            const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : { ...simulationObj, title, region } } } ).exec();
         }
 
         return res.json(jobs).status(200);
@@ -167,6 +167,14 @@ router.post("/saveUser", (req, res) => {
     }
 
     return res.send("Token enregistré").status(200);
+});
+
+router.get("/simulations", async (req, res) => {
+    if (!user) return res.json({ error: "Vous n'êtes pas connecté" }).status(401);
+
+    const simulations = await User.find({ _id : user._id }, { _id: 0, simulations: 1 }).exec();
+
+    return res.json(simulations).status(200);
 });
 
 app.use('/api/jobs', router);
