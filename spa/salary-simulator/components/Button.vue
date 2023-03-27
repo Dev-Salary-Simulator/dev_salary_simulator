@@ -40,18 +40,7 @@ defineProps<{
     }
     &:not(.disabled):hover{
         background-size: 400% 400%;
-        animation: spinBorder 3s linear infinite;
-    }
-}
-@keyframes spinBorder {
-    0% {
-        background-position: 0% 25%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 25%;
+        animation: buttonBorder 3s linear infinite;
     }
 }
 </style>

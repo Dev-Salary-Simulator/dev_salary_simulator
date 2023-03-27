@@ -97,17 +97,6 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
         }
     }
 }
-@keyframes touchKeyBoard {
-    0% {
-        scale: 1;
-    }
-    50% {
-        scale: 0.8;
-    }
-    100% {
-        scale: 1;
-    }
-}
 </style>
 
 

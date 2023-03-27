@@ -90,38 +90,4 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
         }
     }
 }
-@keyframes rocketEffect{
-    0%{
-        transform: translateY(-50%) translateX(50%);
-    }
-    50%{
-        transform: translateY(-45%) translateX(50%);
-    }
-    100%{
-        transform: translateY(-50%) translateX(50%);
-    }
-}
-@keyframes cloudEffect{
-    0%{transform: translateX(0%) translateY(1%);}
-    5%{transform: translateX(1%) translateY(1%);}
-    10%{transform: translateX(2%) translateY(2%);}
-    15%{transform: translateX(3%) translateY(3%);}
-    20%{transform: translateX(4%) translateY(4%);}
-    25%{transform: translateX(4%) translateY(5%);}
-    30%{transform: translateX(4%) translateY(6%);}
-    35%{transform: translateX(3%) translateY(7%);}
-    40%{transform: translateX(2%) translateY(8%);}
-    45%{transform: translateX(1%) translateY(9%);}
-    50%{transform: translateX(0%) translateY(9%);}
-    55%{transform: translateX(-1%) translateY(9%);}
-    60%{transform: translateX(-2%) translateY(8%);}
-    65%{transform: translateX(-3%) translateY(7%);}
-    70%{transform: translateX(-4%) translateY(6%);}
-    75%{transform: translateX(-4%) translateY(5%);}
-    80%{transform: translateX(-4%) translateY(4%);}
-    85%{transform: translateX(-3%) translateY(3%);}
-    90%{transform: translateX(-2%) translateY(2%);}
-    95%{transform: translateX(-1%) translateY(1%);}
-    100%{transform: translateX(0%) translateY(1%);}
-}
 </style>
