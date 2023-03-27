@@ -47,7 +47,7 @@ const {userLogged} = useAuth();
         font-size: 25px;
         color: $light;
         padding: 6px 30px;
-        background: $dark;
+        background: $dark2;
         border-radius: 32px;
         text-transform: uppercase;
     }
@@ -67,7 +67,7 @@ const {userLogged} = useAuth();
         font-size: 27px;
         font-weight: 700;
         color: $grey;
-        background: $dark;
+        background: $dark2;
         padding: 4px 0;
         text-transform: uppercase;
     }
