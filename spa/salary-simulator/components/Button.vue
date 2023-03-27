@@ -31,6 +31,9 @@ defineProps<{
     display: inline-block;
     border-radius: 10px;
     border: 1px solid transparent;
+    &.disabled{
+        opacity: 0.5;
+    }
     &:not(.disabled){
         transition: background-size ease-in-out 0.75s;
         background-repeat: no-repeat;
