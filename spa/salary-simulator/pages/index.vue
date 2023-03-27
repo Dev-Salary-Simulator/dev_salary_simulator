@@ -74,19 +74,22 @@ function sendForm(){
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
-            <div class="col-12 d-flex align-items-center justify-content-center">
+            <div class="col-12 d-flex align-items-center justify-content-center mt-3">
                 <div class="other-salary text-center">
                     <span>{{ mockResult.lowestSalary }}</span>
                     <span class="text-s">LOWEST</span>
                 </div>
-                <div class="average-salary mx-5">{{ mockResult.averageSalary }}</div>
+                <div class="average-salary text-center mx-5">
+                    <div>{{ mockResult.averageSalary }}</div>
+                    <span class="title-s">{{ (mockResult.averageSalary / 12).toFixed(0) + " by month"}}</span>
+                </div>
                 <div class="other-salary text-center">
                     <span>{{ mockResult.highestSalary }}</span>
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
-            <Button v-if="!userLogged">Register</Button>
-            <Button v-if="userLogged">Save simulation</Button>
+            <Button v-if="!userLogged" :classSup="'save-simulation'">Register</Button>
+            <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
         </div>
     </main>
 </template>
@@ -125,20 +128,39 @@ function sendForm(){
         border-radius: 10px;
     }
     & .simulation-form-result{
+        position: relative;
         .average-salary{
             font-size: 80px;
             font-weight: 600;
             color: #3A9EE4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            & span:nth-child(2){
+                text-transform: uppercase;
+                color: $light;
+                padding: 8px 16px;
+                background: rgba(25, 45, 60, 0.46);
+                border-radius: 7px;
+            }
         }
         .other-salary{
             font-size: 42px;
             font-weight: 600;
             color: #C0C0C0;
-            padding-top: 50px;
+            padding-top: 10px;
             & span:nth-child(2){
                 display: block;
                 color: $grey;
             }
+        }
+        .save-simulation{
+            position: absolute;
+            width: auto;
+            padding: 0;
+            left: 38px;
+            top: 32px;
         }
     }
 }
