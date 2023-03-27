@@ -4,13 +4,15 @@ const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
+const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
 function sendForm(){
     // TODO : Sending form simulation
     console.log('Send form:', {
         nameJob: nameJobForm.value, 
         experience: Math.round(experienceForm.value),
         stacks: toRaw(stacksForm.value),
-        status: statusForm.value
+        status: statusForm.value,
+        valid: validForm.value
     });
 }
 const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
@@ -48,7 +50,7 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <InputRadio :elements="[{text: 'self-employed', img: 'self-employed.png'}, {text: 'full time employee', img: 'full-time-employee.png'}]" v-model="statusForm" id="statusForm"/>
             </div>
             <div class="col-12 text-center mt-5">
-                <Button submit>Simulate your value</Button>
+                <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
     </main>
