@@ -2,12 +2,13 @@
 defineProps<{
     submit?: boolean,
     click?: (ev: MouseEvent) => void,
-    disabled?: boolean
+    disabled?: boolean,
+    classSup?: string
 }>();
 </script>
 
 <template>
-    <div :class="`btn-container${disabled ? ' disabled' : ''}`">
+    <div :class="`btn-container${disabled ? ' disabled' : ''} ${classSup ?? ''}`">
         <button class="btn btn-secondary" :disabled="disabled" @click="click" :type="submit ? 'submit' : 'button'">
             <slot></slot>
         </button>
