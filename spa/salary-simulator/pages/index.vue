@@ -22,16 +22,30 @@ const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
 const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
 const resultForm = useState<TSimulation | null>('resultForm', () => null);
+const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
+
 function sendForm(){
-    // TODO : Sending form simulation + check
-    console.log('Send form:', {
-        nameJob: nameJobForm.value, 
-        experience: Math.round(experienceForm.value),
-        stacks: toRaw(stacksForm.value),
-        status: statusForm.value,
-        valid: validForm.value
-    });
-    resultForm.value = mockResult.value;
+    animationForm.value = "sending";
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+        // TODO : Animated spinner
+        animationForm.value = "pending";
+        setTimeout(() => {
+            // TODO : Sending form simulation to API
+            console.log('Send form:', {
+                nameJob: nameJobForm.value, 
+                experience: Math.round(experienceForm.value),
+                stacks: toRaw(stacksForm.value),
+                status: statusForm.value,
+                valid: validForm.value
+            });
+            animationForm.value = "fetching";
+            resultForm.value = mockResult.value; // TODO : Remove mock data
+            setTimeout(() => {
+                animationForm.value = "static";
+            }, 2500);
+        }, 5000);
+    }, 800);
 }
 </script>
 
@@ -47,7 +61,8 @@ function sendForm(){
                 <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
-        <form class="row simulation-form" @submit.prevent="() => sendForm()" v-if="!resultForm">
+        <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out' : animationForm === 'pending' ? 'd-none' : ''}`" 
+        @submit.prevent="() => sendForm()" v-if="!resultForm">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
@@ -68,10 +83,13 @@ function sendForm(){
                 <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
-        <div class="row" v-else>
+        <div :class="`row simulation-form-spinner ${animationForm === 'pending' ? 'fade-in' : 'd-none'}`" v-if="animationForm === 'pending'">
+            Spinner
+        </div>
+        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
             <RecapForm :data="resultForm" @reload="(value) => resultForm = value"/>
         </div>
-        <div class="row simulation-form-result" v-if="resultForm">
+        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
@@ -123,7 +141,7 @@ function sendForm(){
             }
         }
     }
-    & .simulation-form, .simulation-form-result{
+    & .simulation-form, .simulation-form-result, .simulation-form-spinner{
         background: rgba(63, 102, 159, 0.1);
         backdrop-filter: blur(25px);
         border-radius: 10px;
