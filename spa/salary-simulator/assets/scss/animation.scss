@@ -1,4 +1,25 @@
-// Image on page => index
+// General
+@keyframes fadeOut{
+    0%{
+        scale: 1;
+        opacity: 1;
+    }
+    50%{
+        scale: 0.8;
+        opacity: 0;
+    }
+}
+@keyframes fadeIn{
+    0%{
+        scale: 0.8;
+        opacity: 0;
+    }
+    50%{
+        scale: 1;
+        opacity: 1;
+    }
+}
+// Page => index
 @keyframes rocketEffect{
     0%{
         transform: translateY(-50%) translateX(50%);
@@ -33,7 +54,7 @@
     95%{transform: translateX(-1%) translateY(1%);}
     100%{transform: translateX(0%) translateY(1%);}
 }
-// Component Button
+// Component => Button
 @keyframes buttonBorder {
     0% {
         background-position: 0% 25%;
@@ -45,7 +66,7 @@
         background-position: 0% 25%;
     }
 }
-// Component InputRadio
+// Component => InputRadio
 @keyframes radioImage {
     0% {
         transform: translateY(0px);
@@ -57,7 +78,7 @@
         transform: translateY(5px);
     }
 }
-// Component InputRange
+// Component => InputRange
 @keyframes thumbRangeShine {
     0% {
         scale: 1;
@@ -69,7 +90,7 @@
         scale: 1;
     }
 }
-// Component InputStacks
+// Component => InputStacks
 @keyframes touchKeyBoard {
     0% {
         scale: 1;
