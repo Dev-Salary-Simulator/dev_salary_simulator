@@ -1,14 +1,10 @@
 <script setup lang="ts">
-defineProps<{
+const {data} = defineProps<{
     data: TSimulation
 }>();
 const emit = defineEmits<{
-    (ev: 'update:data', value: null): void
+    (ev: 'reload', value: null): void
 }>();
-const handleClick = (ev: MouseEvent) => {
-    const target = ev.target as HTMLInputElement;
-    emit('update:data', null);
-}
 
 const enumExp: {[key: number]: string} = {
     0: "Junior",
@@ -49,7 +45,7 @@ const enumExp: {[key: number]: string} = {
             </div>
         </div>
         <div class="col-12 col-lg-4 d-flex align-items-end justify-content-end">
-            <Button :click="(ev) => handleClick(ev)">Resimulate</Button>
+            <Button :click="() => emit('reload', null)">Resimulate</Button>
         </div>
     </div>
 </template>

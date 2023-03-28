@@ -31,6 +31,7 @@ function sendForm(){
         status: statusForm.value,
         valid: validForm.value
     });
+    resultForm.value = mockResult.value;
 }
 </script>
 
@@ -46,7 +47,7 @@ function sendForm(){
                 <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
-        <form class="row simulation-form" @submit.prevent="() => sendForm()" v-if="!mockResult">
+        <form class="row simulation-form" @submit.prevent="() => sendForm()" v-if="!resultForm">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
@@ -68,23 +69,23 @@ function sendForm(){
             </div>
         </form>
         <div class="row" v-else>
-            <RecapForm :data="mockResult"/>
+            <RecapForm :data="resultForm" @reload="(value) => resultForm = value"/>
         </div>
-        <div class="row simulation-form-result" v-if="mockResult">
+        <div class="row simulation-form-result" v-if="resultForm">
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
             <div class="col-12 d-flex align-items-center justify-content-center mt-3">
                 <div class="other-salary text-center">
-                    <span>{{ mockResult.lowestSalary }}</span>
+                    <span>{{ resultForm.lowestSalary }}</span>
                     <span class="text-s">LOWEST</span>
                 </div>
                 <div class="average-salary text-center mx-5">
-                    <div>{{ mockResult.averageSalary }}</div>
-                    <span class="title-s">{{ (mockResult.averageSalary / 12).toFixed(0) + " by month"}}</span>
+                    <div>{{ resultForm.averageSalary }}</div>
+                    <span class="title-s">{{ (resultForm.averageSalary / 12).toFixed(0) + " by month"}}</span>
                 </div>
                 <div class="other-salary text-center">
-                    <span>{{ mockResult.highestSalary }}</span>
+                    <span>{{ resultForm.highestSalary }}</span>
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
