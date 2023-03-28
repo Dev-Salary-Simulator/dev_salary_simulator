@@ -39,7 +39,7 @@ const {userLogged} = useAuth();
         background-image: linear-gradient(90deg, #023658 0%, rgba(246, 248, 250, 0.5) 100%, #023658 200%);
         border-radius: 32px;
         background-size: 400% 400%;
-        animation: spinBorder 3s linear infinite;
+        animation: buttonBorder 3s linear infinite;
     }
     .header-login-btn{
         display: block;
@@ -47,7 +47,7 @@ const {userLogged} = useAuth();
         font-size: 25px;
         color: $light;
         padding: 6px 30px;
-        background: $dark;
+        background: $dark2;
         border-radius: 32px;
         text-transform: uppercase;
     }
@@ -60,14 +60,14 @@ const {userLogged} = useAuth();
         background-size: 400% 400%;
         padding-bottom: 4px;
         &:hover{
-            animation: spinBorder 3s linear infinite;
+            animation: buttonBorder 3s linear infinite;
         }
     }
     .header-index-btn{
         font-size: 27px;
         font-weight: 700;
         color: $grey;
-        background: $dark;
+        background: $dark2;
         padding: 4px 0;
         text-transform: uppercase;
     }

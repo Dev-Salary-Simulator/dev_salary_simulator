@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const {elements, id} = defineProps<{
+const {elements, id, modelValue} = defineProps<{
     modelValue: string,
     elements: string[],
     id?: string,
@@ -8,10 +8,10 @@ const {elements, id} = defineProps<{
 const emit = defineEmits<{
     (ev: 'update:modelValue', value: string): void
 }>();
-const filter = ref('');
+const filter = ref<string>(modelValue);
 const filteredElements = computed<string[]>(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
 const displayList = ref<boolean>(false);
-const disabled = ref<boolean>(false);
+const disabled = ref<boolean>(!!modelValue);
 
 const handleSelect = (ev: KeyboardEvent | MouseEvent, elementSelected: string) => {
     const target = ev.target as HTMLElement;
@@ -102,7 +102,8 @@ const handleReset = () => {
         top: 5px;
         padding: 8px;
         box-shadow: unset;
-        color: $danger;
+        color: $light;
+        font-weight: 500;
         &:hover{
             text-decoration: underline;
         }

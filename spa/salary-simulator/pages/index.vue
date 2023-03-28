@@ -1,21 +1,52 @@
 <script setup lang="ts">
+const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
+const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
+    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
+const mockResult = ref<TSimulation>({
+    averageSalary: 50000,
+    lowestSalary: 34000,
+    highestSalary: 67000,
+    parameters: {
+        nameJob: "UX designer",
+        nameRegion: "Paris France",
+        namesStack: ['Figma', 'Photoshop', 'HTML', 'Word', 'Adobe Premiere'],
+        experience: 5,
+        status: 'Self employed'
+    }
+})
+const {userLogged} = useAuth();
 //const {namesJobs} = useJobs();
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
+const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
+const resultForm = useState<TSimulation | null>('resultForm', () => null);
+const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
+
 function sendForm(){
-    // TODO : Sending form simulation
-    console.log('Send form:', {
-        nameJob: nameJobForm.value, 
-        experience: Math.round(experienceForm.value),
-        stacks: toRaw(stacksForm.value),
-        status: statusForm.value
-    });
+    animationForm.value = "sending";
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+        // TODO : Animated spinner
+        animationForm.value = "pending";
+        setTimeout(() => {
+            // TODO : Sending form simulation to API
+            console.log('Send form:', {
+                nameJob: nameJobForm.value, 
+                experience: Math.round(experienceForm.value),
+                stacks: toRaw(stacksForm.value),
+                status: statusForm.value,
+                valid: validForm.value
+            });
+            animationForm.value = "fetching";
+            resultForm.value = mockResult.value; // TODO : Remove mock data
+            setTimeout(() => {
+                animationForm.value = "static";
+            }, 2500);
+        }, 5000);
+    }, 800);
 }
-const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
-const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
-    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
 </script>
 
 <template>
@@ -30,7 +61,8 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
-        <form class="row simulation-form" @submit.prevent="() => sendForm()">
+        <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out' : animationForm === 'pending' ? 'd-none' : ''}`" 
+        @submit.prevent="() => sendForm()" v-if="!resultForm">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
@@ -48,9 +80,36 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
                 <InputRadio :elements="[{text: 'self-employed', img: 'self-employed.png'}, {text: 'full time employee', img: 'full-time-employee.png'}]" v-model="statusForm" id="statusForm"/>
             </div>
             <div class="col-12 text-center mt-5">
-                <Button submit>Simulate your value</Button>
+                <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
+        <div :class="`row simulation-form-spinner ${animationForm === 'pending' ? 'fade-in' : 'd-none'}`" v-if="animationForm === 'pending'">
+            Spinner
+        </div>
+        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
+            <RecapForm :data="resultForm" @reload="(value) => resultForm = value"/>
+        </div>
+        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
+            <div class="col-12 text-center">
+                <h2>Your average salary</h2>
+            </div>
+            <div class="col-12 d-flex align-items-center justify-content-center mt-3">
+                <div class="other-salary text-center">
+                    <span>{{ resultForm.lowestSalary }}</span>
+                    <span class="text-s">LOWEST</span>
+                </div>
+                <div class="average-salary text-center mx-5">
+                    <div>{{ resultForm.averageSalary }}</div>
+                    <span class="title-s">{{ (resultForm.averageSalary / 12).toFixed(0) + " by month"}}</span>
+                </div>
+                <div class="other-salary text-center">
+                    <span>{{ resultForm.highestSalary }}</span>
+                    <span class="text-s">HIGHEST</span>
+                </div>
+            </div>
+            <Button v-if="!userLogged" :classSup="'save-simulation'">Register</Button>
+            <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
+        </div>
     </main>
 </template>
 
@@ -58,11 +117,6 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
 #index-page{
     & >.row{
         padding: 51px 84px;
-    }
-    & .simulation-form{
-        background: rgba(63, 102, 159, 0.1);
-        backdrop-filter: blur(25px);
-        border-radius: 10px;
     }
     & .header-simulation-form{
         & .header-img{
@@ -87,39 +141,46 @@ const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angu
             }
         }
     }
-}
-@keyframes rocketEffect{
-    0%{
-        transform: translateY(-50%) translateX(50%);
+    & .simulation-form, .simulation-form-result, .simulation-form-spinner{
+        background: rgba(63, 102, 159, 0.1);
+        backdrop-filter: blur(25px);
+        border-radius: 10px;
     }
-    50%{
-        transform: translateY(-45%) translateX(50%);
+    & .simulation-form-result{
+        position: relative;
+        .average-salary{
+            font-size: 80px;
+            font-weight: 600;
+            color: #3A9EE4;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            & span:nth-child(2){
+                text-transform: uppercase;
+                color: $light;
+                padding: 8px 16px;
+                background: rgba(25, 45, 60, 0.46);
+                border-radius: 7px;
+            }
+        }
+        .other-salary{
+            font-size: 42px;
+            font-weight: 600;
+            color: #C0C0C0;
+            padding-top: 10px;
+            & span:nth-child(2){
+                display: block;
+                color: $grey;
+            }
+        }
+        .save-simulation{
+            position: absolute;
+            width: auto;
+            padding: 0;
+            left: 38px;
+            top: 32px;
+        }
     }
-    100%{
-        transform: translateY(-50%) translateX(50%);
-    }
-}
-@keyframes cloudEffect{
-    0%{transform: translateX(0%) translateY(1%);}
-    5%{transform: translateX(1%) translateY(1%);}
-    10%{transform: translateX(2%) translateY(2%);}
-    15%{transform: translateX(3%) translateY(3%);}
-    20%{transform: translateX(4%) translateY(4%);}
-    25%{transform: translateX(4%) translateY(5%);}
-    30%{transform: translateX(4%) translateY(6%);}
-    35%{transform: translateX(3%) translateY(7%);}
-    40%{transform: translateX(2%) translateY(8%);}
-    45%{transform: translateX(1%) translateY(9%);}
-    50%{transform: translateX(0%) translateY(9%);}
-    55%{transform: translateX(-1%) translateY(9%);}
-    60%{transform: translateX(-2%) translateY(8%);}
-    65%{transform: translateX(-3%) translateY(7%);}
-    70%{transform: translateX(-4%) translateY(6%);}
-    75%{transform: translateX(-4%) translateY(5%);}
-    80%{transform: translateX(-4%) translateY(4%);}
-    85%{transform: translateX(-3%) translateY(3%);}
-    90%{transform: translateX(-2%) translateY(2%);}
-    95%{transform: translateX(-1%) translateY(1%);}
-    100%{transform: translateX(0%) translateY(1%);}
 }
 </style>

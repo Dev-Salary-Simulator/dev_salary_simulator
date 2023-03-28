@@ -40,7 +40,7 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
             <li v-for="elm in elements" 
                 @click="(ev) => handleSelect(ev, elm)" @keyup="(ev) => handleSelect(ev, elm)" 
                 :tabindex="isSelected(elm) || isDisabled(elm) ? -1 : 0" 
-                :class="`d-flex text-m${isSelected(elm)  ? ' selected' : ''} 
+                :class="`stacks-element d-flex text-m${isSelected(elm)  ? ' selected' : ''} 
                     ${isDisabled(elm) ? ' disabled' : ''}
                 `" 
             >
@@ -58,54 +58,48 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
     ul{
         list-style-type: none;
         padding: 27px 20px;
-        li{
-            text-transform: uppercase;
-            padding: 8px 16px;
-            border: 1px solid #CCCCCC;
-            border-radius: 7px;
-            background: rgba(255, 255, 255, 0.11);
-            margin: 10px;
-            color: $grey;
-            &.disabled{
-                filter: opacity(0.2);
-                pointer-events: none;
-            }
-            &.selected{
-                background: rgba($primary, 0.46);
-                border: 1px solid #3A9EE4;
-                font-weight: 700;
-                color: #CCCCCC;
-                &:hover{
-                    border: 1px solid $danger;
-                }
+        .stacks-element{
+            transition: all 0.15s ease-in-out;
+            &:hover{
+                transition: all 0.15s ease-in-out;
+                transform: translateY(-4px);
             }
             &:not(.disabled){
                 cursor: pointer;
             }
-            &:focus{
-                border: 1px solid #3A9EE4;
-                outline: none;
-            }
-            span{
-                pointer-events: none;
-                display: block;
-                &.typed{
-                    color: #CCCCCC;
-                    animation: touchKeyBoard 0.15s linear;
-                }
-            }
         }
     }
 }
-@keyframes touchKeyBoard {
-    0% {
-        scale: 1;
+.stacks-element{
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border: 1px solid #CCCCCC;
+    border-radius: 7px;
+    background: rgba(255, 255, 255, 0.11);
+    margin: 10px;
+    color: $grey;
+    display: inline-block;
+    &.disabled{
+        filter: opacity(0.2);
+        pointer-events: none;
     }
-    50% {
-        scale: 0.8;
+    &.selected{
+        background: rgba($primary, 0.46);
+        border: 1px solid #3A9EE4;
+        font-weight: 700;
+        color: #CCCCCC;
     }
-    100% {
-        scale: 1;
+    &:focus{
+        border: 1px solid #3A9EE4;
+        outline: none;
+    }
+    span{
+        pointer-events: none;
+        display: block;
+        &.typed{
+            color: #CCCCCC;
+            animation: touchKeyBoard 0.15s linear;
+        }
     }
 }
 </style>

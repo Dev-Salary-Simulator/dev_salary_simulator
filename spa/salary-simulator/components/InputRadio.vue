@@ -47,23 +47,12 @@ const handleInput = (ev: Event) => {
             filter: opacity(1);
             & > img{
                 transition: all ease-in-out 0.3s;
-                animation: lightBump 2s ease-in-out infinite alternate;
+                animation: radioImage 2s ease-in-out infinite alternate;
             }
         }
         & > span{
             display: block;
         }
-    }
-}
-@keyframes lightBump {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(5px);
     }
 }
 </style>

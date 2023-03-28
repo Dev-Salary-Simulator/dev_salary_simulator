@@ -115,18 +115,7 @@ onMounted(() => {
         width: 70px;
         height: 70px;
         border-radius: 50%;   
-        animation: shineRange 4s infinite ease-in-out;
-    }
-}
-@keyframes shineRange {
-    0% {
-        scale: 1;
-    }
-    50% {
-        scale: 1.2;
-    }
-    100% {
-        scale: 1;
+        animation: thumbRangeShine 4s infinite ease-in-out;
     }
 }
 </style>

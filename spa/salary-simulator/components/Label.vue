@@ -7,7 +7,7 @@ defineProps<{
 </script>
 
 <template>
-    <label :for="forInput" :class="`text-l${blueLabel ? ' blue-label' : ''} ${classSup}`">
+    <label :for="forInput" :class="`text-l${blueLabel ? ' blue-label' : ''} ${classSup ?? ''}`">
         <slot></slot>
     </label>
 </template>

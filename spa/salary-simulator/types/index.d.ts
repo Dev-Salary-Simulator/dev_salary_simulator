@@ -28,6 +28,7 @@ declare global {
             nameRegion: string;
             namesStack: string[];
             experience: number;
+            status: string;
         }
     }
 
