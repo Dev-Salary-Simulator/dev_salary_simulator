@@ -102,7 +102,8 @@ const handleReset = () => {
         top: 5px;
         padding: 8px;
         box-shadow: unset;
-        color: $danger;
+        color: $light;
+        font-weight: 500;
         &:hover{
             text-decoration: underline;
         }

@@ -59,8 +59,10 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
         list-style-type: none;
         padding: 27px 20px;
         .stacks-element{
+            transition: all 0.15s ease-in-out;
             &:hover{
-                border: 1px solid $danger;
+                transition: all 0.15s ease-in-out;
+                transform: translateY(-4px);
             }
             &:not(.disabled){
                 cursor: pointer;
