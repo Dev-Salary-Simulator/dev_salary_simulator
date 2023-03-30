@@ -1,50 +1,35 @@
 <script setup lang="ts">
-const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
-const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
-    'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
-const mockResult = ref<TSimulation>({
-    averageSalary: 50000,
-    lowestSalary: 34000,
-    highestSalary: 67000,
-    parameters: {
-        nameJob: "UX designer",
-        nameRegion: "Paris France",
-        namesStack: ['Figma', 'Photoshop', 'HTML', 'Word', 'Adobe Premiere'],
-        experience: 5,
-        status: 'Self employed'
-    }
-})
-const {userLogged} = useAuth();
-//const {namesJobs} = useJobs();
+const {makeSimulation} = useSimulation();
+const userLogged = useState<TUser | null>('userLogged');
+const namesJobs = useState<string[]>('namesJobs');
+const namesStacks = useState<string[]>('namesStacks');
+
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
 const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
-const resultForm = useState<TSimulation | null>('resultForm', () => null);
+const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
 const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
 
 function sendForm(){
     animationForm.value = "sending";
     window.scrollTo(0, 0);
     setTimeout(() => {
-        // TODO : Animated spinner
+        // TODO : Animated spinner + revoir animation
         animationForm.value = "pending";
+        makeSimulation({
+            nameJob: nameJobForm.value, 
+            experience: Math.round(experienceForm.value),
+            namesStack: stacksForm.value,
+            status: statusForm.value,
+        });
         setTimeout(() => {
-            // TODO : Sending form simulation to API
-            console.log('Send form:', {
-                nameJob: nameJobForm.value, 
-                experience: Math.round(experienceForm.value),
-                stacks: toRaw(stacksForm.value),
-                status: statusForm.value,
-                valid: validForm.value
-            });
             animationForm.value = "fetching";
-            resultForm.value = mockResult.value; // TODO : Remove mock data
             setTimeout(() => {
                 animationForm.value = "static";
             }, 2500);
-        }, 5000);
+        }, 3000);
     }, 800);
 }
 </script>
@@ -62,10 +47,10 @@ function sendForm(){
             </div>
         </section>
         <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out' : animationForm === 'pending' ? 'd-none' : ''}`" 
-        @submit.prevent="() => sendForm()" v-if="!resultForm">
+        @submit.prevent="() => sendForm()" v-if="!simulationResult">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
-                <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
+                <Select :elements="namesJobs" :key="'namesJobs' + namesJobs.length" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
             </div>
             <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='experienceForm'>Years of experience</Label>
@@ -73,7 +58,7 @@ function sendForm(){
             </div>
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='stacksForm' blueLabel>Tell us about your stacks</Label>
-                <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="stacks"/>
+                <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="namesStacks" :key="'namesStacks' + namesStacks.length"/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
@@ -86,24 +71,24 @@ function sendForm(){
         <div :class="`row simulation-form-spinner ${animationForm === 'pending' ? 'fade-in' : 'd-none'}`" v-if="animationForm === 'pending'">
             Spinner
         </div>
-        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
-            <RecapForm :data="resultForm" @reload="(value) => resultForm = value"/>
+        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult">
+            <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value"/>
         </div>
-        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="resultForm">
+        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult">
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
             <div class="col-12 d-flex align-items-center justify-content-center mt-3">
                 <div class="other-salary text-center">
-                    <span>{{ resultForm.lowestSalary }}</span>
+                    <span>{{ simulationResult.lowestSalary }}</span>
                     <span class="text-s">LOWEST</span>
                 </div>
                 <div class="average-salary text-center mx-5">
-                    <div>{{ resultForm.averageSalary }}</div>
-                    <span class="title-s">{{ (resultForm.averageSalary / 12).toFixed(0) + " by month"}}</span>
+                    <div>{{ simulationResult.averageSalary }}</div>
+                    <span class="title-s">{{ (simulationResult.averageSalary / 12).toFixed(0) + " by month"}}</span>
                 </div>
                 <div class="other-salary text-center">
-                    <span>{{ resultForm.highestSalary }}</span>
+                    <span>{{ simulationResult.highestSalary }}</span>
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
