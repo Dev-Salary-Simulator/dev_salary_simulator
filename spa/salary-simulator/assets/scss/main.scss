@@ -80,3 +80,24 @@ html{
 .fade-out{
     animation: fadeOut 2s ease-in-out;
 }
+
+// General design
+input{
+    height: 52px;
+    font-size: 20px;
+    color: $light;
+    background-color: rgba($light, 0.3);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    &:placeholder-shown{
+        font-size: 20px;
+        color: $grey;
+    }
+    &:focus{
+        outline: none
+    }
+    &:disabled{
+        color: rgba($light, 0.7);
+    }
+}
