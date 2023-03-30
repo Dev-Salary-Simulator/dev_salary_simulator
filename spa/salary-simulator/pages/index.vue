@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const namesJobs = ['Ux designer', 'Architect', 'Developer front', 'developer backend', 'data Scientist', 'UI designer']; // Mock data
 const stacks = ['Java', 'Typescript', 'Rust', 'C++', 'Php', 'HTML', 'CSS', 'Angular', 
     'React', 'Javascript', 'Symfony', 'Python', 'numpy', 'pandas', 'C', 'C#']; // Mock Data - TODO : Create endpoint for getting nameStacks
 const mockResult = ref<TSimulation>({
@@ -15,7 +14,7 @@ const mockResult = ref<TSimulation>({
     }
 })
 const {userLogged} = useAuth();
-//const {namesJobs} = useJobs();
+const namesJobs = computed(() => useState<string[]>('namesJobs').value);
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
@@ -65,7 +64,7 @@ function sendForm(){
         @submit.prevent="() => sendForm()" v-if="!resultForm">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
-                <Select :elements="namesJobs" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
+                <Select :elements="namesJobs" :key="'namesJobs' + namesJobs.length" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
             </div>
             <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='experienceForm'>Years of experience</Label>
