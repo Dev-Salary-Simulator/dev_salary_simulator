@@ -2,10 +2,12 @@ import { isProxy, toRaw } from 'vue';
 
 export default () => {
     const runtimeConfig = useRuntimeConfig();
+    const urlBase = process.dev ? runtimeConfig.public.mockBase : runtimeConfig.public.authBase;
+
     const userLogged = useState<TUser | null>('userLogged', () => null);
 
     async function login(payload: {email: string, password: string}){
-        const {data, error}= await useFetch(`${runtimeConfig.public.authBase}/auth/login`, {
+        const {data, error}= await useFetch(`${urlBase}/auth/login`, {
             body: payload,
             method: "POST",
         }).then(res => {
@@ -21,7 +23,7 @@ export default () => {
     }
     
     async function register(payload: {email: string, password: string}){
-        const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/register`, {
+        const {data, error} = await useFetch(`${urlBase}/auth/register`, {
             body: payload,
             method: "POST"
         }).then(res => {
@@ -39,7 +41,7 @@ export default () => {
     async function autoLogin(){
         if (localStorage.getItem('tokenDSS')) {
             await nextTick();
-            const {data, error} = await useFetch(`${runtimeConfig.public.authBase}/auth/auto`, {
+            const {data, error} = await useFetch(`${urlBase}/auth/auto`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`}
             }).then(res => {
                 return {...res, data: res.data as Ref<{user: TUser, jwt: string}> | null}
