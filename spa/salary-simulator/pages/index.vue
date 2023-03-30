@@ -15,6 +15,7 @@ const mockResult = ref<TSimulation>({
 })
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
+const namesStacks = useState<string[]>('namesStacks');
 
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
@@ -73,7 +74,7 @@ function sendForm(){
             </div>
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='stacksForm' blueLabel>Tell us about your stacks</Label>
-                <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="stacks"/>
+                <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="namesStacks" :key="'namesStacks' + namesStacks.length"/>
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
