@@ -14,7 +14,7 @@ const mockResult = ref<TSimulation>({
     }
 })
 const {userLogged} = useAuth();
-const namesJobs = computed(() => useState<string[]>('namesJobs').value);
+const namesJobs = useState<string[]>('namesJobs');
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
