@@ -1,4 +1,4 @@
-export default defineEventHandler((event) => {
+export default defineEventHandler<string[]>((event) => {
     return [
         'Developer front-end',
         'Developer full stack',
