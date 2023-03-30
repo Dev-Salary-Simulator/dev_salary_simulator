@@ -2,11 +2,13 @@ import { isProxy, toRaw } from 'vue';
 
 export default () => {
     const runtimeConfig = useRuntimeConfig();
+    const urlBase = process.dev ? runtimeConfig.public.mockBase : runtimeConfig.public.apiBase;
+    
     const jobs = useState<TJob[]>('jobs', () => []);
     const namesJobs = useState<string[]>('namesJobs', () => []);
 
     async function getJobs(){
-        const {data, error} = await useFetch(`${runtimeConfig.public.apiBase}/jobs`)
+        const {data, error} = await useFetch(`${urlBase}/jobs`)
         .then(res => {
             return {...res, data: res.data as Ref<TJob[]> | null}
         });
@@ -20,7 +22,7 @@ export default () => {
 
     async function getNamesOfJobs(){
         await nextTick();
-        const {data, error} = await useLazyFetch(`${runtimeConfig.public.apiBase}/jobs/titles`)
+        const {data, error} = await useLazyFetch(`${urlBase}/jobs/titles`)
         .then(res => {
             return {...res, data: res.data as Ref<string[]> | null}
         });
