@@ -17,7 +17,6 @@ function sendForm(){
     animationForm.value = "sending";
     window.scrollTo(0, 0);
     setTimeout(() => {
-        // TODO : Animated spinner + revoir animation
         animationForm.value = "pending";
         makeSimulation({
             nameJob: nameJobForm.value, 
