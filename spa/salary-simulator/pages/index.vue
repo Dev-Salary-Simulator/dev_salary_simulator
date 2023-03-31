@@ -47,8 +47,8 @@ function sendForm(){
                 <img :src="'/img/cloud.png'" alt="cloud">
             </div>
         </section>
-        <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out' : animationForm === 'pending' ? 'd-none' : ''}`" 
-        @submit.prevent="() => sendForm()" v-if="!simulationResult">
+        <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out' : ''}`" 
+        @submit.prevent="() => sendForm()" v-if="!simulationResult && (animationForm === 'sending' || animationForm === 'static')">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
                 <Select :elements="namesJobs" :key="'namesJobs' + namesJobs.length" v-model="nameJobForm" id="nameJobForm" placeholder="Developer, ux designer..." />
@@ -69,13 +69,14 @@ function sendForm(){
                 <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
-        <div :class="`row simulation-form-spinner ${animationForm === 'pending' ? 'fade-in' : 'd-none'}`" v-if="animationForm === 'pending'">
-            Spinner
+        <div :class="`row simulation-form-spinner justify-content-center text-center py-5 ${animationForm === 'pending' ? 'fade-in' : ''}`" v-if="animationForm === 'pending'">
+            <div id="spinner"></div>
+            <p class="text-m mt-3 mb-0">In search of your dream job...</p>
         </div>
-        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult">
+        <div :class="`row ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value"/>
         </div>
-        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult">
+        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
