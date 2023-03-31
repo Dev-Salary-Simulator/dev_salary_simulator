@@ -44,7 +44,7 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
                     ${isDisabled(elm) ? ' disabled' : ''}
                 `" 
             >
-                <span v-for="el, ind in elm" :class="!isDisabled(elm) && !isSelected(elm) && filter.toLowerCase().includes(el.toLowerCase()) && ind < filter.length ? 'typed' : ''">{{ el }}</span>
+                <span v-for="el, ind in elm" :class="!isDisabled(elm) && !isSelected(elm) && filter.toLowerCase().includes(el.toLowerCase()) ? 'typed' : ''">{{ el }}</span>
             </li>
         </ul>
     </div>
