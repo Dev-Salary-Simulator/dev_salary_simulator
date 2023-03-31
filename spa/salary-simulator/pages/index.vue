@@ -43,7 +43,7 @@ function sendForm(){
             </div>
             <ImgRocket classSup="d-none d-lg-block col-lg-7 text-center"/>
         </section>
-        <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out-scale' : ''}`" 
+        <form :class="`row bg-blur ${animationForm === 'sending' ? 'fade-out-scale' : ''}`" 
         @submit.prevent="() => sendForm()" v-if="!simulationResult && (animationForm === 'sending' || animationForm === 'static')">
             <div class="col-12 d-flex flex-column mb-5">
                 <Label forInput='nameJobForm'>Name of your dream job</Label>
@@ -65,14 +65,14 @@ function sendForm(){
                 <Button submit :disabled="!validForm">Simulate your value</Button>
             </div>
         </form>
-        <div :class="`row simulation-form-spinner justify-content-center text-center py-5 ${animationForm === 'pending' ? 'fade-in-scale' : ''}`" v-if="animationForm === 'pending'">
+        <div :class="`row bg-blur justify-content-center text-center py-5 ${animationForm === 'pending' ? 'fade-in-scale' : ''}`" v-if="animationForm === 'pending'">
             <div id="spinner"></div>
             <p class="text-m mt-3 mb-0">In search of your dream job...</p>
         </div>
         <div :class="`row ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value"/>
         </div>
-        <div :class="`row simulation-form-result ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
+        <div :class="`row simulation-form-result bg-blur ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <div class="col-12 text-center">
                 <h2>Your average salary</h2>
             </div>
@@ -100,11 +100,6 @@ function sendForm(){
 #index-page{
     & >.row{
         padding: 51px 84px;
-    }
-    & .simulation-form, .simulation-form-result, .simulation-form-spinner{
-        background: rgba(63, 102, 159, 0.1);
-        backdrop-filter: blur(25px);
-        border-radius: 10px;
     }
     & .simulation-form-result{
         position: relative;

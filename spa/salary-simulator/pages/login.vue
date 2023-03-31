@@ -12,6 +12,9 @@ const email = useState<string>('email', () => 'Hello');
 
 <template>
     <main class="container">
+        <div class="row bg-blur">
+            
+        </div>
         <h1 class="title-l">Hello login</h1>
         <Label forInput="email">E-mail</Label>
         <Input v-model="email" id="email"/>
@@ -23,6 +26,6 @@ const email = useState<string>('email', () => 'Hello');
 
 <style lang="scss">
 .container{
-    
+
 }
 </style>
