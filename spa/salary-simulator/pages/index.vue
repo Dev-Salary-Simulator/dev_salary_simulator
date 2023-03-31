@@ -1,4 +1,5 @@
 <script setup lang="ts">
+definePageMeta({middleware: 'index'});
 const {makeSimulation} = useSimulation();
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
