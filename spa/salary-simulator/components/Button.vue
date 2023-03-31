@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
     <div :class="`btn-container${disabled ? ' disabled' : ''} ${classSup ?? ''}`">
-        <button class="btn btn-secondary" :disabled="disabled" @click="click" :type="submit ? 'submit' : 'button'">
+        <button class="btn btn-secondary" :disabled="!!disabled" @click="click" :type="submit ? 'submit' : 'button'" :key="`${!!disabled}`">
             <slot></slot>
         </button>
     </div>
