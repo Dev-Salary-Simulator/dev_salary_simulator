@@ -36,15 +36,12 @@ function sendForm(){
 
 <template>
     <main class="container mb-5" id="index-page">
-        <section class="header-simulation-form row align-items-center justify-content-between">
+        <section class="row align-items-center justify-content-between">
             <div class="col-12 col-lg-5">
                 <h1 class="title-l">Find your <span class="text-primary">perfect</span> salary</h1>
                 <p class="text-grey">Lorem ipsum dolor sit amet consectetur. Id mauris morbi ornare sapien curabitur pretium. Tellus faucibus sit lobortis eleifend.</p>
             </div>
-            <div class="header-img d-none d-lg-block col-lg-7 text-center">
-                <img :src="'/img/rocket.png'" alt="rocket">
-                <img :src="'/img/cloud.png'" alt="cloud">
-            </div>
+            <ImgRocket classSup="d-none d-lg-block col-lg-7 text-center"/>
         </section>
         <form :class="`row simulation-form ${animationForm === 'sending' ? 'fade-out-scale' : ''}`" 
         @submit.prevent="() => sendForm()" v-if="!simulationResult && (animationForm === 'sending' || animationForm === 'static')">
@@ -103,29 +100,6 @@ function sendForm(){
 #index-page{
     & >.row{
         padding: 51px 84px;
-    }
-    & .header-simulation-form{
-        & .header-img{
-            position: relative;
-            height: 100%;
-            & img{
-                position: absolute;
-                z-index: 5;
-                &:nth-child(1){
-                    width: 50%;
-                    left: 0;
-                    right: 0;
-                    transform: translateY(-50%) translateX(50%);
-                    animation: rocketEffect 3s ease-in-out infinite;
-                }
-                &:nth-child(2){
-                    width: 30%;
-                    right: 0;
-                    top: 0;
-                    animation: cloudEffect 4s linear infinite;
-                }
-            }
-        }
     }
     & .simulation-form, .simulation-form-result, .simulation-form-spinner{
         background: rgba(63, 102, 159, 0.1);
