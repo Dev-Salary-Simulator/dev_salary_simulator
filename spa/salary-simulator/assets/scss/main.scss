@@ -78,12 +78,14 @@ html{
     animation: fadeIn 2s ease-in-out;
 }
 .fade-out{
+    opacity: 0;
     animation: fadeOut 2s ease-in-out;
 }
 .fade-in-scale{
     animation: fadeInAndScale 2s ease-in-out;
 }
 .fade-out-scale{
+    opacity: 0;
     animation: fadeOutAndScale 2s ease-in-out;
 }
 

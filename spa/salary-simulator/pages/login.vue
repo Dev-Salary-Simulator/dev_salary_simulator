@@ -17,9 +17,12 @@ const email = useState<string>('email', () => 'Hello');
         <Input v-model="email" id="email"/>
         <Button :click="(ev: MouseEvent) => registerForm()">Register</Button>
         <Button :click="(ev: MouseEvent) => loginForm()">Login</Button>
+        <div class="title-l fade-out">Hello world</div>
     </main>
 </template>
 
 <style lang="scss">
-
+.container{
+    
+}
 </style>
