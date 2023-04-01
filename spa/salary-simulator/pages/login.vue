@@ -1,26 +1,36 @@
 <script setup lang="ts">
 definePageMeta({middleware: 'seo'});
 const {login, register} = useAuth();
-const loginForm = async () => {
-    await login({email: "test@test.com", password: "test1234"})
-}
-const registerForm = async () => {
-    await register({email: "test@test.com", password: "test1234"})
-}
+
 const email = useState<string>('emailLogin', () => '');
 const password = ref<string>('');
 const confirmPassword = ref<string>('');
 const changeForm = useState<'login' | 'loginToRegister' | 'registerToLogin' | 'register'>("changeFormLogin", () => 'login');
 
+const emailVerif = computed<boolean>(() => !!email.value.match(/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/));
+const passVerif = computed<boolean>(() => !!password.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/));
+const passConfirmVerif = computed<boolean>(() => !!confirmPassword.value && confirmPassword.value === password.value);
+
+const loginForm = async () => {
+    await login({email: "test@test.com", password: "test1234"});
+}
+
+const registerForm = async () => {
+    await register({email: "test@test.com", password: "test1234"});
+}
+
 function switchForm(){
-    if (changeForm.value === "login") {
+    if (changeForm.value === "login" || changeForm.value === "loginToRegister") {
         changeForm.value = "loginToRegister";
+        password.value = "";
         setTimeout(() => {
             changeForm.value = "register";
         }, 1000)
     }
-    else{
+    else if(changeForm.value === "register" || changeForm.value === "registerToLogin"){
         changeForm.value = "registerToLogin";
+        password.value = "";
+        confirmPassword.value = "";
         setTimeout(() => {
             changeForm.value = "login";
         }, 1000)
@@ -38,15 +48,17 @@ function switchForm(){
                     <div class="row">
                         <div class="col-12 my-3">
                             <Input v-model="email" placeholder="example@example.com" id="emailLogin"/>
+                            <span>{{ emailVerif }}</span>
                         </div>
                         <div class="col-12 my-3">
                             <Input v-model="password" type="password" placeholder="********" id="passwordLogin"/>
+                            <span>{{ passVerif }}</span>
                         </div>
                         <div class="col-12 mt-3 mb-5">
-                            <Button submit>Login</Button>
+                            <Button submit :disabled="!emailVerif || !passVerif">Login</Button>
                         </div>
                         <div class="col-12 text-start mt-3">
-                            <span class="me-3 switch-form" :onclick="() => switchForm()">No account yet ?</span>
+                            <span class="me-3 switch-form" :onclick="() => switchForm()" :key="changeForm">No account yet ?</span>
                         </div>
                     </div>
                 </form>
@@ -56,18 +68,21 @@ function switchForm(){
                     <div class="row">
                         <div class="col-12 my-3">
                             <Input v-model="email" placeholder="example@example.com" id="emailRegister"/>
+                            <span>{{ emailVerif }}</span>
                         </div>
                         <div class="col-12 my-3">
                             <Input v-model="password" type="password" placeholder="********" id="passwordRegister"/>
+                            <span>{{ passVerif }}</span>
                         </div>
                         <div class="col-12 my-3">
                             <Input v-model="confirmPassword" type="password" placeholder="********" id="confirmPassword"/>
+                            <span>{{ passConfirmVerif }}</span>
                         </div>
                         <div class="col-12 mt-3 mb-5">
-                            <Button submit>Register</Button>
+                            <Button submit :disabled="!emailVerif || !passVerif || !passConfirmVerif">Register</Button>
                         </div>
                         <div class="col-12 text-start mt-3">
-                            <span class="me-3 switch-form" :onclick="() => switchForm()">Already registered ?</span>
+                            <span class="me-3 switch-form" :onclick="() => switchForm()" :key="changeForm">Already registered ?</span>
                         </div>
                     </div>
                 </form>
