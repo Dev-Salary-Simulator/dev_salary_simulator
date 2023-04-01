@@ -13,7 +13,7 @@ const confirmPassword = ref<string>('');
 </script>
 
 <template>
-    <main class="container">
+    <main class="container d-flex flex-column" style="flex-grow: 1;">
         <div class="row bg-blur">
             <h1 class="title-l">Login</h1>
             <form class="col-lg-12 col-6" @submit.prevent="() => loginForm()">
