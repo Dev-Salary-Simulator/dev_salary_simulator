@@ -10,46 +10,88 @@ const registerForm = async () => {
 const email = useState<string>('emailLogin', () => '');
 const password = ref<string>('');
 const confirmPassword = ref<string>('');
+const changeForm = useState<'login' | 'loginToRegister' | 'registerToLogin' | 'register'>("changeFormLogin", () => 'login');
+
+function switchForm(){
+    if (changeForm.value === "login") {
+        changeForm.value = "loginToRegister";
+        setTimeout(() => {
+            changeForm.value = "register";
+        }, 1000)
+    }
+    else{
+        changeForm.value = "registerToLogin";
+        setTimeout(() => {
+            changeForm.value = "login";
+        }, 1000)
+    }
+}
 </script>
 
 <template>
-    <main class="container d-flex flex-column" style="flex-grow: 1;">
-        <div class="row bg-blur">
-            <h1 class="title-l">Login</h1>
-            <form class="col-lg-12 col-6" @submit.prevent="() => loginForm()">
-                <div class="row">
-                    <div class="col-12">
-                        <Input v-model="email" id="emailLogin"/>
+    <main class="container d-flex flex-column justify-content-center" style="flex-grow: 1;" id="login-page">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6 bg-blur text-center">
+                <form  :class="`form-login ${changeForm === 'login' ? 'fade-in' : changeForm === 'loginToRegister' && ('fade-out')}`" 
+                @submit.prevent="() => loginForm()" v-if="changeForm === 'login' || changeForm === 'loginToRegister'">
+                    <h2 class="title-l mb-5">Login</h2>
+                    <div class="row">
+                        <div class="col-12 my-3">
+                            <Input v-model="email" placeholder="example@example.com" id="emailLogin"/>
+                        </div>
+                        <div class="col-12 my-3">
+                            <Input v-model="password" type="password" placeholder="********" id="passwordLogin"/>
+                        </div>
+                        <div class="col-12 mt-3 mb-5">
+                            <Button submit>Login</Button>
+                        </div>
+                        <div class="col-12 text-start mt-3">
+                            <span class="me-3 switch-form" :onclick="() => switchForm()">No account yet ?</span>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <Input v-model="password" id="passwordLogin"/>
+                </form>
+                <form :class="`form-login ${changeForm === 'register' ? 'fade-in' : changeForm === 'registerToLogin' && ('fade-out')}`" 
+                @submit.prevent="() => registerForm()" v-if="changeForm === 'register' || changeForm === 'registerToLogin'">
+                    <h2 class="title-l mb-5">Register</h2>
+                    <div class="row">
+                        <div class="col-12 my-3">
+                            <Input v-model="email" placeholder="example@example.com" id="emailRegister"/>
+                        </div>
+                        <div class="col-12 my-3">
+                            <Input v-model="password" type="password" placeholder="********" id="passwordRegister"/>
+                        </div>
+                        <div class="col-12 my-3">
+                            <Input v-model="confirmPassword" type="password" placeholder="********" id="confirmPassword"/>
+                        </div>
+                        <div class="col-12 mt-3 mb-5">
+                            <Button submit>Register</Button>
+                        </div>
+                        <div class="col-12 text-start mt-3">
+                            <span class="me-3 switch-form" :onclick="() => switchForm()">Already registered ?</span>
+                        </div>
                     </div>
-                    <div class="col-12">
-                        <Button submit>Login</Button>
-                    </div>
-                </div>
-            </form>
-            <h1 class="title-l">Register</h1>
-            <form class="col-lg-12 col-6" @submit.prevent="() => registerForm()">
-                <div class="row">
-                    <div class="col-12">
-                        <Input v-model="email" id="emailRegister"/>
-                    </div>
-                    <div class="col-12">
-                        <Input v-model="password" id="passwordRegister"/>
-                    </div>
-                    <div class="col-12">
-                        <Input v-model="confirmPassword" id="confirmPassword"/>
-                    </div>
-                    <div class="col-12">
-                        <Button submit>Register</Button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </main>
 </template>
 
 <style lang="scss">
-
+#login-page{
+    .form-login{
+        padding: 40px 40px 20px 40px;
+        .switch-form{
+            transition: all ease-in-out 0.15s;
+            text-decoration: underline;
+            cursor: pointer;
+            &:hover{
+                transition: all ease-in-out 0.15s;
+                color: $primary;
+            }
+        }
+    }
+    input{
+        width: 100%;
+    }
+}
 </style>
