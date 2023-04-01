@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({middleware: 'login'});
+definePageMeta({middleware: 'seo'});
 const {login, register} = useAuth();
 const loginForm = async () => {
     await login({email: "test@test.com", password: "test1234"})
