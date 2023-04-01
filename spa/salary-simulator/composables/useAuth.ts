@@ -53,7 +53,11 @@ export default () => {
                     data.value = toRaw(data.value);
                 }
                 userLogged.value = data.value.user;
-                localStorage.setItem('tokenDSS', data.value.jwt)
+                localStorage.setItem('tokenDSS', data.value.jwt);
+                const route = useRoute();
+                if (route.name === "login") {
+                    navigateTo('/');
+                }
             }
         }
     }
