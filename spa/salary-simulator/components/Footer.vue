@@ -12,9 +12,9 @@
             
         </div>
         <div class="row align-items-end">
-            <div class="col-lg-6 d-none d-lg-flex align-items-center">
-                <span style="color: rgb(0 220 130)">Powered with Nuxt 
-                    <img class="ms-1" src="/favicon.ico" alt="nuxt-icon">
+            <div class="col-lg-6 d-none d-lg-block">
+                <span class="d-flex align-items-center" style="color: rgb(0 220 130)">
+                    <img class="me-1" src="/favicon.ico" alt="nuxt-icon">Powered with Nuxt
                 </span>
             </div>
             <div class="col-lg-6 col-12 text-end mt-4">
