@@ -34,6 +34,9 @@ html{
 .container, .container-fluid, .row, [class~=col-]{
     transition: all 0.15s ease-in-out;
 }
+main.container{
+    flex-grow: 1;
+}
 
 // Font classes
 .title-l{
@@ -109,8 +112,21 @@ input{
         color: rgba($light, 0.7);
     }
 }
+
+// General class
 .bg-blur{
     background: rgba(63, 102, 159, 0.1);
     backdrop-filter: blur(25px);
     border-radius: 10px;
+}
+.flex-grow{
+    flex-grow: 1;
+}
+
+// Page transition
+.fade-enter-active, .fade-leave-active {
+    transition: all 0.4s;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
 }

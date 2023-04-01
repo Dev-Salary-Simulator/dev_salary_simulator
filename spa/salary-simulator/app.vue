@@ -12,6 +12,7 @@ onMounted(async () => {
 <template>
     <Header></Header>
     <NuxtPage/>
+    <Footer></Footer>
 </template>
 
 <style>

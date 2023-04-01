@@ -4,7 +4,7 @@ defineProps<{
 }>()
 </script>
 <template>
-    <div :class="`img-rocket ${classSup}`">
+    <div :class="`img-rocket ${classSup ?? ''}`">
         <img :src="'/img/rocket.png'" alt="rocket">
         <img :src="'/img/cloud.png'" alt="cloud">
     </div>
