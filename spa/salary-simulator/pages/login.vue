@@ -39,7 +39,7 @@ function switchForm(){
 </script>
 
 <template>
-    <main class="container d-flex flex-column justify-content-center" style="flex-grow: 1;" id="login-page">
+    <main class="container d-flex flex-column justify-content-center" id="login-page">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-6 bg-blur text-center">
                 <form  :class="`form-login ${changeForm === 'login' ? 'fade-in' : changeForm === 'loginToRegister' && ('fade-out')}`" 

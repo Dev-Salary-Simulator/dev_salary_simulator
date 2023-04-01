@@ -109,8 +109,14 @@ input{
         color: rgba($light, 0.7);
     }
 }
+main.container{
+    flex-grow: 1;
+}
 .bg-blur{
     background: rgba(63, 102, 159, 0.1);
     backdrop-filter: blur(25px);
     border-radius: 10px;
+}
+.flex-grow{
+    flex-grow: 1;
 }
