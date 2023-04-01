@@ -1,5 +1,5 @@
 <script setup lang="ts">
-definePageMeta({middleware: 'seo'});
+definePageMeta({middleware: ['seo', 'auth']});
 const {login, register} = useAuth();
 
 const email = useState<string>('emailLogin', () => '');
@@ -12,11 +12,11 @@ const passVerif = computed<boolean>(() => !!password.value.match(/^(?=.*[a-z])(?
 const passConfirmVerif = computed<boolean>(() => !!confirmPassword.value && confirmPassword.value === password.value);
 
 const loginForm = async () => {
-    await login({email: "test@test.com", password: "test1234"});
+    await login({email: email.value, password: password.value});
 }
 
 const registerForm = async () => {
-    await register({email: "test@test.com", password: "test1234"});
+    await register({email: email.value, password: password.value});
 }
 
 function switchForm(){
