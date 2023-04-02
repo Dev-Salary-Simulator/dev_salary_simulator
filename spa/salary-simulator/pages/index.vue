@@ -73,11 +73,11 @@ function sendForm(){
             <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value"/>
         </div>
         <div :class="`row simulation-form-result bg-blur ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
-            <div class="col-12 text-center">
+            <div class="col-12 text-center mt-5 mt-lg-0">
                 <h2>Your average salary</h2>
             </div>
             <div class="col-12 d-flex align-items-center justify-content-center mt-3">
-                <div class="other-salary text-center">
+                <div class="other-salary text-center d-none d-md-block">
                     <span>{{ simulationResult.lowestSalary }}</span>
                     <span class="text-s">LOWEST</span>
                 </div>
@@ -85,7 +85,7 @@ function sendForm(){
                     <div>{{ simulationResult.averageSalary }}</div>
                     <span class="title-s">{{ (simulationResult.averageSalary / 12).toFixed(0) + " by month"}}</span>
                 </div>
-                <div class="other-salary text-center">
+                <div class="other-salary text-center d-none d-md-block">
                     <span>{{ simulationResult.highestSalary }}</span>
                     <span class="text-s">HIGHEST</span>
                 </div>

@@ -51,8 +51,8 @@ const handleReset = () => {
         <input :id="id" type='text' :placeholder="placeholder || 'Default placeholder'" v-model="filter" :disabled="disabled" 
             @focusin="() => displayList = true" @focusout="handleFocus">
         <ul v-if="displayList" tabindex="-1">
-            <li v-if="!filteredElements.length" class="no-data">No elements found</li>
-            <li v-else v-for="elm in filteredElements" @click="(ev) => handleSelect(ev, elm)" @keyup="(ev) => handleSelect(ev, elm)" tabindex="0" class="input-select-element" @focusout="handleFocus">{{elm}}</li>
+            <li v-if="!filteredElements.length" class="no-data text-s">No elements found</li>
+            <li v-else v-for="elm in filteredElements" @click="(ev) => handleSelect(ev, elm)" @keyup="(ev) => handleSelect(ev, elm)" tabindex="0" class="input-select-element text-s" @focusout="handleFocus">{{elm}}</li>
         </ul>
         <button v-if="disabled" class="btn input-select-reset" @click="handleReset">Remove</button>
     </div>
@@ -77,8 +77,6 @@ const handleReset = () => {
         max-height: 200px;
         overflow-y: auto;
         li{
-            font-size: 15px;
-            font-weight: 500;
             outline: none;
             &:not(:last-child){
                 border-bottom: 1px solid rgba($light, 0.2);
