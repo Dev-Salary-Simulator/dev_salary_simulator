@@ -55,7 +55,7 @@ onMounted(() => {
     <div class="input-range">
         <input :id="id" type="range" :value="modelValue" @input="handleInput" :min="min" :max="max" :step="0.01">
         <div class="bloc-info text-center" :style="{left: (positionTooltip - blocInfoWidth / 2) + 'px'}">
-            <span class="info-number">{{ (Math.round(modelValue) === 16 ? "15+" : Math.round(modelValue)) + " years" }}</span>
+            <span class="info-number text-xs mb-1">{{ (Math.round(modelValue) === 16 ? "15+" : Math.round(modelValue)) + " years" }}</span>
             <span class="info-text title-s">{{ enumRange[Math.round(modelValue)] }}</span>
         </div>
         <div class="thumb-bright" 
@@ -99,9 +99,7 @@ onMounted(() => {
         .info-number{
             display: block;
             min-width: 70px;
-            font-size: 13px;
             color: $grey;
-            font-weight: 500;
         }
         .info-text{
             display: block;

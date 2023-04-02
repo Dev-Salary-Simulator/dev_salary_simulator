@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
     <div :class="`btn-container${disabled ? ' disabled' : ''} ${classSup ?? ''}`">
-        <button class="btn btn-secondary" :disabled="!!disabled" @click="click" :type="submit ? 'submit' : 'button'" :key="`${!!disabled}`">
+        <button class="btn btn-secondary text-s" :disabled="!!disabled" @click="click" :type="submit ? 'submit' : 'button'" :key="`${!!disabled}`">
             <slot></slot>
         </button>
     </div>
@@ -21,7 +21,6 @@ defineProps<{
     padding: 12px 30px;
     border-radius: 10px;
     box-shadow: $box-shadow;
-    font-size: 15px;
     outline: none;
     &:focus{
         transition: filter ease-in-out 0.5s;
