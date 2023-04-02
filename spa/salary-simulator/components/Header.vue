@@ -11,7 +11,8 @@ const {userLogged} = useAuth();
                     <NuxtLink to="/simulations" class="header-login-btn text-l" v-else>Simulations</NuxtLink>
                 </div>
                 <div class="header-index-btn-container">
-                    <NuxtLink to="/" class="header-index-btn text-l">Dev salary simulator</NuxtLink>
+                    <NuxtLink to="/" class="header-index-btn text-l d-md-block d-none">Dev salary simulator</NuxtLink>
+                    <NuxtLink to="/" class="header-index-btn text-l d-block d-md-none">DSS</NuxtLink>
                 </div>
             </div>
         </nav>

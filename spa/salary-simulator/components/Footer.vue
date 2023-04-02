@@ -12,13 +12,13 @@
             
         </div>
         <div class="row align-items-end">
-            <div class="col-lg-6 d-none d-lg-block">
+            <div class="col-md-6 d-none d-md-block">
                 <span class="d-flex align-items-center" style="color: rgb(0 220 130)">
                     <img class="me-1" src="/favicon.ico" alt="nuxt-icon">Powered with Nuxt
                 </span>
             </div>
-            <div class="col-lg-6 col-12 text-end mt-4">
-                <ul class="d-flex justify-content-end">
+            <div class="col-md-6 col-12 text-end mt-4">
+                <ul class="d-flex justify-content-md-end justify-content-center">
                     <li>
                         <NuxtLink class="text-s" target="_blank" to="https://github.com/LoickHommet">LoickHommet</NuxtLink>
                     </li>
