@@ -1,49 +1,137 @@
 @import "./colors.scss";
+@import "./animation.scss";
 @import '~/node_modules/bootstrap/scss/bootstrap.scss';
 @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap');
 
-body, html, #__nuxt{
+// General CSS
+html{
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     margin: 0;
-    background: $background;
-    color: $light;
+    display: flex;
+    & body{
+        width: 100%;
+        margin: 0;
+        display: flex;
+        background: $background no-repeat center center;
+        & #__nuxt{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            background-image: url('/img/background.png');
+            background-position: 50% 50%;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            color: $light;
+        }
+    }    
 }
 *{
     box-sizing: border-box;
     font-family: "Barlow";
-    font-weight: 500;
+}
+.container, .container-fluid, .row, [class~=col-]{
+    transition: all 0.15s ease-in-out;
+}
+main.container{
+    flex-grow: 1;
 }
 
 // Font classes
 .title-l{
-    font-size: 42px;
-    line-height: 50px;
+    font-size: 30px;
+    line-height: 36px;
     font-weight: 700;
 }
 .title-m{
-    font-size: 35px;
-    line-height: 42px;  
+    font-size: 26px;
+    line-height: 31px;  
     font-weight: 700;  
 }
 .title-s{
-    font-size: 30px;
-    line-height: 36px; 
+    font-size: 20px;
+    line-height: 24px; 
     font-weight: 700;   
 }
 .text-l{
-    font-size: 35px;
-    line-height: 42px; 
+    font-size: 26px;
+    line-height: 31px; 
     font-weight: 500;
     text-transform: uppercase;  
 }
 .text-m{
-    font-size: 25px;
-    line-height: 30px; 
-    font-weight: 500;   
-}
-.text-s{
     font-size: 20px;
     line-height: 24px; 
     font-weight: 500;   
+}
+.text-s{
+    font-size: 15px;
+    line-height: 20px; 
+    font-weight: 500;   
+}
+.text-xs{
+    font-size: 13px;
+    line-height: 16px; 
+    font-weight: 500;   
+}
+
+// Color Classes
+.text-grey{
+    color: $grey;
+}
+
+// Animation class
+.fade-in{
+    animation: fadeIn 2s ease-in-out;
+}
+.fade-out{
+    opacity: 0;
+    animation: fadeOut 2s ease-in-out;
+}
+.fade-in-scale{
+    animation: fadeInAndScale 2s ease-in-out;
+}
+.fade-out-scale{
+    opacity: 0;
+    animation: fadeOutAndScale 2s ease-in-out;
+}
+
+// General design
+input{
+    height: 52px;
+    font-size: 20px;
+    color: $light;
+    background-color: rgba($light, 0.3);
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    &:placeholder-shown{
+        font-size: 20px;
+        color: $grey;
+    }
+    &:focus{
+        outline: none
+    }
+    &:disabled{
+        color: rgba($light, 0.7);
+    }
+}
+
+// General class
+.bg-blur{
+    background: rgba(63, 102, 159, 0.1);
+    backdrop-filter: blur(25px);
+    border-radius: 10px;
+}
+.flex-grow{
+    flex-grow: 1;
+}
+
+// Page transition
+.fade-enter-active, .fade-leave-active {
+    transition: all 0.4s;
+}
+.fade-enter-from, .fade-leave-to {
+    opacity: 0;
 }

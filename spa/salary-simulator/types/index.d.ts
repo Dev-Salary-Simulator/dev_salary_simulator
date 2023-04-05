@@ -15,7 +15,7 @@ declare global {
         namesStack: string[];
         nameRegion: string;
         salary: number;
-        experience: "0-3" | "4-8" | "8-15" | "15+";
+        experience: number;
         active: boolean;
     }
     
@@ -27,7 +27,8 @@ declare global {
             nameJob: string;
             nameRegion: string;
             namesStack: string[];
-            experience: "0-3" | "4-8" | "8-15" | "15+";
+            experience: number;
+            status: string;
         }
     }
 
