@@ -46,7 +46,7 @@ class JobController extends AbstractController
     {
         $decoded = json_decode($request->getContent());
         $title = $decoded->nameJob;
-        $stacks = $decoded->nameStack;
+        $stack = $decoded->nameStack;
         $salary = $decoded->salary;
         $experience = $decoded->experience;
 
@@ -58,9 +58,7 @@ class JobController extends AbstractController
         }
         $job->setTitle($title);
 
-        foreach($stacks as $stack){
-            $job->addStack($stack);
-        }
+        $job->setStack($stack);
         
         $job->setSalary($salary);
         $job->setExperience($experience);
