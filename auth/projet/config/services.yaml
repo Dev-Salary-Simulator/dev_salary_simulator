@@ -6,6 +6,7 @@
 parameters:
     env(MONGODB_URL): ''
     env(MONGODB_DB): ''
+    mail_sender: '%env(MAIL_SENDER)%'
 
 services:
     # default configuration for services in *this* file
