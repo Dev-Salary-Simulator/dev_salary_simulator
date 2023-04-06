@@ -137,17 +137,25 @@ router.post("/search", async (req, res) => {
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
     
-    // const simulationObj = { ...findObj, stack : stack };
-
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
 
-        // if (user !== null) {
-        //     // On enregistre la recherche dans les simulations du User
-        //     const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : { ...simulationObj, title, region } } } ).exec();
-        // }
+        const lowestSalary = Math.min(...jobs.map(job => job.salary));
+        const highestSalary = Math.max(...jobs.map(job => job.salary));
+        const averageSalary = Math.round(jobs.reduce((acc, job) => acc + job.salary, 0) / jobs.length);
 
-        return res.json(jobs).status(200);
+        return res.json({
+            lowestSalary,
+            highestSalary,
+            averageSalary,
+            parameters: {
+                title,
+                experience,
+                stack,
+                region
+            },
+        }).status(200);
+
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
@@ -181,9 +189,9 @@ router.get("/simulations", async (req, res) => {
 router.post("/fix", async (req, res) => {
     const { column, oldValue, correctValue } = req.body;
 
-    if ( !column )          res.send("Vous devez spécifier une colonne à corriger").status(400);
-    if ( !oldValue )        res.send("Vous devez spécifier une valeur à remplacer").status(400);
-    if ( !correctValue )    res.send("Vous devez spécifier une valeur de remplacement").status(400);
+    if ( !column )                  return res.send("Vous devez spécifier une colonne à corriger").status(400);
+    if ( oldValue === null )        return res.send("Vous devez spécifier une valeur à remplacer").status(400);
+    if ( correctValue === null )    return res.send("Vous devez spécifier une valeur de remplacement").status(400);
 
     // Check if column exists in Jobs collection
     const columns = await Jobs.schema.obj;
@@ -191,7 +199,7 @@ router.post("/fix", async (req, res) => {
     
     try {    
         // Find all jobs in MongoDB Jobs collection where { column : oldValue }
-        const jobs = await Jobs.find({ column : oldValue }, { _id: 0});
+        const jobs = await Jobs.find({ column : oldValue });
         
         // Update all jobs : column <= correctValue
         jobs.map(async job => {

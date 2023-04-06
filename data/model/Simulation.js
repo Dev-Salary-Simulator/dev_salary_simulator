@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const Simulation = new mongoose.Schema({
     averagesalary: Number,
     lowestSalary: Number,
