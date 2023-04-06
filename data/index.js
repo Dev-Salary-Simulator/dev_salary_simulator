@@ -137,15 +137,15 @@ router.post("/search", async (req, res) => {
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
     
-    const simulationObj = { ...findObj, stack : stack };
+    // const simulationObj = { ...findObj, stack : stack };
 
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
 
-        if (user !== null) {
-            // On enregistre la recherche dans les simulations du User
-            const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : { ...simulationObj, title, region } } } ).exec();
-        }
+        // if (user !== null) {
+        //     // On enregistre la recherche dans les simulations du User
+        //     const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : { ...simulationObj, title, region } } } ).exec();
+        // }
 
         return res.json(jobs).status(200);
     } catch (error) {
@@ -175,6 +175,34 @@ router.get("/simulations", async (req, res) => {
     const simulations = await User.find({ _id : user._id }, { _id: 0, simulations: 1 }).exec();
 
     return res.json(simulations).status(200);
+});
+
+// créer une route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
+router.post("/fix", async (req, res) => {
+    const { column, oldValue, correctValue } = req.body;
+
+    if ( !column )          res.send("Vous devez spécifier une colonne à corriger").status(400);
+    if ( !oldValue )        res.send("Vous devez spécifier une valeur à remplacer").status(400);
+    if ( !correctValue )    res.send("Vous devez spécifier une valeur de remplacement").status(400);
+
+    // Check if column exists in Jobs collection
+    const columns = await Jobs.schema.obj;
+    if (!columns[column]) return res.send("La colonne n'existe pas").status(400);
+    
+    try {    
+        // Find all jobs in MongoDB Jobs collection where { column : oldValue }
+        const jobs = await Jobs.find({ column : oldValue }, { _id: 0});
+        
+        // Update all jobs : column <= correctValue
+        jobs.map(async job => {
+            await Jobs.updateOne({ _id : job._id }, { $set: { column : correctValue } } ).exec();
+        });
+
+        return res.send("Les données ont été corrigées").status(200);
+
+    } catch (error) {
+        console.error("Erreur lors de la récupération.\n" + error);
+    }
 });
 
 app.use('/api/jobs', router);
