@@ -7,7 +7,7 @@ export default () => {
     const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
     
     async function makeSimulation(payload: {nameJob: string, namesStack: string[], experience: number, status: string}){
-        const {data, error} = await useFetch(`${urlBase}/simulation`, {
+        const {data, error} = await useFetch(`${urlBase}/jobs/search`, {
             body: payload,
             method: "POST"
         }).then(res => {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({middleware: 'seo'});
-const {makeSimulation} = useSimulation();
+const {makeSimulation} = useSearch();
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
 const namesStacks = useState<string[]>('namesStacks');
