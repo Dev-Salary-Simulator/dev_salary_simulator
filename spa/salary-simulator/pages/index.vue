@@ -1,8 +1,6 @@
 <script setup lang="ts">
 definePageMeta({middleware: 'seo'});
 const {makeSimulation, saveSimulation} = useSearch();
-const { $bootstrap } = useNuxtApp();
-let modal: any;
 
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
@@ -49,18 +47,9 @@ const handleSaveSimulation = () => {
             status: statusForm.value,
         }
     }).then(() => {
-        toggleModal();
         saveName.value = '';
     });
 }
-
-const toggleModal = () => {
-  modal.toggle();
-};
-
-onMounted(() => {
-  modal = new $bootstrap.Modal(document.getElementById("save-simulation"));
-});
 
 </script>
 
@@ -121,7 +110,7 @@ onMounted(() => {
                 </div>
             </div>
             <Button v-if="!userLogged" :classSup="'save-simulation'" :click="() => {loginFormTo = 'register';navigateTo('login');}">Register</Button>
-            <Button v-if="userLogged" :classSup="'save-simulation'" @click="() => toggleModal()">Save simulation</Button>
+            <Button v-if="userLogged" :classSup="'save-simulation'" data-bs-toggle="modal" data-bs-target="#save-simulation">Save simulation</Button>
         </div>
         <div class="modal fade bg-blur" id="save-simulation">
             <div class="modal-dialog modal-dialog-centered" style="max-width: 600px">
