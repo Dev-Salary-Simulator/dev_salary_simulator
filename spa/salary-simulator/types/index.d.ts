@@ -4,8 +4,8 @@ declare global {
         firstname: string;
         lastname: string;
         birthday: Date;
-        currentJob: Job;
-        oldJobs: Job[];
+        currentJob: TJob;
+        oldJobs: TJob[];
     }
 
     type TJob = {
