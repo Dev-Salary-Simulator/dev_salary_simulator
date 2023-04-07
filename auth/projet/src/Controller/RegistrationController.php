@@ -95,7 +95,7 @@ class RegistrationController extends AbstractController
 
         // Etape 5 (optionnel si random password) : Envoi des identifiants de l'utilisateurs
         $email = (new TemplatedEmail())
-            ->from('register@dss.com')
+            ->from(new Address($this->getParameter('mail_sender')))
             ->to(new Address($email))
             ->subject('Votre compte Dev Salary Simulator')
 
@@ -104,8 +104,7 @@ class RegistrationController extends AbstractController
 
             // pass variables (name => value) to the template
             ->context([
-                'user' => $user,
-                'plainPassword' => $plaintextPassword,
+                'user' => $user
             ]);
         $mailer->send($email);
         // Etape 6 : Message d'enregistrement effectué
