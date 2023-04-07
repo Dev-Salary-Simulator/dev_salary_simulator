@@ -25,7 +25,6 @@ declare global {
         highestSalary: number;
         parameters: {
             nameJob: string;
-            nameRegion: string;
             namesStack: string[];
             experience: number;
             status: string;
@@ -35,9 +34,17 @@ declare global {
     type TSavedSimulation = {
         id: string;
         idUser: string;
-        simulationName: string;
-        simulationDate: Date;
-        simulation: Simulation;
+        saveName: string;
+        saveDate: Date;
+        simulation: TSimulation;
+    }
+
+    // DTO
+    type DTOSimulation = {
+        nameJob: string;
+        namesStack: string[];
+        experience: number;
+        status: string;
     }
 }
 
