@@ -28,6 +28,34 @@ export default defineNuxtRouteMiddleware((to, from) => {
                 }
             });
             break;
+        case 'profile':
+            useHead({
+                title: "Profile",
+                meta: [
+                    { 
+                        name: 'description', 
+                        content: 'Set up your personal datas and your job here. You can visualize your old jobs too!' 
+                    }
+                ],
+                htmlAttrs: {
+                    lang: 'en'
+                }
+            });
+            break;
+        case 'simulations':
+            useHead({
+                title: "Simulations saved",
+                meta: [
+                    { 
+                        name: 'description', 
+                        content: 'Retrieve your saved simulations here with a sum of prices, stacks, experience, etc...' 
+                    }
+                ],
+                htmlAttrs: {
+                    lang: 'en'
+                }
+            });
+            break;
         default:
             break;
     }

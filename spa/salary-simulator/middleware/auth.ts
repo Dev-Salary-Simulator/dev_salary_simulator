@@ -6,6 +6,16 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
                 return navigateTo('/');
             }
             break;
+        case 'profile':
+            if (!user.value) {
+                return navigateTo('/');
+            }
+            break;
+        case 'simulations':
+            if (!user.value) {
+                return navigateTo('/');
+            }
+            break;
         default:
             break;
     }
