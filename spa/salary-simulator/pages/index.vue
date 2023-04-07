@@ -1,6 +1,9 @@
 <script setup lang="ts">
 definePageMeta({middleware: 'seo'});
-const {makeSimulation} = useSearch();
+const {makeSimulation, saveSimulation} = useSearch();
+const { $bootstrap } = useNuxtApp();
+let modal: any;
+
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
 const namesStacks = useState<string[]>('namesStacks');
@@ -12,9 +15,11 @@ const statusForm = useState<string>('statusForm', () => '');
 const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
 const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
 const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
-const loginFormTo = useState('changeFormLogin');
 
-function sendForm(){
+const loginFormTo = useState('changeFormLogin');
+const saveName = ref<string>('');
+
+const sendForm = () => {
     animationForm.value = "sending";
     window.scrollTo(0, 0);
     setTimeout(() => {
@@ -33,6 +38,30 @@ function sendForm(){
         }, 3000);
     }, 800);
 }
+
+const handleSaveSimulation = () => {
+    saveSimulation({
+        saveName: saveName.value,
+        simulation: {
+            nameJob: nameJobForm.value, 
+            experience: Math.round(experienceForm.value),
+            namesStack: stacksForm.value,
+            status: statusForm.value,
+        }
+    }).then(() => {
+        toggleModal();
+        saveName.value = '';
+    });
+}
+
+const toggleModal = () => {
+  modal.toggle();
+};
+
+onMounted(() => {
+  modal = new $bootstrap.Modal(document.getElementById("save-simulation"));
+});
+
 </script>
 
 <template>
@@ -91,9 +120,30 @@ function sendForm(){
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
-            <Button v-if="!userLogged" :classSup="'save-simulation'" :onclick="() => {loginFormTo = 'register';navigateTo('login');}">Register</Button>
-            <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
+            <Button v-if="!userLogged" :classSup="'save-simulation'" :click="() => {loginFormTo = 'register';navigateTo('login');}">Register</Button>
+            <Button v-if="userLogged" :classSup="'save-simulation'" @click="() => toggleModal()">Save simulation</Button>
         </div>
+        <div class="modal fade bg-blur" id="save-simulation">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px">
+                <div class="modal-content bg-blur">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Save your simulation now !</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                                <span class="d-block text-s mb-3">Save name of your simulation</span>
+                                <Input v-model="saveName" placeholder="Dev Java, UX senior..." id="saveName"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <Button v-if="userLogged" :classSup="'save-simulation'" @click="() => handleSaveSimulation()" :disabled="!saveName">Save simulation</Button>
+                    </div>
+                </div>
+            </div>
+        </div>                
     </main>
 </template>
 

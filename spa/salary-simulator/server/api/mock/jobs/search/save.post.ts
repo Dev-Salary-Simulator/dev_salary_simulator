@@ -1,6 +1,6 @@
 export default defineEventHandler<{simulations: TSavedSimulation[]}>(async (event) => {
     const body: {saveName: string, simulation: DTOSimulation} = await readBody(event);
-    const savedSimulations = useState<TSavedSimulation[]>('savedSimulations');
+    // const savedSimulations = useState<TSavedSimulation[]>('savedSimulations');
     const savedSimu: TSavedSimulation = {
         id: "1dz56adz3a",
         idUser: "d1eza3d",
@@ -14,5 +14,5 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>(async (even
         }
     };
 
-    return {simulations: [...savedSimulations.value, savedSimu]};
+    return {simulations: [savedSimu]};
 })
