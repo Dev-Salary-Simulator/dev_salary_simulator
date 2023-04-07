@@ -13,8 +13,8 @@ const menuOpen = ref<boolean>(false);
                 <div class="identity-card d-flex align-items-center fade-in" v-else>
                     <img src="/favicon.ico" alt="icon" class="me-3" :onClick="() => menuOpen = !menuOpen">
                     <div>
-                        <span class="d-block title-l">Welcome <span class="text-primary">{{ userLogged.firstname }}</span> !</span>
-                        <span class="d-block text-m text-grey">{{ userLogged.currentJob?.nameJob ?? 'NoJob' }}</span>
+                        <span class="d-block title-l">Welcome <span class="text-primary">{{ userLogged.firstname ?? "Anonymous" }}</span> !</span>
+                        <span class="d-block text-m text-grey">{{ userLogged.currentJob?.nameJob ?? 'No job yet' }}</span>
                     </div>
                 </div>
                 <div class="header-index-btn-container">
