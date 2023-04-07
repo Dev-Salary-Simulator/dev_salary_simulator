@@ -90,7 +90,7 @@ function sendForm(){
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
-            <Button v-if="!userLogged" :classSup="'save-simulation'">Register</Button>
+            <Button v-if="!userLogged" :classSup="'save-simulation'" :onclick="() => navigateTo('login')">Register</Button>
             <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
         </div>
     </main>
