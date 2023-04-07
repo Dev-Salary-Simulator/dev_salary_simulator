@@ -12,6 +12,7 @@ const statusForm = useState<string>('statusForm', () => '');
 const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
 const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
 const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
+const loginFormTo = useState('changeFormLogin');
 
 function sendForm(){
     animationForm.value = "sending";
@@ -90,7 +91,7 @@ function sendForm(){
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
-            <Button v-if="!userLogged" :classSup="'save-simulation'" :onclick="() => navigateTo('login')">Register</Button>
+            <Button v-if="!userLogged" :classSup="'save-simulation'" :onclick="() => {loginFormTo = 'register';navigateTo('login');}">Register</Button>
             <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
         </div>
     </main>
