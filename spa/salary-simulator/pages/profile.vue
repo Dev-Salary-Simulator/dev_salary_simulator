@@ -1,6 +1,8 @@
 <script setup lang="ts">
 definePageMeta({middleware: ['seo', 'auth']});
 const {userLogged} = useAuth();
+const {namesJobs} = useJobs();
+const {namesStacks} = useStacks();
 
 const password = ref<string>('');
 const firstname = ref<string>(`${userLogged.value?.firstname}` ?? '');
@@ -12,7 +14,17 @@ const isEditingProfile = computed(() => (
     || birthday.value !== userLogged.value?.birthday.toString().substring(0, 10)
     || !!password.value)
     && (!password.value || !!password.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/))
-))
+));
+
+const nameJob = ref<string>(`${userLogged.value?.currentJob.nameJob}` ?? '');
+const experience = ref<number>(userLogged.value?.currentJob.experience ?? 0);
+const status = ref<string>(`${userLogged.value?.currentJob.status}` ?? '');
+const stacks = ref<string[]>(userLogged.value?.currentJob.namesStack ?? []);
+const salary = ref<number>(userLogged.value?.currentJob.salary ?? 0);
+const formJobIsValid = computed(() => (
+    !!nameJob.value && !!status.value && !!stacks.value.length && !!salary.value
+));
+
 
 const updateProfile = () => {
     console.log("TODO : Update profile")
@@ -25,11 +37,18 @@ const cancelEditProfile = () => {
         birthday.value = `${userLogged.value.birthday.toString().substring(0, 10)}`;
     }
 }
+const updateJob = () => {
+    console.log('TODO : Update job');
+    console.log(userLogged.value?.currentJob)
+}
+const archiveJob = () => {
+    console.log('TODO : Put current job to old job')
+}
 </script>
 
 <template>
     <main class="container mb-5" id="profile-page">
-        <form class="profile-form row justify-content-center bg-blur" @submit.prevent="() => updateProfile()">
+        <form class="profile-form row justify-content-center bg-blur mb-5" @submit.prevent="() => updateProfile()">
             <div class="row justify-content-center mt-4">
                 <div class="col-12 d-flex justify-content-end">
                     <button :class="`btn btn-danger ${isEditingProfile ? 'd-flex align-items-center' : 'd-none'}`" type="button" :onClick="cancelEditProfile">
@@ -64,6 +83,51 @@ const cancelEditProfile = () => {
                 </div>
             </div>
         </form>
+        
+        <form class="profile-form row justify-content-center bg-blur mb-5" @submit.prevent="() => updateJob()">
+            <div class="row justify-content-center my-4">
+                <div class="col-lg-6 col-12">
+                    <span class="title-l">This is your actual job</span>
+                </div>
+                <div class="col-lg-6 col-12 d-flex justify-content-end">
+                    <button class="btn btn-primary d-flex align-items-center ms-3" type="submit" :disabled="!formJobIsValid">
+                        <img src="/img/edit.png" alt="edit" class="me-1"/> {{userLogged?.currentJob.id ? 'Edit' : 'Create'}}
+                    </button>
+                </div>
+            </div>
+            <div class="row justify-content-between mb-3" style="padding: 0px 90px;">
+                <div class="col-lg-5 col-12 mb-4">
+                    <Label forInput='nameJobForm' :classSup="'d-block'">Name job</Label>
+                    <Select :elements="namesJobs" :key="'namesJobs' + namesJobs.length" v-model="nameJob" id="nameJobForm" placeholder="Developer, ux designer..." />
+                </div>
+                <div class="col-lg-5 col-12 mb-4">
+                    <Label forInput='experienceForm' :classSup="'d-block'">Years of experience</Label>
+                    <Input v-model="experience" :value="experience" type="number" :min="0" :max="15"  placeholder="3" id="experienceForm"/>
+                </div>
+                <div class="col-lg-5 col-12 mb-4">
+                    <Label forInput='statusForm' :classSup="'d-block'">Define your status</Label>
+                    <InputRadio :elements="[{text: 'self-employed'}, {text: 'full time employee'}]" v-model="status" id="statusForm"/>
+                    <Label forInput='salaryForm' :classSup="'d-block'">Salary</Label>
+                    <Input v-model="salary" :value="salary" type="number" placeholder="45000" :min="0" id="salaryForm"/>
+                </div>
+                <div class="col-lg-5 col-12 mb-4">
+                    <Label forInput='stacksForm' class-sup="d-block">Stacks <span class="text-s text-grey">1 - 8 max</span></Label>
+                    <InputStacks v-model="stacks" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="namesStacks" :key="'namesStacks' + namesStacks.length" onlyvisible/>
+                </div>
+            </div>
+            <div class="row" v-if="userLogged?.currentJob.id">
+                <div class="col-12 text-end mb-4">
+                    <button class="btn btn-danger" :onClick="() => archiveJob()">Archive job</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="row justify-content-center old-jobs" v-if="userLogged">
+            <div class="col-12 text-center">
+                <h2 class="title-l">Previous work</h2>
+            </div>
+            <RecapForm v-for="job in userLogged.oldJobs" :data="job" type="job"/>
+        </div>
     </main>
 </template>
 
@@ -75,6 +139,11 @@ const cancelEditProfile = () => {
         }
         button{
             padding: 8px 12px;
+        }
+    }
+    .old-jobs{
+        .row{
+            margin: 10px 0;
         }
     }
 }
