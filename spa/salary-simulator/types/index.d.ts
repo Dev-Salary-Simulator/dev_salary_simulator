@@ -5,7 +5,7 @@ declare global {
         firstname: string;
         lastname: string;
         birthday: Date;
-        currentJob: TJob;
+        currentJob: TJob | null;
         oldJobs: TJob[];
     }
 
