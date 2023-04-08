@@ -14,7 +14,8 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 nameRegion: "Paris France",
                 salary: 50000,
                 experience: 4,
-                active: true
+                active: true,
+                status: "self employed"
             },
             oldJobs: [{
                 id: "jt465hr",
@@ -24,7 +25,8 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 nameRegion: "Les Ulis",
                 salary: 35000,
                 experience: 2,
-                active: false
+                active: false,
+                status: "self employed"
             },{
                 id: "v94e1v",
                 idUser: "dz4ad1",
@@ -33,7 +35,8 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 nameRegion: "Evry France",
                 salary: 25000,
                 experience: 1,
-                active: false
+                active: false,
+                status: "self employed"
             }]
         },
         jwt: "tokenDSS"

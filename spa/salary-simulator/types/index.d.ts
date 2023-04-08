@@ -18,6 +18,7 @@ declare global {
         salary: number;
         experience: number;
         active: boolean;
+        status: string;
     }
     
     type TSimulation = {
