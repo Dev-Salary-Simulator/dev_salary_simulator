@@ -14,7 +14,7 @@ defineProps<{
 
 <style lang="scss">
 label{
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     &.blue-label{
         color: $primary;
         text-transform: none;

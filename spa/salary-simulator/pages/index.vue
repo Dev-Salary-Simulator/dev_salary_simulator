@@ -1,6 +1,7 @@
 <script setup lang="ts">
 definePageMeta({middleware: 'seo'});
-const {makeSimulation} = useSimulation();
+const {makeSimulation, saveSimulation} = useSearch();
+
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
 const namesStacks = useState<string[]>('namesStacks');
@@ -13,7 +14,10 @@ const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.va
 const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
 const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
 
-function sendForm(){
+const loginFormTo = useState('changeFormLogin');
+const saveName = ref<string>('');
+
+const sendForm = () => {
     animationForm.value = "sending";
     window.scrollTo(0, 0);
     setTimeout(() => {
@@ -32,6 +36,21 @@ function sendForm(){
         }, 3000);
     }, 800);
 }
+
+const handleSaveSimulation = () => {
+    saveSimulation({
+        saveName: saveName.value,
+        simulation: {
+            nameJob: nameJobForm.value, 
+            experience: Math.round(experienceForm.value),
+            namesStack: stacksForm.value,
+            status: statusForm.value,
+        }
+    }).then(() => {
+        saveName.value = '';
+    });
+}
+
 </script>
 
 <template>
@@ -70,7 +89,7 @@ function sendForm(){
             <p class="text-m mt-3 mb-0">In search of your dream job...</p>
         </div>
         <div :class="`row ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
-            <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value"/>
+            <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value" type="simulation"/>
         </div>
         <div :class="`row simulation-form-result bg-blur ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <div class="col-12 text-center mt-5 mt-lg-0">
@@ -90,9 +109,30 @@ function sendForm(){
                     <span class="text-s">HIGHEST</span>
                 </div>
             </div>
-            <Button v-if="!userLogged" :classSup="'save-simulation'">Register</Button>
-            <Button v-if="userLogged" :classSup="'save-simulation'">Save simulation</Button>
+            <Button v-if="!userLogged" :classSup="'save-simulation'" :click="() => {loginFormTo = 'register';navigateTo('login');}">Register</Button>
+            <Button v-if="userLogged" :classSup="'save-simulation'" data-bs-toggle="modal" data-bs-target="#save-simulation">Save simulation</Button>
         </div>
+        <div class="modal fade bg-blur" id="save-simulation">
+            <div class="modal-dialog modal-dialog-centered" style="max-width: 600px">
+                <div class="modal-content bg-blur">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Save your simulation now !</h5>
+                        <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4">
+                        <div class="row">
+                            <div class="col-12 d-flex flex-column">
+                                <span class="d-block text-s mb-3">Save name of your simulation</span>
+                                <Input v-model="saveName" placeholder="Dev Java, UX senior..." id="saveName"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <Button v-if="userLogged" :classSup="'save-simulation'" @click="() => handleSaveSimulation()" :disabled="!saveName">Save simulation</Button>
+                    </div>
+                </div>
+            </div>
+        </div>                
     </main>
 </template>
 

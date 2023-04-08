@@ -62,5 +62,11 @@ export default () => {
         }
     }
 
-    return {userLogged, login, register, autoLogin};
+    function disconnect(){
+        userLogged.value = null;
+        localStorage.removeItem('tokenDSS');
+        navigateTo('/');
+    }
+
+    return {userLogged, login, register, autoLogin, disconnect};
 }

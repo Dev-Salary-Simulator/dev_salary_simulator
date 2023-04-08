@@ -1,11 +1,12 @@
 declare global {
     type TUser = {
         id: string;
+        email: string;
         firstname: string;
         lastname: string;
         birthday: Date;
-        currentJob: Job;
-        oldJobs: Job[];
+        currentJob: TJob | null;
+        oldJobs: TJob[];
     }
 
     type TJob = {
@@ -17,6 +18,7 @@ declare global {
         salary: number;
         experience: number;
         active: boolean;
+        status: string;
     }
     
     type TSimulation = {
@@ -25,7 +27,6 @@ declare global {
         highestSalary: number;
         parameters: {
             nameJob: string;
-            nameRegion: string;
             namesStack: string[];
             experience: number;
             status: string;
@@ -35,9 +36,17 @@ declare global {
     type TSavedSimulation = {
         id: string;
         idUser: string;
-        simulationName: string;
-        simulationDate: Date;
-        simulation: Simulation;
+        saveName: string;
+        saveDate: Date;
+        simulation: TSimulation;
+    }
+
+    // DTO
+    type DTOSimulation = {
+        nameJob: string;
+        namesStack: string[];
+        experience: number;
+        status: string;
     }
 }
 
