@@ -113,6 +113,7 @@ const menuOpen = ref<boolean>(false);
         box-shadow: 1px 1px 10px 0px $dark;
         opacity: 0.95;
         border-radius: 6px;
+        z-index: 1;
         button{
             padding: 4px;
         }
