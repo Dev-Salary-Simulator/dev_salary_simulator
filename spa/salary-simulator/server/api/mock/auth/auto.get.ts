@@ -15,7 +15,7 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 salary: 50000,
                 experience: 4,
                 active: true,
-                status: "self employed"
+                status: "full time employee"
             },
             oldJobs: [{
                 id: "jt465hr",
@@ -26,7 +26,7 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 salary: 35000,
                 experience: 2,
                 active: false,
-                status: "self employed"
+                status: "self-employed"
             },{
                 id: "v94e1v",
                 idUser: "dz4ad1",
@@ -36,7 +36,7 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 salary: 25000,
                 experience: 1,
                 active: false,
-                status: "self employed"
+                status: "self-employed"
             }]
         },
         jwt: "tokenDSS"
