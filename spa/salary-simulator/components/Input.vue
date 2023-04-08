@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const {modelValue} = withDefaults(defineProps<{
-    modelValue: string | number,
+    modelValue: string | number | Date,
     type?: string,
     id?: string,
     placeholder?: string,
@@ -25,7 +25,7 @@ const handleInput = (ev: Event) => {
     :placeholder="placeholder || 'Default placeholder'" 
     :value="modelValue" @input="handleInput" 
     :min="min" :max="max"
-    :class="`${!modelValue ? '' : validation === true ? 'validate' : validation === false && ('no-validate')}`">
+    :class="`${!modelValue ? '' : validation === true ? 'validate' : validation === false ? 'no-validate' : ''}`">
 </template>
 
 <style lang="scss">

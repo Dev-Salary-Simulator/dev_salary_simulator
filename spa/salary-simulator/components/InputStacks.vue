@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { mode } from 'process';
-
 const {modelValue, elements} = defineProps<{
     modelValue: string[],
     elements: string[]
