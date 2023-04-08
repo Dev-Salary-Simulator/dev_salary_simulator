@@ -1,6 +1,7 @@
 declare global {
     type TUser = {
         id: string;
+        email: string;
         firstname: string;
         lastname: string;
         birthday: Date;

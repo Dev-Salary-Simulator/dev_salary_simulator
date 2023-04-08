@@ -5,6 +5,7 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
             firstname: 'Rudolph',
             lastname: 'Guinguant',
             birthday: new Date(1680194520330),
+            email: "r.guinguant@example.com",
             currentJob: {
                 id: "4q694da",
                 idUser: "dz4ad1",
