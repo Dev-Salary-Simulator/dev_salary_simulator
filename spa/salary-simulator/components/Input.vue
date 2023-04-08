@@ -7,6 +7,7 @@ const {modelValue} = withDefaults(defineProps<{
     min?: number,
     max?: number,
     validation?: boolean
+    valueV?: string | number | Date,
 }>(), {
     validation: undefined
 });
@@ -25,7 +26,7 @@ const handleInput = (ev: Event) => {
     :placeholder="placeholder || 'Default placeholder'" 
     :value="modelValue" @input="handleInput" 
     :min="min" :max="max"
-    :class="`${!modelValue ? '' : validation === true ? 'validate' : validation === false ? 'no-validate' : ''}`">
+    :class="`${!valueV ? '' : validation === true ? 'validate' : validation === false ? 'no-validate' : ''}`">
 </template>
 
 <style lang="scss">
