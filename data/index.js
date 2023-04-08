@@ -182,25 +182,7 @@ router.post("/search", async (req, res) => {
     }
 });
 
-router.post("/saveUser", (req, res) => {
-    const { token: tokenReceived } = req.body;
-
-    if (!tokenReceived) return res.json({ error: "Vous n'avez pas envoyé de token" }).status(400);
-
-    try {
-        const decoded = jwt.verify(tokenReceived, JWT_KEY);
-        user = decoded;
-        token = tokenReceived;
-    } catch (err) {
-        return res.json({erreur: "Token Invalide"}).status(403);
-    }
-
-    return res.send("Token enregistré").status(200);
-});
-
 router.get("/simulations", [checkToken], async (req, res) => {
-    // if (!user) return res.json({ error: "Vous n'êtes pas connecté" }).status(401);
-
     const simulations = await User.find({ _id : req.userId }, { _id: 0, simulations: 1 }).exec();
 
     return res.json(simulations).status(200);
