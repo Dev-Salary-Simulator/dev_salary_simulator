@@ -12,7 +12,7 @@ const emit = defineEmits<{
 const filter = ref('');
 const filteredElements = computed<string[]>(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
 const elementsSelected = ref<string[]>(modelValue);
-const onlyVisibleElements = computed<string[]>(() => filter.value ? filteredElements.value.concat(elementsSelected.value) : elementsSelected.value);
+const onlyVisibleElements = computed<string[]>(() => filter.value ? filteredElements.value.filter(e => !elementsSelected.value.includes(e)).concat(elementsSelected.value) : elementsSelected.value);
 
 const handleSelect = (ev: KeyboardEvent | MouseEvent, elementSelected: string) => {
     const target = ev.target as HTMLElement;
