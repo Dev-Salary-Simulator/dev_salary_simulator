@@ -40,7 +40,7 @@ mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
 .catch( () => console.log("Connection failed") )
 
-let token = null;
+// let token = null;
 let user = null;
 
 const isAuthenticated = (req, res, next) => {
@@ -48,6 +48,27 @@ const isAuthenticated = (req, res, next) => {
         return res.status(401).json({ error: "Vous devez être connecté pour lancer une recherche" });
 
     next();
+};
+
+const checkToken = (req, res, next) => {
+    // const header = req.headers['authorization'];
+    const token = req.headers['x-access-token'];
+
+    // Vérification de l'existence du token
+    if (!token) {
+        return res.status(401).send('Aucun token fourni');
+    }
+
+    // Décodage du token
+    jwt.verify(token, JWT_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de la vérification du token');
+        }
+
+        // Si tout est bon, sauvegarder la requête pour une utilisation dans d'autres routes
+        req.userId = decoded.id;
+        next();
+    });
 };
 
 // Routes
@@ -136,7 +157,7 @@ router.post("/search", async (req, res) => {
     if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
-    
+
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
 
