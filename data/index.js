@@ -65,8 +65,8 @@ const checkToken = (req, res, next) => {
             return res.status(500).send('Erreur lors de la vérification du token');
         }
 
-        // Si tout est bon, sauvegarder la requête pour une utilisation dans d'autres routes
-        req.userId = decoded.id;
+        // Si tout est bon, sauvegarder l'id du user pour une utilisation dans d'autres routes
+        req.userId = decoded._id;
         next();
     });
 };
@@ -198,10 +198,10 @@ router.post("/saveUser", (req, res) => {
     return res.send("Token enregistré").status(200);
 });
 
-router.get("/simulations", async (req, res) => {
-    if (!user) return res.json({ error: "Vous n'êtes pas connecté" }).status(401);
+router.get("/simulations", [checkToken], async (req, res) => {
+    // if (!user) return res.json({ error: "Vous n'êtes pas connecté" }).status(401);
 
-    const simulations = await User.find({ _id : user._id }, { _id: 0, simulations: 1 }).exec();
+    const simulations = await User.find({ _id : req.userId }, { _id: 0, simulations: 1 }).exec();
 
     return res.json(simulations).status(200);
 });
