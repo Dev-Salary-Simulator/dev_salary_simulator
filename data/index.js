@@ -52,7 +52,7 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const checkToken = (req, res, next) => {
-    // const header = req.headers['authorization'];
+    // const token = req.headers['Authorization'];
     const token = req.headers['x-access-token'];
 
     // Vérification de l'existence du token
@@ -196,7 +196,9 @@ router.post("/search/save", [checkToken], async (req, res) => {
 
     const saveSimulation = new Simulation(simulation);
 
-    const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveSimulation, saveName } } } ).exec();
+    const date = new Date();
+
+    const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveSimulation, date, saveName } } } ).exec();
 
     return res.json(userSearch.simulations).status(200);
 });

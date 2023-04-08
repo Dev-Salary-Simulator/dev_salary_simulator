@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const { jobSchema : Job } = require('./Jobs');
 
-const { Simulation } = require('./Simulation');
+const { simulationSchema : Simulation } = require('./Simulation');
 
 const userSchema = new mongoose.Schema({
     _id : String,
