@@ -19,7 +19,7 @@ const registerForm = async () => {
     await register({email: email.value, password: password.value});
 }
 
-function switchForm(){
+const switchForm = () => {
     if (changeForm.value === "login" || changeForm.value === "loginToRegister") {
         changeForm.value = "loginToRegister";
         password.value = "";
@@ -47,12 +47,11 @@ function switchForm(){
                     <h2 class="title-l mb-5">Login</h2>
                     <div class="row">
                         <div class="col-12 my-3">
-                            <Input v-model="email" placeholder="example@example.com" id="emailLogin"/>
-                            <span>{{ emailVerif }}</span>
+                            <Input v-model="email" :valueV="email" placeholder="example@example.com" id="emailLogin" :validation="emailVerif"/>
                         </div>
                         <div class="col-12 my-3">
-                            <Input v-model="password" type="password" placeholder="********" id="passwordLogin"/>
-                            <span>{{ passVerif }}</span>
+                            <Input v-model="password" :valueV="password" type="password" placeholder="********" id="passwordLogin" :validation="passVerif"/>
+                            <span class="d-block text-start text-grey text-s mt-1">* 8 caracters, 1 digit, 1 uppercase, 1 lowercase</span>
                         </div>
                         <div class="col-12 mt-3 mb-5">
                             <Button submit :disabled="!emailVerif || !passVerif">Login</Button>
@@ -67,22 +66,20 @@ function switchForm(){
                     <h2 class="title-l mb-5">Register</h2>
                     <div class="row">
                         <div class="col-12 my-3">
-                            <Input v-model="email" placeholder="example@example.com" id="emailRegister"/>
-                            <span>{{ emailVerif }}</span>
+                            <Input v-model="email" :valueV="email" placeholder="example@example.com" id="emailRegister" :validation="emailVerif"/>
                         </div>
                         <div class="col-12 my-3">
-                            <Input v-model="password" type="password" placeholder="********" id="passwordRegister"/>
-                            <span>{{ passVerif }}</span>
+                            <Input v-model="password" :valueV="password" type="password" placeholder="********" id="passwordRegister" :validation="passVerif"/>
+                            <span class="d-block text-start text-grey text-s mt-1">* 8 caracters, 1 digit, 1 uppercase, 1 lowercase</span>
                         </div>
                         <div class="col-12 my-3">
-                            <Input v-model="confirmPassword" type="password" placeholder="********" id="confirmPassword"/>
-                            <span>{{ passConfirmVerif }}</span>
+                            <Input v-model="confirmPassword" :valueV="confirmPassword" type="password" placeholder="********" id="confirmPassword" :validation="passConfirmVerif"/>
                         </div>
                         <div class="col-12 mt-3 mb-5">
                             <Button submit :disabled="!emailVerif || !passVerif || !passConfirmVerif">Register</Button>
                         </div>
                         <div class="col-12 text-start mt-3">
-                            <span class="me-3 switch-form" :onclick="() => switchForm()" :key="changeForm">Already registered ?</span>
+                            <span class="me-3 switch-form" :onClick="switchForm" :key="changeForm">Already registered ?</span>
                         </div>
                     </div>
                 </form>

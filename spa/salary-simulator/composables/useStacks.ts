@@ -8,7 +8,7 @@ export default () => {
 
     async function getNamesOfStacks(){
         await nextTick();
-        const {data, error} = await useLazyFetch(`${urlBase}/stacks/titles`)
+        const {data, error} = await useLazyFetch(`${urlBase}/jobs/stack`)
         .then(res => {
             return {...res, data: res.data as Ref<string[]> | null}
         });
