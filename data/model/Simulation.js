@@ -4,7 +4,7 @@ const Simulation = new mongoose.Schema({
     averagesalary: Number,
     lowestSalary: Number,
     highestSalary: Number,
-    paramters : {
+    parameters : {
         region : String,
         title : String,
         stack : [String],

@@ -11,6 +11,7 @@ const { MONGO, SECRET, JWT_KEY, IP } = process.env;
 
 const { Jobs } = require("./model/Jobs");
 const { User } = require("./model/User");
+const { Simulation } = require("./model/Simulation");
 
 const app = express();
 
@@ -186,6 +187,18 @@ router.get("/simulations", [checkToken], async (req, res) => {
     const simulations = await User.find({ _id : req.userId }, { _id: 0, simulations: 1 }).exec();
 
     return res.json(simulations).status(200);
+});
+
+router.post("/search/save", [checkToken], async (req, res) => {
+    const { simulation, saveName } = req.body;
+
+    if (!simulation) return res.send("Vous devez spécifier une simulation à sauvegarder").status(400);
+
+    const saveSimulation = new Simulation(simulation);
+
+    const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveSimulation, saveName } } } ).exec();
+
+    return res.json(userSearch.simulations).status(200);
 });
 
 // créer une route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
