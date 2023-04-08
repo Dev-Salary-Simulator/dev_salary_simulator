@@ -1,10 +1,11 @@
-export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
+export default defineEventHandler<{user: TUser}>(async (event) => {
+    const body: {firstname: string, lastname: string, birthday: Date, password?: string} = await readBody(event);
     return {
         user:{
             id: "dz4ad1",
-            firstname: 'Rudolph',
-            lastname: 'Guinguant',
-            birthday: new Date(1680194520330),
+            firstname: body.firstname,
+            lastname: body.lastname,
+            birthday: body.birthday,
             email: "r.guinguant@example.com",
             currentJob: {
                 id: "4q694da",
@@ -38,8 +39,6 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 active: false,
                 status: "self-employed"
             }]
-        },
-        jwt: "tokenDSS",
-        message: "Registered Successfully"
+        }
     }
 })

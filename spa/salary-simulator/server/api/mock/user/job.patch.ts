@@ -1,4 +1,4 @@
-export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
+export default defineEventHandler<{user: TUser}>((event) => {
     return {
         user:{
             id: "dz4ad1",
@@ -6,7 +6,8 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
             lastname: 'Guinguant',
             birthday: new Date(1680194520330),
             email: "r.guinguant@example.com",
-            currentJob: {
+            currentJob: null,
+            oldJobs: [{
                 id: "4q694da",
                 idUser: "dz4ad1",
                 nameJob: "Software engineer",
@@ -16,8 +17,7 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 experience: 4,
                 active: true,
                 status: "full time employee"
-            },
-            oldJobs: [{
+            },{
                 id: "jt465hr",
                 idUser: "dz4ad1",
                 nameJob: "Developer front-end",
@@ -38,8 +38,6 @@ export default defineEventHandler<{user: TUser, jwt: string}>((event) => {
                 active: false,
                 status: "self-employed"
             }]
-        },
-        jwt: "tokenDSS",
-        message: "Registered Successfully"
+        }
     }
 })

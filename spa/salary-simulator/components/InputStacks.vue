@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { mode } from 'process';
-
 const {modelValue, elements} = defineProps<{
     modelValue: string[],
     elements: string[]
     id?: string,
     placeholder?: string,
+    onlyvisible?: boolean
 }>();
 const emit = defineEmits<{
     (ev: 'update:modelValue', value: string[]): void
@@ -13,6 +12,7 @@ const emit = defineEmits<{
 const filter = ref('');
 const filteredElements = computed<string[]>(() => elements.filter(elm => elm.toLowerCase().includes(filter.value.toLowerCase())));
 const elementsSelected = ref<string[]>(modelValue);
+const onlyVisibleElements = computed<string[]>(() => filter.value ? filteredElements.value.filter(e => !elementsSelected.value.includes(e)).concat(elementsSelected.value) : elementsSelected.value);
 
 const handleSelect = (ev: KeyboardEvent | MouseEvent, elementSelected: string) => {
     const target = ev.target as HTMLElement;
@@ -35,9 +35,9 @@ const isDisabled = (elm: string) => {return (!elementsSelected.value.find(e => e
 
 <template>
     <div class="input-stacks">
-        <input :id="id" type="text" :placeholder="placeholder || 'Default placeholder'" v-model="filter">
+        <input :id="id" type="text" :placeholder="placeholder || 'Default placeholder'" v-model="filter" :disabled="onlyvisible && elementsSelected.length >= 8">
         <ul class="d-flex flex-wrap justify-content-center" tabindex="-1">
-            <li v-for="elm in elements" 
+            <li v-for="elm in !onlyvisible ? elements : onlyVisibleElements" 
                 @click="(ev) => handleSelect(ev, elm)" @keyup="(ev) => handleSelect(ev, elm)" 
                 :tabindex="isSelected(elm) || isDisabled(elm) ? -1 : 0" 
                 :class="`stacks-element d-flex text-m${isSelected(elm)  ? ' selected' : ''} 
