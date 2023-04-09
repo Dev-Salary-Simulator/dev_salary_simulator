@@ -224,30 +224,7 @@ router.delete("/simulations", [checkToken], async (req, res) => {
 // Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 // Faire la correction avec des paramètres semble compliqué, donc on doit se résoudre à la faire en dur
 router.post("/fix", async (req, res) => {
-    const { column, oldValue, correctValue } = req.body;
-
-    if ( !column )                  return res.send("Vous devez spécifier une colonne à corriger").status(400);
-    if ( oldValue === null )        return res.send("Vous devez spécifier une valeur à remplacer").status(400);
-    if ( correctValue === null )    return res.send("Vous devez spécifier une valeur de remplacement").status(400);
-
-    // Check if column exists in Jobs collection
-    const columns = Jobs.schema.obj;
-    if (!columns[column]) return res.send("La colonne n'existe pas").status(400);
-
-    console.log("Correction de la colonne " + column + " : " + oldValue + " -> " + correctValue);
-    
-    try {    
-        // Find all jobs in MongoDB Jobs collection where { column : oldValue }
-        // const jobs = await Jobs.find({ column : oldValue });
-
-        // console.log(jobs.length + " jobs trouvés");
-        
-        // Update all jobs : column gets correctValue
-        // jobs.map(async job => {
-        //     console.log("Job " + job._id + " : " + job[column] + " -> " + oldValue);
-        //     await Jobs.updateOne({ _id : job._id }, { $set: { column : correctValue } } ).exec();
-        //     console.log("Job " + job._id + " : " + job[column] + " -> " + correctValue);
-        // });
+    try {
         await Jobs.updateMany({ stack: "" }, { $set: { stack: [] } }).exec()
         .then(() => console.log("Les données ont été corrigées"))
         .catch(error => console.error("Erreur lors de la mise à jour.\n" + error))
