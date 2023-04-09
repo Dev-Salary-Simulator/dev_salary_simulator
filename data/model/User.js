@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
     simulations : [{
         name : String,
         date : Date,
-        Simulation
+        simulation : Simulation
     }]
 });
 

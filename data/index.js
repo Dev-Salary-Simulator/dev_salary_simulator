@@ -11,7 +11,6 @@ const { MONGO, SECRET, JWT_KEY, IP } = process.env;
 
 const { Jobs } = require("./model/Jobs");
 const { User } = require("./model/User");
-const { Simulation } = require("./model/Simulation");
 
 const app = express();
 
@@ -184,9 +183,9 @@ router.post("/search", async (req, res) => {
 });
 
 router.get("/simulations", [checkToken], async (req, res) => {
-    const simulations = await User.find({ _id : req.userId }, { _id: 0, simulations: 1 }).exec();
+    const userSearch = await User.findById(req.userId).exec();
 
-    return res.json(simulations).status(200);
+    return res.json(userSearch.simulations).status(200);
 });
 
 router.post("/search/save", [checkToken], async (req, res) => {
@@ -194,11 +193,12 @@ router.post("/search/save", [checkToken], async (req, res) => {
 
     if (!simulation) return res.send("Vous devez spécifier une simulation à sauvegarder").status(400);
 
-    const saveSimulation = new Simulation(simulation);
-
     const date = new Date();
 
-    const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveSimulation, date, saveName } } } ).exec();
+    // const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveName, date, saveSimulation } } } ).exec();
+    await User.updateOne({ _id : req.userId }, { $push: { simulations : { name : saveName, date, simulation } } } ).exec();
+
+    const userSearch = await User.findById(req.userId).exec();
 
     return res.json(userSearch.simulations).status(200);
 });

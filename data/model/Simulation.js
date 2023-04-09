@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const simulationSchema = new mongoose.Schema({
-    averagesalary: Number,
+    averageSalary: Number,
     lowestSalary: Number,
     highestSalary: Number,
     parameters : {
@@ -12,6 +12,6 @@ const simulationSchema = new mongoose.Schema({
     }
 });
 
-const Simulation = mongoose.model('Simulation', simulationSchema);
+// const Simulation = mongoose.model('Simulation', simulationSchema);
 
-module.exports = { simulationSchema, Simulation }
+module.exports = { simulationSchema }
