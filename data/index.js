@@ -40,7 +40,7 @@ mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
 .catch( () => console.log("Connection failed") )
 
-let token = null;
+// let token = null;
 let user = null;
 
 const isAuthenticated = (req, res, next) => {
@@ -48,6 +48,27 @@ const isAuthenticated = (req, res, next) => {
         return res.status(401).json({ error: "Vous devez être connecté pour lancer une recherche" });
 
     next();
+};
+
+const checkToken = (req, res, next) => {
+    // const token = req.headers['Authorization'];
+    const token = req.headers['x-access-token'];
+
+    // Vérification de l'existence du token
+    if (!token) {
+        return res.status(401).send('Aucun token fourni');
+    }
+
+    // Décodage du token
+    jwt.verify(token, JWT_KEY, (err, decoded) => {
+        if (err) {
+            return res.status(500).send('Erreur lors de la vérification du token');
+        }
+
+        // Si tout est bon, sauvegarder l'id du user pour une utilisation dans d'autres routes
+        req.userId = decoded._id;
+        next();
+    });
 };
 
 // Routes
@@ -136,54 +157,59 @@ router.post("/search", async (req, res) => {
     if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
-    
-    // const simulationObj = { ...findObj, stack : stack };
 
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
 
-        // if (user !== null) {
-        //     // On enregistre la recherche dans les simulations du User
-        //     const userSearch = await User.updateOne({ _id : user._id }, { $push: { simulations : { ...simulationObj, title, region } } } ).exec();
-        // }
+        const lowestSalary = Math.min(...jobs.map(job => job.salary));
+        const highestSalary = Math.max(...jobs.map(job => job.salary));
+        const averageSalary = Math.round(jobs.reduce((acc, job) => acc + job.salary, 0) / jobs.length);
 
-        return res.json(jobs).status(200);
+        return res.json({
+            lowestSalary,
+            highestSalary,
+            averageSalary,
+            parameters: {
+                title,
+                experience,
+                stack,
+                region
+            },
+        }).status(200);
+
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
 });
 
-router.post("/saveUser", (req, res) => {
-    const { token: tokenReceived } = req.body;
+router.get("/simulations", [checkToken], async (req, res) => {
+    const userSearch = await User.findById(req.userId).exec();
 
-    if (!tokenReceived) return res.json({ error: "Vous n'avez pas envoyé de token" }).status(400);
-
-    try {
-        const decoded = jwt.verify(tokenReceived, JWT_KEY);
-        user = decoded;
-        token = tokenReceived;
-    } catch (err) {
-        return res.json({erreur: "Token Invalide"}).status(403);
-    }
-
-    return res.send("Token enregistré").status(200);
+    return res.json(userSearch.simulations).status(200);
 });
 
-router.get("/simulations", async (req, res) => {
-    if (!user) return res.json({ error: "Vous n'êtes pas connecté" }).status(401);
+router.post("/search/save", [checkToken], async (req, res) => {
+    const { simulation, saveName } = req.body;
 
-    const simulations = await User.find({ _id : user._id }, { _id: 0, simulations: 1 }).exec();
+    if (!simulation) return res.send("Vous devez spécifier une simulation à sauvegarder").status(400);
 
-    return res.json(simulations).status(200);
+    const date = new Date();
+
+    // const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveName, date, saveSimulation } } } ).exec();
+    await User.updateOne({ _id : req.userId }, { $push: { simulations : { name : saveName, date, simulation } } } ).exec();
+
+    const userSearch = await User.findById(req.userId).exec();
+
+    return res.json(userSearch.simulations).status(200);
 });
 
 // créer une route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 router.post("/fix", async (req, res) => {
     const { column, oldValue, correctValue } = req.body;
 
-    if ( !column )          res.send("Vous devez spécifier une colonne à corriger").status(400);
-    if ( !oldValue )        res.send("Vous devez spécifier une valeur à remplacer").status(400);
-    if ( !correctValue )    res.send("Vous devez spécifier une valeur de remplacement").status(400);
+    if ( !column )                  return res.send("Vous devez spécifier une colonne à corriger").status(400);
+    if ( oldValue === null )        return res.send("Vous devez spécifier une valeur à remplacer").status(400);
+    if ( correctValue === null )    return res.send("Vous devez spécifier une valeur de remplacement").status(400);
 
     // Check if column exists in Jobs collection
     const columns = await Jobs.schema.obj;
@@ -191,7 +217,7 @@ router.post("/fix", async (req, res) => {
     
     try {    
         // Find all jobs in MongoDB Jobs collection where { column : oldValue }
-        const jobs = await Jobs.find({ column : oldValue }, { _id: 0});
+        const jobs = await Jobs.find({ column : oldValue });
         
         // Update all jobs : column <= correctValue
         jobs.map(async job => {
