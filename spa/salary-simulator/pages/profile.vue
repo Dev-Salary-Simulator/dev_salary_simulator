@@ -158,8 +158,8 @@ const archiveJob = () => {
         }
     }
     .old-jobs{
-        .row{
-            margin: 10px 0;
+        & > .row{
+            margin-bottom: 20px;
         }
     }
 }

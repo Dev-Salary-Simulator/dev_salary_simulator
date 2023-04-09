@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const {data} = defineProps<{
-    data: TSimulation | TJob,
-    type: 'simulation' | 'job'
+    data: TSimulation | TJob | TSavedSimulation,
+    type: 'simulation' | 'job' | 'savedSimulation'
 }>();
 const emit = defineEmits<{
     (ev: 'reload', value: null): void
@@ -66,6 +66,24 @@ const enumExp: {[key: number]: string} = {
             </div>
         </div>
         <span class="job-salary title-l">{{ (data as TJob).salary }}</span>
+    </div>
+    <div class="recap-form row" v-if="type === 'savedSimulation'">
+        <div class="col-lg-8 col-12">
+            <div class="row">
+                <div class="col-12">
+                    <span class="recap-form-name title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.nameJob }}</span>
+                    <span class="recap-form-exp text-m">{{ `${enumExp[(data as TSavedSimulation).simulation.parameters.experience]} experience` }}</span>
+                </div>
+                <div class="col-12">
+                    <span class="recap-form-status title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.status }}</span>
+                    <!-- <span class="recap-form-region text-m">{{ (data as TSavedSimulation).parameters.nameRegion }}</span> -->
+                </div>
+                <div class="col-12">
+                    <span v-for="elm in (data as TSavedSimulation).simulation.parameters.namesStack" class="stacks-element selected">{{ elm }}</span>
+                </div>
+            </div>
+        </div>
+        <span class="job-salary title-l">{{ (data as TSavedSimulation).simulation.averageSalary }}</span>
     </div>
 </template>
 
