@@ -194,6 +194,21 @@ router.get("/simulations", [checkToken], async (req, res) => {
     return res.json(user.simulations).status(200);
 });
 
+// Mettre à jour une simulation
+router.patch("/simulations", [checkToken], async (req, res) => {
+    const { id, saveName } = req.body;
+
+    if (!id) return res.send("Vous devez spécifier une simulation à mettre à jour").status(400);
+
+    await User.updateOne({ _id : req.userId, "simulations._id" : id }, { $set: { "simulations.$.name" : saveName } } ).exec();
+
+    const user = await User.findById(req.userId).exec();
+
+    const simulation = user.simulations.find(simulation => simulation._id == id);
+
+    return res.json(simulation).status(200);
+});
+
 // Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 router.post("/fix", async (req, res) => {
     const { column, oldValue, correctValue } = req.body;
