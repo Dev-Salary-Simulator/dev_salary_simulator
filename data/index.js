@@ -209,6 +209,18 @@ router.patch("/simulations", [checkToken], async (req, res) => {
     return res.json(simulation).status(200);
 });
 
+router.delete("/simulations", [checkToken], async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) return res.send("Vous devez spécifier une simulation à supprimer").status(400);
+
+    await User.updateOne({ _id : req.userId }, { $pull: { simulations : { _id : id } } } ).exec();
+
+    const user = await User.findById(req.userId).exec();
+
+    return res.json(user.simulations).status(200);
+});
+
 // Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 router.post("/fix", async (req, res) => {
     const { column, oldValue, correctValue } = req.body;
