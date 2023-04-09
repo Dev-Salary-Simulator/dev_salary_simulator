@@ -40,16 +40,6 @@ mongoose.connect(MONGO)
 .then ( () => console.log("Successfully connected to MongoDB") )
 .catch( () => console.log("Connection failed") )
 
-// let token = null;
-let user = null;
-
-const isAuthenticated = (req, res, next) => {
-    if (!user) 
-        return res.status(401).json({ error: "Vous devez être connecté pour lancer une recherche" });
-
-    next();
-};
-
 const checkToken = (req, res, next) => {
     // const token = req.headers['Authorization'];
     const token = req.headers['x-access-token'];
@@ -146,7 +136,7 @@ router.get('/stack', async (req, res) => {
 });
 
 router.post("/search", async (req, res) => {
-    const { title, experience, stack, region } = req.body;
+    const { title, experience, stack, region, status } = req.body;
 
     const regexTitle = new RegExp(title, "i");
     const regexRegion = new RegExp(region, "i");
@@ -157,6 +147,7 @@ router.post("/search", async (req, res) => {
     if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
     if (stack)       findObj.stack = { $all: stack };
+    if (status)      findObj.status = status;
 
     try {
         const jobs = await Jobs.find(findObj, { _id: 0});
@@ -173,19 +164,14 @@ router.post("/search", async (req, res) => {
                 title,
                 experience,
                 stack,
-                region
+                region,
+                status
             },
         }).status(200);
 
     } catch (error) {
         console.error("Erreur lors de la récupération.\n" + error);
     }
-});
-
-router.get("/simulations", [checkToken], async (req, res) => {
-    const userSearch = await User.findById(req.userId).exec();
-
-    return res.json(userSearch.simulations).status(200);
 });
 
 router.post("/search/save", [checkToken], async (req, res) => {
@@ -195,15 +181,35 @@ router.post("/search/save", [checkToken], async (req, res) => {
 
     const date = new Date();
 
-    // const userSearch = await User.updateOne({ _id : req.userId }, { $push: { simulations : { saveName, date, saveSimulation } } } ).exec();
     await User.updateOne({ _id : req.userId }, { $push: { simulations : { name : saveName, date, simulation } } } ).exec();
 
-    const userSearch = await User.findById(req.userId).exec();
+    const user = await User.findById(req.userId).exec();
 
-    return res.json(userSearch.simulations).status(200);
+    return res.json(user.simulations).status(200);
 });
 
-// créer une route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
+router.get("/simulations", [checkToken], async (req, res) => {
+    const user = await User.findById(req.userId).exec();
+
+    return res.json(user.simulations).status(200);
+});
+
+// Mettre à jour une simulation
+router.patch("/simulations", [checkToken], async (req, res) => {
+    const { id, saveName } = req.body;
+
+    if (!id) return res.send("Vous devez spécifier une simulation à mettre à jour").status(400);
+
+    await User.updateOne({ _id : req.userId, "simulations._id" : id }, { $set: { "simulations.$.name" : saveName } } ).exec();
+
+    const user = await User.findById(req.userId).exec();
+
+    const simulation = user.simulations.find(simulation => simulation._id == id);
+
+    return res.json(simulation).status(200);
+});
+
+// Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 router.post("/fix", async (req, res) => {
     const { column, oldValue, correctValue } = req.body;
 

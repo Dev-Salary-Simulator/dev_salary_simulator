@@ -8,7 +8,8 @@ const simulationSchema = new mongoose.Schema({
         region : String,
         title : String,
         stack : [String],
-        experience : Number
+        experience : Number,
+        status : String
     }
 });
 
