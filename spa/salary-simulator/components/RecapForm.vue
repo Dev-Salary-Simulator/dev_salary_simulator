@@ -38,9 +38,12 @@ const enumExp: {[key: number]: string} = {
                     <span class="recap-form-name title-l me-3">{{ (data as TSimulation).parameters.nameJob }}</span>
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TSimulation).parameters.experience]} experience` }}</span>
                 </div>
-                <div class="col-12">
+                <div class="col-12 d-flex">
                     <span class="recap-form-status title-l me-3">{{ (data as TSimulation).parameters.status }}</span>
-                    <!-- <span class="recap-form-region text-m">{{ (data as TSimulation).parameters.nameRegion }}</span> -->
+                    <span class="recap-form-region text-m d-flex align-items-end">
+                        <img src="/img/marker-map.png" alt="marker">
+                        {{ (data as TSimulation).parameters.nameRegion }}
+                    </span>
                 </div>
                 <div class="col-12">
                     <span v-for="elm in (data as TSimulation).parameters.namesStack" class="stacks-element selected">{{ elm }}</span>
@@ -58,9 +61,12 @@ const enumExp: {[key: number]: string} = {
                     <span class="recap-form-name title-l me-3">{{ (data as TJob).nameJob }}</span>
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TJob).experience]} experience` }}</span>
                 </div>
-                <div class="col-12">
+                <div class="col-12 d-flex">
                     <span class="recap-form-status title-l me-3">{{ (data as TJob).status }}</span>
-                    <!-- <span class="recap-form-region text-m">{{ (data as TJob).parameters.nameRegion }}</span> -->
+                    <span class="recap-form-region text-m d-flex align-items-center">
+                        <img src="/img/marker-map.png" alt="marker">
+                        {{ (data as TJob).nameRegion }}
+                    </span>
                 </div>
                 <div class="col-12">
                     <span v-for="elm in (data as TJob).namesStack" class="stacks-element selected">{{ elm }}</span>
@@ -76,9 +82,12 @@ const enumExp: {[key: number]: string} = {
                     <span class="recap-form-name title-l me-3">{{ (data as TSavedSimulation).saveName }}</span>
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TSavedSimulation).simulation.parameters.experience]} experience` }}</span>
                 </div>
-                <div class="col-12">
+                <div class="col-12 d-flex">
                     <span class="recap-form-status title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.status }}</span>
-                    <!-- <span class="recap-form-region text-m">{{ (data as TSavedSimulation).parameters.nameRegion }}</span> -->
+                    <span class="recap-form-region text-m d-flex align-items-center">
+                        <img src="/img/marker-map.png" alt="marker">
+                        {{ (data as TSavedSimulation).simulation.parameters.nameRegion }}
+                    </span>
                 </div>
             </div>
         </div>
