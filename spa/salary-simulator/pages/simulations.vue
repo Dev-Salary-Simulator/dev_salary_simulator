@@ -44,12 +44,20 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <div class="row justify-content-center saved-list">
+        <div class="row justify-content-center saved-list" v-if="savedSimulations.length">
             <div class="col-12">
                 <h3 class="title-l">My saved simulations</h3>
             </div>
             <div class="col-lg-6 col-12" v-for="simu in savedSimulations">
                 <RecapForm :data="simu" type="savedSimulation"/>
+            </div>
+        </div>
+        <div class="row justify-content-center" v-else>
+            <div class="col-12">
+                <h3 class="title-l">My saved simulations</h3>
+            </div>
+            <div class="col-12 bg-blur p-3 text-center">
+                <span class="text-m">No saved simulations yet, begin your journey <NuxtLink to="/">here</NuxtLink> !</span>
             </div>
         </div>
     </main>
