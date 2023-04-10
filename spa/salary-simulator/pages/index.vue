@@ -132,7 +132,7 @@ const handleSaveSimulation = () => {
                     </div>
                 </div>
             </div>
-        </div>                
+        </div>
     </main>
 </template>
 

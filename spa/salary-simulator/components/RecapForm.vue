@@ -1,7 +1,9 @@
 <script setup lang="ts">
 const {data} = defineProps<{
     data: TSimulation | TJob | TSavedSimulation,
-    type: 'simulation' | 'job' | 'savedSimulation'
+    type: 'simulation' | 'job' | 'savedSimulation',
+    editSimu?: (id: string, name: string) => void,
+    deleteSimu?: ({id}: {id: string}) => void
 }>();
 const emit = defineEmits<{
     (ev: 'reload', value: null): void
@@ -80,8 +82,17 @@ const enumExp: {[key: number]: string} = {
                 </div>
             </div>
         </div>
+        <div class="col-12 text-end btn-actions">
+            <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit-simulation" :onClick="() => editSimu!((data as TSavedSimulation).id, (data as TSavedSimulation).saveName)">
+                <img src="/img/edit.png" alt="edit" class="me-1"/> Edit
+            </button>
+            <button class="btn btn-danger" :onClick="() => deleteSimu!({id: (data as TSavedSimulation).id})">
+                <img src="/img/edit.png" alt="edit" class="me-1"/> Remove
+            </button>
+        </div>
         <span class="job-salary title-l">{{ (data as TSavedSimulation).simulation.averageSalary }}</span>
     </div>
+    
 </template>
 
 <style lang="scss">
@@ -109,6 +120,16 @@ const enumExp: {[key: number]: string} = {
         width: auto;
         top: 16px;
         right: 16px;
+    }
+    .btn-actions{
+        button{
+            padding: 8px 16px;
+            font-size: 12px;
+            img{
+                width: 20px;
+                height: 20px;
+            }
+        }
     }
 }
 </style>
