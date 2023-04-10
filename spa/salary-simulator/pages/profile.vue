@@ -129,7 +129,7 @@ const archiveJob = () => {
                     <InputRadio :elements="[{text: 'self-employed'}, {text: 'full time employee'}]" v-model="status" id="statusForm"/>
                     <Label forInput='regionForm' :classSup="'d-block'">Your region</Label>
                     <Select :elements="namesRegions" :key="region" v-model="region" id="regionForm" placeholder="France, USA..." />
-                    <Label forInput='salaryForm' :classSup="'d-block'">Salary</Label>
+                    <Label forInput='salaryForm' :classSup="'d-block mt-3'">Salary</Label>
                     <Input v-model="salary" :value="salary" type="number" placeholder="45000" :min="0" id="salaryForm"/>
                 </div>
                 <div class="col-lg-5 col-12 mb-4">
