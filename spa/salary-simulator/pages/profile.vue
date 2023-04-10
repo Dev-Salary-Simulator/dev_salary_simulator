@@ -1,9 +1,10 @@
 <script setup lang="ts">
 definePageMeta({middleware: ['seo', 'auth']});
 const {userLogged} = useAuth();
-const {namesJobs} = useJobs();
-const {namesStacks} = useStacks();
 const {addOldJob, updateCurrentJob, updateProfile} = useUser();
+const namesJobs = useState<string[]>('namesJobs');
+const namesStacks = useState<string[]>('namesStacks');
+const namesRegions = useState<string[]>('namesRegions');
 
 const password = ref<string>('');
 const firstname = ref<string>(`${userLogged.value?.firstname}` ?? '');
@@ -21,9 +22,10 @@ const nameJob = ref<string>(userLogged.value?.currentJob?.nameJob ?? '');
 const experience = ref<number>(userLogged.value?.currentJob?.experience ?? 0);
 const status = ref<string>(userLogged.value?.currentJob?.status ?? '');
 const stacks = ref<string[]>(userLogged.value?.currentJob?.namesStack ?? []);
+const region = ref<string>(userLogged.value?.currentJob?.nameRegion ?? '');
 const salary = ref<number>(userLogged.value?.currentJob?.salary ?? 0);
 const formJobIsValid = computed(() => (
-    !!nameJob.value && !!status.value && !!stacks.value.length && !!salary.value
+    !!nameJob.value && !!status.value && !!stacks.value.length && !!salary.value && !!region.value
 ));
 
 
@@ -47,6 +49,7 @@ const handleUpdateJob = () => {
         nameJob: nameJob.value,
         experience: experience.value,
         nameStack: stacks.value,
+        nameRegion: region.value,
         salary: salary.value,
         status: status.value
     });
@@ -57,6 +60,7 @@ const archiveJob = () => {
         experience.value = userLogged.value?.currentJob?.experience ?? 0;
         status.value = userLogged.value?.currentJob?.status ?? '';
         stacks.value = userLogged.value?.currentJob?.namesStack ?? [];
+        region.value = userLogged.value?.currentJob?.nameRegion ?? '';
         salary.value = userLogged.value?.currentJob?.salary ?? 0;
     });
 }
@@ -68,10 +72,10 @@ const archiveJob = () => {
             <div class="row justify-content-center mt-4">
                 <div class="col-12 d-flex justify-content-end">
                     <button :class="`btn btn-danger ${isEditingProfile ? 'd-flex align-items-center' : 'd-none'}`" type="button" :onClick="cancelEditProfile">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> Cancel
+                        <img src="/img/close.png" alt="cancel" class="me-2"/> Cancel
                     </button>
                     <button class="btn btn-primary d-flex align-items-center ms-3" type="submit" :disabled="!isEditingProfile">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> Edit
+                        <img src="/img/edit.png" alt="edit" class="me-2"/> Edit
                     </button>
                 </div>
             </div>
@@ -107,7 +111,7 @@ const archiveJob = () => {
                 </div>
                 <div class="col-lg-6 col-12 d-flex justify-content-end">
                     <button class="btn btn-primary d-flex align-items-center ms-3" type="submit" :disabled="!formJobIsValid">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> {{userLogged?.currentJob ? 'Edit' : 'Create'}}
+                        <img src="/img/edit.png" alt="edit" class="me-2"/> {{userLogged?.currentJob ? 'Edit' : 'Create'}}
                     </button>
                 </div>
             </div>
@@ -123,7 +127,9 @@ const archiveJob = () => {
                 <div class="col-lg-5 col-12 mb-4">
                     <Label forInput='statusForm' :classSup="'d-block'">Define your status</Label>
                     <InputRadio :elements="[{text: 'self-employed'}, {text: 'full time employee'}]" v-model="status" id="statusForm"/>
-                    <Label forInput='salaryForm' :classSup="'d-block'">Salary</Label>
+                    <Label forInput='regionForm' :classSup="'d-block'">Your region</Label>
+                    <Select :elements="namesRegions" :key="region" v-model="region" id="regionForm" placeholder="France, USA..." />
+                    <Label forInput='salaryForm' :classSup="'d-block mt-3'">Salary</Label>
                     <Input v-model="salary" :value="salary" type="number" placeholder="45000" :min="0" id="salaryForm"/>
                 </div>
                 <div class="col-lg-5 col-12 mb-4">
@@ -156,10 +162,16 @@ const archiveJob = () => {
         button{
             padding: 8px 12px;
         }
+        .btn-danger{
+            img{
+                width: 18px;
+                height: 18px;
+            }
+        }
     }
     .old-jobs{
-        .row{
-            margin: 10px 0;
+        & > .row{
+            margin-bottom: 20px;
         }
     }
 }

@@ -5,12 +5,14 @@ const {makeSimulation, saveSimulation} = useSearch();
 const userLogged = useState<TUser | null>('userLogged');
 const namesJobs = useState<string[]>('namesJobs');
 const namesStacks = useState<string[]>('namesStacks');
+const namesRegions = useState<string[]>('namesRegions');
 
 const nameJobForm = useState<string>('nameJobForm',() => '');
 const experienceForm = useState<number>('experienceForm', () => 0);
 const stacksForm = useState<string[]>('stacksForm', () => []);
 const statusForm = useState<string>('statusForm', () => '');
-const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length);
+const regionForm = useState<string>('regionForm', () => '');
+const validForm = computed<boolean>(() => !!nameJobForm.value && !!statusForm.value && !!stacksForm.value.length && !!regionForm.value);
 const simulationResult = useState<TSimulation | null>('simulationResult', () => null);
 const animationForm = ref<'static' | 'pending' | 'sending' | 'fetching'>('static');
 
@@ -27,6 +29,7 @@ const sendForm = () => {
             experience: Math.round(experienceForm.value),
             namesStack: stacksForm.value,
             status: statusForm.value,
+            nameRegion: regionForm.value
         });
         setTimeout(() => {
             animationForm.value = "fetching";
@@ -45,6 +48,7 @@ const handleSaveSimulation = () => {
             experience: Math.round(experienceForm.value),
             namesStack: stacksForm.value,
             status: statusForm.value,
+            nameRegion: regionForm.value
         }
     }).then(() => {
         saveName.value = '';
@@ -72,9 +76,13 @@ const handleSaveSimulation = () => {
                 <Label forInput='experienceForm'>Years of experience</Label>
                 <InputRange v-model="experienceForm" id="experienceForm" :min="0" :max="16"/>
             </div>
-            <div class="col-12 d-flex flex-column mb-5">
+            <div class="col-12 d-flex flex-column mb-3">
                 <Label forInput='stacksForm' blueLabel>Tell us about your stacks</Label>
                 <InputStacks v-model="stacksForm" id="stacksForm" placeholder="Javascript, Rust, C#..." :elements="namesStacks" :key="'namesStacks' + namesStacks.length"/>
+            </div>
+            <div class="col-12 d-flex flex-column mb-5">
+                <Label forInput='nameJobForm'>Region where you work</Label>
+                <Select :elements="namesRegions" :key="'namesRegions' + namesRegions.length" v-model="regionForm" id="regionForm" placeholder="France, USA..." />
             </div>
             <div class="col-12 d-flex flex-column">
                 <Label forInput='statusForm'>Define your status</Label>
@@ -132,7 +140,7 @@ const handleSaveSimulation = () => {
                     </div>
                 </div>
             </div>
-        </div>                
+        </div>
     </main>
 </template>
 
