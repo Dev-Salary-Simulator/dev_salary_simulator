@@ -21,7 +21,7 @@ export default () => {
             userLogged.value = data.value.user;
         }
     }
-    async function updateCurrentJob(payload: {nameJob: string, nameStack: string[], salary: number, experience: number, status: string}){
+    async function updateCurrentJob(payload: {nameJob: string, nameStack: string[], nameRegion: string, salary: number, experience: number, status: string}){
         const {data, error}= await useFetch(`${urlBase}/user/job`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`},
             body: payload,

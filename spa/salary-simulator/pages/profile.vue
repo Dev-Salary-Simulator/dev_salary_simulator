@@ -1,9 +1,10 @@
 <script setup lang="ts">
 definePageMeta({middleware: ['seo', 'auth']});
 const {userLogged} = useAuth();
-const {namesJobs} = useJobs();
-const {namesStacks} = useStacks();
 const {addOldJob, updateCurrentJob, updateProfile} = useUser();
+const namesJobs = useState<string[]>('namesJobs');
+const namesStacks = useState<string[]>('namesStacks');
+const namesRegions = useState<string[]>('namesRegions');
 
 const password = ref<string>('');
 const firstname = ref<string>(`${userLogged.value?.firstname}` ?? '');
@@ -21,9 +22,10 @@ const nameJob = ref<string>(userLogged.value?.currentJob?.nameJob ?? '');
 const experience = ref<number>(userLogged.value?.currentJob?.experience ?? 0);
 const status = ref<string>(userLogged.value?.currentJob?.status ?? '');
 const stacks = ref<string[]>(userLogged.value?.currentJob?.namesStack ?? []);
+const region = ref<string>(userLogged.value?.currentJob?.nameRegion ?? '');
 const salary = ref<number>(userLogged.value?.currentJob?.salary ?? 0);
 const formJobIsValid = computed(() => (
-    !!nameJob.value && !!status.value && !!stacks.value.length && !!salary.value
+    !!nameJob.value && !!status.value && !!stacks.value.length && !!salary.value && !!region.value
 ));
 
 
@@ -47,6 +49,7 @@ const handleUpdateJob = () => {
         nameJob: nameJob.value,
         experience: experience.value,
         nameStack: stacks.value,
+        nameRegion: region.value,
         salary: salary.value,
         status: status.value
     });
@@ -57,6 +60,7 @@ const archiveJob = () => {
         experience.value = userLogged.value?.currentJob?.experience ?? 0;
         status.value = userLogged.value?.currentJob?.status ?? '';
         stacks.value = userLogged.value?.currentJob?.namesStack ?? [];
+        region.value = userLogged.value?.currentJob?.nameRegion ?? '';
         salary.value = userLogged.value?.currentJob?.salary ?? 0;
     });
 }
@@ -123,6 +127,8 @@ const archiveJob = () => {
                 <div class="col-lg-5 col-12 mb-4">
                     <Label forInput='statusForm' :classSup="'d-block'">Define your status</Label>
                     <InputRadio :elements="[{text: 'self-employed'}, {text: 'full time employee'}]" v-model="status" id="statusForm"/>
+                    <Label forInput='regionForm' :classSup="'d-block'">Your region</Label>
+                    <Select :elements="namesRegions" :key="region" v-model="region" id="regionForm" placeholder="France, USA..." />
                     <Label forInput='salaryForm' :classSup="'d-block'">Salary</Label>
                     <Input v-model="salary" :value="salary" type="number" placeholder="45000" :min="0" id="salaryForm"/>
                 </div>
