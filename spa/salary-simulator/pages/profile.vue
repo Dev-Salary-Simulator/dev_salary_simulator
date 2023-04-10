@@ -68,10 +68,10 @@ const archiveJob = () => {
             <div class="row justify-content-center mt-4">
                 <div class="col-12 d-flex justify-content-end">
                     <button :class="`btn btn-danger ${isEditingProfile ? 'd-flex align-items-center' : 'd-none'}`" type="button" :onClick="cancelEditProfile">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> Cancel
+                        <img src="/img/close.png" alt="cancel" class="me-2"/> Cancel
                     </button>
                     <button class="btn btn-primary d-flex align-items-center ms-3" type="submit" :disabled="!isEditingProfile">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> Edit
+                        <img src="/img/edit.png" alt="edit" class="me-2"/> Edit
                     </button>
                 </div>
             </div>
@@ -107,7 +107,7 @@ const archiveJob = () => {
                 </div>
                 <div class="col-lg-6 col-12 d-flex justify-content-end">
                     <button class="btn btn-primary d-flex align-items-center ms-3" type="submit" :disabled="!formJobIsValid">
-                        <img src="/img/edit.png" alt="edit" class="me-1"/> {{userLogged?.currentJob ? 'Edit' : 'Create'}}
+                        <img src="/img/edit.png" alt="edit" class="me-2"/> {{userLogged?.currentJob ? 'Edit' : 'Create'}}
                     </button>
                 </div>
             </div>
@@ -155,6 +155,12 @@ const archiveJob = () => {
         }
         button{
             padding: 8px 12px;
+        }
+        .btn-danger{
+            img{
+                width: 18px;
+                height: 18px;
+            }
         }
     }
     .old-jobs{

@@ -82,12 +82,12 @@ const enumExp: {[key: number]: string} = {
                 </div>
             </div>
         </div>
-        <div class="col-12 text-end btn-actions">
+        <div class="col-12 btn-actions d-flex align-items-center justify-content-end">
             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit-simulation" :onClick="() => editSimu!((data as TSavedSimulation).id, (data as TSavedSimulation).saveName)">
                 <img src="/img/edit.png" alt="edit" class="me-1"/> Edit
             </button>
             <button class="btn btn-danger" :onClick="() => deleteSimu!({id: (data as TSavedSimulation).id})">
-                <img src="/img/edit.png" alt="edit" class="me-1"/> Remove
+                <img src="/img/close.png" alt="remove" class="me-1"/> Remove
             </button>
         </div>
         <span class="job-salary title-l">{{ (data as TSavedSimulation).simulation.averageSalary }}</span>
@@ -125,9 +125,17 @@ const enumExp: {[key: number]: string} = {
         button{
             padding: 8px 16px;
             font-size: 12px;
+            display: flex;
+            align-items: center;
             img{
                 width: 20px;
                 height: 20px;
+            }
+        }
+        button:nth-child(2){
+            img{
+                width: 16px;
+                height: 16px;
             }
         }
     }
