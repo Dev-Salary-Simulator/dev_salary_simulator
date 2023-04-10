@@ -50,7 +50,7 @@ const enumExp: {[key: number]: string} = {
         </div>
     </div>
     <div class="recap-form row" v-if="type === 'job'">
-        <div class="col-lg-8 col-12">
+        <div class="col-12 my-2">
             <div class="row">
                 <div class="col-12">
                     <span class="recap-form-name title-l me-3">{{ (data as TJob).nameJob }}</span>
@@ -67,19 +67,16 @@ const enumExp: {[key: number]: string} = {
         </div>
         <span class="job-salary title-l">{{ (data as TJob).salary }}</span>
     </div>
-    <div class="recap-form row" v-if="type === 'savedSimulation'">
-        <div class="col-lg-8 col-12">
+    <div class="recap-form row mx-1" v-if="type === 'savedSimulation'">
+        <div class="col-12 my-2">
             <div class="row">
                 <div class="col-12">
-                    <span class="recap-form-name title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.nameJob }}</span>
+                    <span class="recap-form-name title-l me-3">{{ (data as TSavedSimulation).saveName }}</span>
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TSavedSimulation).simulation.parameters.experience]} experience` }}</span>
                 </div>
                 <div class="col-12">
                     <span class="recap-form-status title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.status }}</span>
                     <!-- <span class="recap-form-region text-m">{{ (data as TSavedSimulation).parameters.nameRegion }}</span> -->
-                </div>
-                <div class="col-12">
-                    <span v-for="elm in (data as TSavedSimulation).simulation.parameters.namesStack" class="stacks-element selected">{{ elm }}</span>
                 </div>
             </div>
         </div>
