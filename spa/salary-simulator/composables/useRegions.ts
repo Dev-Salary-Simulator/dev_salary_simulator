@@ -4,7 +4,7 @@ export default () => {
     const runtimeConfig = useRuntimeConfig();
     const urlBase = process.dev ? runtimeConfig.public.mockBase : runtimeConfig.public.apiBase;
     
-    const namesRegion = useState<string[]>('namesRegion', () => []);
+    const namesRegions = useState<string[]>('namesRegions', () => []);
 
     async function getNamesOfRegions(){
         await nextTick();
@@ -16,9 +16,9 @@ export default () => {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
-            namesRegion.value = data.value ?? namesRegion.value;
+            namesRegions.value = data.value ?? namesRegions.value;
         }
     }
 
-    return {namesRegion, getNamesOfRegions};
+    return {namesRegions, getNamesOfRegions};
 }

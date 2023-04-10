@@ -7,7 +7,7 @@ export default defineEventHandler<{simulation: TSimulation}>(async (event) => {
             highestSalary: 67000,
             parameters: {
                 nameJob: body.nameJob,
-                nameRegion: "Paris France",
+                nameRegion: body.nameRegion,
                 namesStack: body.namesStack,
                 experience: body.experience,
                 status: body.status

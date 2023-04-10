@@ -12,7 +12,7 @@ export default defineEventHandler<{simulation: TSavedSimulation}>(async (event) 
                 highestSalary: 67000,
                 parameters: {
                     nameJob: "Developeur front-end",
-                    nameRegion: "Paris France",
+                    nameRegion: "France",
                     namesStack: ['Java', 'Kotlin', 'VB.Net'],
                     experience: 5,
                     status: "self-employed"

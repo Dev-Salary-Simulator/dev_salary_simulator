@@ -12,7 +12,7 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>((event) => 
                     highestSalary: 67000,
                     parameters: {
                         nameJob: "Developeur front-end",
-                        nameRegion: "Paris France",
+                        nameRegion: "France",
                         namesStack: ['Java', 'Kotlin', 'VB.Net'],
                         experience: 5,
                         status: "self-employed"
@@ -30,7 +30,7 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>((event) => 
                     highestSalary: 105000,
                     parameters: {
                         nameJob: "Data scientits",
-                        nameRegion: "Paris France",
+                        nameRegion: "USA",
                         namesStack: ['Python', 'Pandas', 'Java', 'C++'],
                         experience: 3,
                         status: "full time employee"
@@ -48,7 +48,7 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>((event) => 
                     highestSalary: 60000,
                     parameters: {
                         nameJob: "Dev Ops",
-                        nameRegion: "Tokyo",
+                        nameRegion: "Japan",
                         namesStack: ['Jenkins', 'Linux', 'Windows', 'Python'],
                         experience: 6,
                         status: "full time employee"
@@ -66,7 +66,7 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>((event) => 
                     highestSalary: 90000,
                     parameters: {
                         nameJob: "Developeur back-end",
-                        nameRegion: "Londre",
+                        nameRegion: "United Kingdom",
                         namesStack: ['Javascript', 'C#', 'Java', 'C++', 'Typescript'],
                         experience: 12,
                         status: "full time employee"
@@ -84,7 +84,7 @@ export default defineEventHandler<{simulations: TSavedSimulation[]}>((event) => 
                     highestSalary: 55000,
                     parameters: {
                         nameJob: "Product manager",
-                        nameRegion: "Paris France",
+                        nameRegion: "France",
                         namesStack: ['Jira', 'CSS', 'Excel', 'Kanban'],
                         experience: 1,
                         status: "full time employee"
