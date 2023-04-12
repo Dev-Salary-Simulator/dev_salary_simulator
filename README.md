@@ -41,5 +41,11 @@ L'application est destinée a toute personnes souhaitant connaitre sa valeur sel
 - Lancer l'application : `node index.js`
 
 **Back-end - Service auth**:
-- Se placer à la racine de l'application : `cd auth`
-- ...
+- Se placer à la racine de l'application : `cd auth/projet`
+- Créer un fichier `.env.local` :
+	- ```
+		MONGODB_URL=yourMongoDBURL
+		MONGODB_DB=yourMongoDB
+		MAIL_SENDER=yourEmailAdress
+		MAILER_DSN=yourEmailSMTP
+		```
