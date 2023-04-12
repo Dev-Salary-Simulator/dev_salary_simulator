@@ -3,11 +3,11 @@ FROM node
 WORKDIR /app
 
 # Install app dependencies
-COPY package*.json ./
+COPY ./app/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY ./app .
 
 EXPOSE 3000
 
