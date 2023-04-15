@@ -82,10 +82,10 @@ const search = async (req, res) => {
 
     const findObj = {};
 
-    if (regexTitle)  findObj.nameJob = regexTitle;
-    if (regexRegion) findObj.nameRegion = regexRegion;
+    if (regexTitle)  findObj.title = regexTitle;
+    if (regexRegion) findObj.region = regexRegion;
     if (experience)  findObj.experience = experience;
-    if (namesStack)  findObj.namesStack = { $all: stack };
+    if (namesStack)  findObj.stack = { $all: namesStack };
     if (status)      findObj.status = status;
 
     try {
