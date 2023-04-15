@@ -5,9 +5,9 @@ const simulationSchema = new mongoose.Schema({
     lowestSalary: Number,
     highestSalary: Number,
     parameters : {
-        region : String,
-        title : String,
-        stack : [String],
+        nameRegion : String,
+        nameJob : String,
+        namesStack : [String],
         experience : Number,
         status : String
     }

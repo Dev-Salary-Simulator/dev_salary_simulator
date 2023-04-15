@@ -75,17 +75,17 @@ const stack = async (req, res) => {
 };
 
 const search = async (req, res) => {
-    const { title, experience, stack, region, status } = req.body;
+    const { nameJob, experience, namesStack, nameRegion, status } = req.body;
 
-    const regexTitle = new RegExp(title, "i");
-    const regexRegion = new RegExp(region, "i");
+    const regexTitle = new RegExp(nameJob, "i");
+    const regexRegion = new RegExp(nameRegion, "i");
 
     const findObj = {};
 
-    if (regexTitle)  findObj.title = regexTitle;
-    if (regexRegion) findObj.region = regexRegion;
+    if (regexTitle)  findObj.nameJob = regexTitle;
+    if (regexRegion) findObj.nameRegion = regexRegion;
     if (experience)  findObj.experience = experience;
-    if (stack)       findObj.stack = { $all: stack };
+    if (namesStack)  findObj.namesStack = { $all: stack };
     if (status)      findObj.status = status;
 
     try {
@@ -100,10 +100,10 @@ const search = async (req, res) => {
             highestSalary,
             averageSalary,
             parameters: {
-                title,
+                nameJob,
                 experience,
-                stack,
-                region,
+                namesStack,
+                nameRegion,
                 status
             },
         }).status(200);
