@@ -21,6 +21,7 @@ const {
 } = require('./controller/app-controller');
 
 const checkToken = require("./middleware/checkToken");
+const newAuth = require("./middleware/newAuth");
 
 const app = express();
 
@@ -59,14 +60,14 @@ router.get('/stack', stack);
 
 router.post("/search", search);
 
-router.post("/search/save", [checkToken], searchSave);
+router.post("/search/save", [newAuth], searchSave);
 
-router.get("/simulations", [checkToken], getSimulations);
+router.get("/simulations", [newAuth], getSimulations);
 
 // Mettre à jour une simulation
-router.patch("/simulations", [checkToken], updateSimulation);
+router.patch("/simulations", [newAuth], updateSimulation);
 
-router.delete("/simulations", [checkToken], deleteSimulation);
+router.delete("/simulations", [newAuth], deleteSimulation);
 
 // Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 // Faire la correction avec des paramètres semble compliqué, donc on doit se résoudre à la faire en dur
