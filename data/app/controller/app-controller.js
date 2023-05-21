@@ -2,76 +2,60 @@ const { Jobs } = require("../model/Jobs");
 const { User } = require("../model/User");
 
 const index = async (req, res) => {
-    try {
-        const jobs = await Jobs.find({}, { _id: 0}).exec();
-        return res.json(jobs).status(200);
-    } catch (error) {
-        console.error("Erreur lors de la récupération.\n" + error);
-    }
+    const jobs = await Jobs.find({}, { _id: 0});
+    return res.json(jobs).status(200);
 };
 
 const titles = async (req, res) => {
-    try {
-        // $toLower : titres en minuscules,
-        // $group : les regrouper,
-        // $first : premier titre pour chaque groupe. 
-        // $project : renvoyer que les titres.
-        const result = await Jobs.aggregate([
-            {
-                $group: {
-                    _id: { $toLower: "$title" },
-                    title: { $first: "$title" }
-                }
-            },
-            {
-                $project: {
-                    _id: 0,
-                    title: 1
-                }
+    // $toLower : titres en minuscules,
+    // $group : les regrouper,
+    // $first : premier titre pour chaque groupe. 
+    // $project : renvoyer que les titres.
+    const result = await Jobs.aggregate([
+        {
+            $group: {
+                _id: { $toLower: "$title" },
+                title: { $first: "$title" }
             }
-        ]);
-        
-        // titles est un array qui ne contient que les intitulés des jobs
-        const titles = result.map(item => item.title);
+        },
+        {
+            $project: {
+                _id: 0,
+                title: 1
+            }
+        }
+    ]);
+    
+    // titles est un array qui ne contient que les intitulés des jobs
+    const titles = result.map(item => item.title);
 
-        return res.json(titles.filter(item => item !== "").sort()).status(200);
-    } catch (error) {
-        console.error("Erreur lors de la récupération.\n" + error);
-    }
+    return res.json(titles.filter(item => item !== "").sort()).status(200);
 };
 
 const regions = async (req, res) => {
-    try {
-        const regions = await Jobs.find().distinct("region");
-        return res.json(regions.filter(item => item !== "").sort()).status(200);
-    } catch (error) {
-        console.error("Erreur lors de la récupération.\n" + error);
-    }
+    const regions = await Jobs.find().distinct("region");
+    return res.json(regions.filter(item => item !== "").sort()).status(200);
 };
 
 const stack = async (req, res) => {
     const stacks = [];
 
-    try {
-        await Jobs.find().exec()
-            .then(jobs => {
-                // Pour chaque job, on récupère la stack
-                jobs.map(job => {
-                    // Pour chaque élément de la stack, on vérifie s'il est déjà dans le tableau
-                    job.stack.map(stack => {
-                        if (stack && !stacks.includes(stack.toLowerCase())) {
-                            stacks.push(stack.toLowerCase());
-                        }
-                    })
+    await Jobs.find().exec()
+        .then(jobs => {
+            // Pour chaque job, on récupère la stack
+            jobs.map(job => {
+                // Pour chaque élément de la stack, on vérifie s'il est déjà dans le tableau
+                job.stack.map(stack => {
+                    if (stack && !stacks.includes(stack.toLowerCase())) {
+                        stacks.push(stack.toLowerCase());
+                    }
                 })
             })
-            .catch(error => console.error("Erreur lors de la récupération.\n" + error))
-        ;
+        })
+        .catch(error => console.error("Erreur lors de la récupération.\n" + error))
+    ;
 
-        return res.json(stacks.filter(item => item !== "").sort()).status(200);
-    } catch (error) {
-        console.error("Erreur lors de la récupération.\n" + error);
-    }
+    return res.json(stacks.filter(item => item !== "").sort()).status(200);
 };
 
 const search = async (req, res) => {
@@ -88,29 +72,24 @@ const search = async (req, res) => {
     if (namesStack)  findObj.stack = { $all: namesStack };
     if (status)      findObj.status = status;
 
-    try {
-        const jobs = await Jobs.find(findObj, { _id: 0});
+    const jobs = await Jobs.find(findObj, { _id: 0});
 
-        const lowestSalary = Math.min(...jobs.map(job => job.salary));
-        const highestSalary = Math.max(...jobs.map(job => job.salary));
-        const averageSalary = Math.round(jobs.reduce((acc, job) => acc + job.salary, 0) / jobs.length);
+    const lowestSalary = Math.min(...jobs.map(job => job.salary));
+    const highestSalary = Math.max(...jobs.map(job => job.salary));
+    const averageSalary = Math.round(jobs.reduce((acc, job) => acc + job.salary, 0) / jobs.length);
 
-        return res.json({
-            lowestSalary,
-            highestSalary,
-            averageSalary,
-            parameters: {
-                nameJob,
-                experience,
-                namesStack,
-                nameRegion,
-                status
-            },
-        }).status(200);
-
-    } catch (error) {
-        console.error("Erreur lors de la récupération.\n" + error);
-    }
+    return res.json({
+        lowestSalary,
+        highestSalary,
+        averageSalary,
+        parameters: {
+            nameJob,
+            experience,
+            namesStack,
+            nameRegion,
+            status
+        },
+    }).status(200);
 };
 
 const searchSave = async (req, res) => {
