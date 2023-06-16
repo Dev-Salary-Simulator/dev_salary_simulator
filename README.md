@@ -12,10 +12,19 @@ L'application est destinée a toute personnes souhaitant connaitre sa valeur sel
 **Utilisation de Docker** :
 - Création des variables d'environnement :
 	- Service data :
-		- Se placer dans le dossier data : `cd data`
+		- Se placer dans le dossier data : `cd data/app` et créer un fichier `.env`
 		- ```
 			MONGO=yourMongoDB
 			SECRET=yourSecretKey
+			```
+- Création des variables d'environnement :
+	- Service data :
+		- Se placer dans le dossier auth : `cd auth/projet` et créer un fichier `.env.local`
+		- ```
+			MONGODB_URL=yourMongoDBUrl
+			MONGODB_DB=yourMongoDB
+			MAIL_SENDER=yourEmailServer
+			MAILER_DSN=yourEmailServer
 			```
 - Revenir à la racine du projet
 - Lancement du projet : `docker compose up`
