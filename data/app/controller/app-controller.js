@@ -1,5 +1,6 @@
 const { Jobs } = require("../model/Jobs");
 const { User } = require("../model/User");
+const escapeStringRegexp = require('escape-string-regexp');
 
 const index = async (req, res) => {
     const jobs = await Jobs.find({}, { _id: 0});
@@ -61,7 +62,11 @@ const stack = async (req, res) => {
 const search = async (req, res) => {
     const { nameJob, experience, namesStack, nameRegion, status } = req.body;
 
+    // const sanitizedInputTitle = escapeStringRegexp(nameJob);
+    // const regexTitle = `^${escapeStringRegexp(nameJob.toLowerCase())}`;
     const regexTitle = new RegExp(nameJob, "i");
+
+    // const sanitizedInputRegion = escapeStringRegexp(nameRegion);
     const regexRegion = new RegExp(nameRegion, "i");
 
     const findObj = {};
