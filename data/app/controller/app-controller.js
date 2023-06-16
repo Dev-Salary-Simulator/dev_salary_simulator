@@ -1,6 +1,6 @@
 const { Jobs } = require("../model/Jobs");
 const { User } = require("../model/User");
-const escapeStringRegexp = require('escape-string-regexp');
+// const escapeStringRegexp = require('escape-string-regexp');
 
 const index = async (req, res) => {
     const jobs = await Jobs.find({}, { _id: 0});
