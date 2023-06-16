@@ -73,9 +73,23 @@ const search = async (req, res) => {
 
     if (regexTitle)  findObj.title = regexTitle;
     if (regexRegion) findObj.region = regexRegion;
-    if (experience)  findObj.experience = experience;
-    if (namesStack)  findObj.stack = { $all: namesStack };
-    if (status)      findObj.status = status;
+    if (experience)  findObj.experience = { $lte: experience };
+    if (status)      {
+        if (status === "self-employed") {
+            findObj.status = "Self-employed (freelancer)";
+        }
+        if (status === "full time employee") {
+            findObj.status = "Full-time employee";
+        }
+    }
+    if (namesStack)  {
+        const cleanNamesStack = namesStack.filter(item => item !== "" && item !== " ");
+
+        if (cleanNamesStack.length > 0) {
+            const regexStacks = cleanNamesStack.map(item => new RegExp(`^${item}$`, 'i'));
+            findObj.stack = { $in: regexStacks };
+        }
+    }
 
     const jobs = await Jobs.find(findObj, { _id: 0});
 
