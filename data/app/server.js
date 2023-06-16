@@ -21,6 +21,8 @@ const {
 } = require('./controller/app-controller');
 
 const checkToken = require("./middleware/checkToken");
+const newAuth = require("./middleware/newAuth");
+const errorHander = require("./middleware/errorHandler");
 
 const app = express();
 
@@ -49,28 +51,28 @@ mongoose.connect(MONGO)
 .catch( () => console.log("Connection failed") )
 
 // Routes
-router.get('/', index);
+router.get('/', [errorHander], index);
 
-router.get('/titles', titles);
+router.get('/titles', [errorHander], titles);
 
-router.get('/regions', regions);
+router.get('/regions', [errorHander], regions);
 
-router.get('/stack', stack);
+router.get('/stack', [errorHander], stack);
 
-router.post("/search", search);
+router.post("/search", [errorHander], search);
 
-router.post("/search/save", [checkToken], searchSave);
+router.post("/search/save", [newAuth], searchSave);
 
-router.get("/simulations", [checkToken], getSimulations);
+router.get("/simulations", [newAuth], getSimulations);
 
 // Mettre à jour une simulation
-router.patch("/simulations", [checkToken], updateSimulation);
+router.patch("/simulations", [newAuth], updateSimulation);
 
-router.delete("/simulations", [checkToken], deleteSimulation);
+router.delete("/simulations", [newAuth], deleteSimulation);
 
 // Route pour corriger les données de la BDD d'un coup (selon les attributs choisis)
 // Faire la correction avec des paramètres semble compliqué, donc on doit se résoudre à la faire en dur
-router.post("/fix", async (req, res) => {
+router.post("/fix", [errorHander], async (req, res) => {
     try {
         await Jobs.updateMany({ stack: "" }, { $set: { stack: [] } }).exec()
         .then(() => console.log("Les données ont été corrigées"))
