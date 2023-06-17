@@ -97,7 +97,7 @@ const handleSaveSimulation = () => {
             <p class="text-m mt-3 mb-0">In search of your dream job...</p>
         </div>
         <div :class="`row ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
-            <RecapForm :data="simulationResult" @reload="(value) => simulationResult = value" type="simulation"/>
+            <RecapForm :data="simulationResult" @reload="(value: any) => simulationResult = value" type="simulation"/>
         </div>
         <div :class="`row simulation-form-result bg-blur ${animationForm === 'fetching' ? 'fade-in-scale' : ''}`" v-if="simulationResult && (animationForm === 'fetching' || animationForm === 'static')">
             <div class="col-12 text-center mt-5 mt-lg-0">

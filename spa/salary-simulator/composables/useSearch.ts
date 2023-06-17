@@ -12,13 +12,13 @@ export default () => {
             body: payload,
             method: "POST"
         }).then(res => {
-            return {...res, data: res.data as Ref<{simulation: TSimulation}> | null}
+            return {...res, data: res.data as Ref<TSimulation> | null}
         });
         if (!error?.value && data?.value) {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
-            simulationResult.value = data.value.simulation;
+            simulationResult.value = data.value;
         }
     }
     
