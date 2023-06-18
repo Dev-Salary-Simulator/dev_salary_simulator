@@ -7,13 +7,13 @@ const namesStacks = useState<string[]>('namesStacks');
 const namesRegions = useState<string[]>('namesRegions');
 
 const password = ref<string>('');
-const firstname = ref<string>(`${userLogged.value?.firstname}` ?? '');
-const lastname = ref<string>(`${userLogged.value?.lastname}` ?? '');
-const birthday = ref(`${userLogged.value?.birthday.toString().substring(0, 10)}` ?? '');
+const firstname = ref<string>(`${userLogged.value?.firstname ?? ''}`);
+const lastname = ref<string>(`${userLogged.value?.lastname ?? ''}` );
+const birthday = ref(`${userLogged.value?.birthday.toString().substring(0, 10) ?? ''}`);
 const isEditingProfile = computed(() => (
-    (firstname.value !== userLogged.value?.firstname
-    || lastname.value !== userLogged.value?.lastname
-    || birthday.value !== userLogged.value?.birthday.toString().substring(0, 10)
+    (firstname.value !== `${userLogged.value?.firstname ?? ''}`
+    || lastname.value !== `${userLogged.value?.lastname ?? ''}`
+    || birthday.value !== `${userLogged.value?.birthday.toString().substring(0, 10) ?? ''}`
     || !!password.value)
     && (!password.value || !!password.value.match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/))
 ));
@@ -32,9 +32,9 @@ const formJobIsValid = computed(() => (
 const cancelEditProfile = () => {
     if (!!userLogged.value) {
         password.value = '';
-        firstname.value = `${userLogged.value.firstname}`;
-        lastname.value = `${userLogged.value.lastname}`;
-        birthday.value = `${userLogged.value.birthday.toString().substring(0, 10)}`;
+        firstname.value = `${userLogged.value.firstname ?? ''}`;
+        lastname.value = `${userLogged.value.lastname ?? ''}`;
+        birthday.value = `${userLogged.value?.birthday.toString().substring(0, 10) ?? ''}`
     }
 }
 const handleUpdateProfile = () => {
