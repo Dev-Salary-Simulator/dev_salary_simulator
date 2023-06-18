@@ -14,9 +14,6 @@ COPY /projet /var/www/projet
 # COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 WORKDIR /var/www/projet/
 
-RUN HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1) && \
- setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var && \
- setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
 RUN composer install
 RUN php bin/console c:c && \
 php bin/console doctrine:cache:clear-metadata && \
@@ -24,5 +21,8 @@ php bin/console doctrine:cache:clear-query && \
 php bin/console doctrine:cache:clear-result && \
 php bin/console doctrine:mongodb:generate:hydrators && \
 php bin/console lexik:jwt:generate-keypair --overwrite
+RUN HTTPDUSER=$(ps axo user,comm | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1) && \
+ setfacl -dR -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var && \
+ setfacl -R -m u:"$HTTPDUSER":rwX -m u:$(whoami):rwX var
 
 EXPOSE 3001
