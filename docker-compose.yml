@@ -48,7 +48,7 @@ services:
       - "traefik.http.routers.auth.entrypoints=auth"
     volumes:
         - ./auth/vhosts:/etc/apache2/sites-enabled
-        - ./auth/projet:/var/www/projet
+        # - ./auth/projet:/var/www/projet
 
 
   db-mongodb:
