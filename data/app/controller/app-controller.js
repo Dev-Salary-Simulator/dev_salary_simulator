@@ -91,7 +91,31 @@ const search = async (req, res) => {
         }
     }
 
-    const jobs = await Jobs.find(findObj, { _id: 0});
+    let jobs = await Jobs.find(findObj, { _id: 0});
+
+    // Si aucun job n'est trouvé, alors on supprime la région de la recherche
+    if (jobs.length === 0) {
+        delete findObj.region;
+        jobs = await Jobs.find(findObj, { _id: 0});
+    }
+
+    // Si on ne trouve toujours aucun job, alors on supprime le statut de la recherche
+    if (jobs.length === 0) {
+        delete findObj.status;
+        jobs = await Jobs.find(findObj, { _id: 0});
+    }
+
+    // Si on ne trouve toujours aucun job, alors on supprime l'expérience de la recherche
+    if (jobs.length === 0) {
+        delete findObj.experience;
+        jobs = await Jobs.find(findObj, { _id: 0});
+    }
+
+    // Si on ne trouve toujours aucun job, alors on supprime la stack de la recherche
+    if (jobs.length === 0) {
+        delete findObj.stack;
+        jobs = await Jobs.find(findObj, { _id: 0});
+    }
 
     const lowestSalary = Math.min(...jobs.map(job => job.salary));
     const highestSalary = Math.max(...jobs.map(job => job.salary));
