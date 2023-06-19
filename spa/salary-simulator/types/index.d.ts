@@ -38,7 +38,7 @@ declare global {
         id: string;
         idUser: string;
         saveName: string;
-        saveDate: Date;
+        saveDate: string;
         simulation: TSimulation;
     }
 
