@@ -7,7 +7,7 @@ export default () => {
     const userLogged = useState<TUser | null>('userLogged');
 
     async function updateProfile(payload: {firstname: string, lastname: string, birthday: Date, password?: string}){
-        const {data, error}= await useFetch(`${urlBase}/user`, {
+        const {data, error}= await useFetch(`${urlBase}/user/`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`},
             body: payload,
             method: "PATCH",
