@@ -50,7 +50,7 @@ class AutoLoginController extends AbstractController
         ]);
 
         $response =  new JsonResponse([
-            'token' => $jwt,
+            'jwt' => $jwt,
             'user'  => $data
         ]);
 

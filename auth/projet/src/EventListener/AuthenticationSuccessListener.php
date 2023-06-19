@@ -36,6 +36,8 @@ class AuthenticationSuccessListener
         ]);
 
         $responseData['user'] = $userData;
+        $responseData['jwt'] = $responseData['token'];
+        unset($responseData['token']);
 
         $event->setData(
             $responseData,

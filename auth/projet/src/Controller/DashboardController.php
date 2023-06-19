@@ -65,7 +65,7 @@ class DashboardController extends AbstractController
         return $response;
     }
 
-    #[Route('/', name: 'update_profile', methods: ['PUT'])]
+    #[Route('/', name: 'update_profile', methods: ['PUT', 'PATCH'])]
     #[IsGranted('ROLE_USER', statusCode: 401, message: 'Vous devez vous connecter pour accéder à cette page.')]
     public function updateUserProfile(Request $request): Response
     {
