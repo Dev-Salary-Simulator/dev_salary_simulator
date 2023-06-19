@@ -91,7 +91,10 @@ const enumExp: {[key: number]: string} = {
                 </div>
             </div>
         </div>
-        <div class="col-12 btn-actions d-flex align-items-center justify-content-end">
+        <div class="col-4 recap-form-date d-flex align-items-center">
+            <span>{{ (data as TSavedSimulation).saveDate.split('T')[0] }}</span>
+        </div>
+        <div class="col-8 btn-actions d-flex align-items-center justify-content-end">
             <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#edit-simulation" :onClick="() => editSimu!((data as TSavedSimulation).id, (data as TSavedSimulation).saveName)">
                 <img src="/img/edit.png" alt="edit" class="me-1"/> Edit
             </button>
@@ -129,6 +132,11 @@ const enumExp: {[key: number]: string} = {
         width: auto;
         top: 16px;
         right: 16px;
+    }
+    .recap-form-date{
+        span{
+            color: $grey;
+        }
     }
     .btn-actions{
         button{
