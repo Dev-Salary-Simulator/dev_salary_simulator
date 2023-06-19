@@ -8,13 +8,13 @@ export default () => {
         const {data, error} = await useFetch(`${urlBase}/jobs/simulations`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`}
         }).then(res => {
-            return {...res, data: res.data as Ref<{simulations: TSavedSimulation[]}> | null}
+            return {...res, data: res.data as Ref<TSavedSimulation[]> | null}
         });
         if (!error?.value && data?.value) {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
-            savedSimulations.value = data.value.simulations;
+            savedSimulations.value = data.value;
         }
     }
     

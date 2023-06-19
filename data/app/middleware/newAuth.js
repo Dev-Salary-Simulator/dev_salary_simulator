@@ -2,13 +2,13 @@ const axios = require('axios');
 
 const newAuth = async (req, res, next) => {
     try {
-        req.userId = await axios.get('http://api.localhost:3001/api/auth/auto', {
+        req.userId = await axios.get('http://auth_symfony/api/auth/auto', {
             headers: {
-                'Authorization': req.headers['x-access-token']
+                'Authorization': req.headers.authorization
             }
         }).then(
             (response) => {
-                return response.data.user._id;
+                return response.data.user.id;
             }
         );
 

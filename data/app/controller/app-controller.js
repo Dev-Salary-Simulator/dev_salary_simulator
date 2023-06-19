@@ -127,8 +127,7 @@ const searchSave = async (req, res) => {
 
 const getSimulations = async (req, res) => {
     const user = await User.findById(req.userId).exec();
-
-    return res.json(user.simulations).status(200);
+    return res.json(user?.simulations ? user.simulations : []).status(200);
 }
 
 const updateSimulation = async (req, res) => {
