@@ -47,8 +47,10 @@ class JobController extends AbstractController
         $decoded = json_decode($request->getContent());
         $title = $decoded->nameJob;
         $stack = $decoded->nameStack;
+        $region = $decoded->nameRegion;
         $salary = $decoded->salary;
         $experience = $decoded->experience;
+        $status = $decoded->status;
 
         $job = null;
         if(!is_null($this->getUser()->getCurrentJob())){
@@ -59,9 +61,11 @@ class JobController extends AbstractController
         $job->setTitle($title);
 
         $job->setStack($stack);
+        $job->setRegion($region);
         
         $job->setSalary($salary);
         $job->setExperience($experience);
+        $job->setStatus($status);
         $this->doctrine->persist($job);
 
         $this->getUser()->setCurrentJob($job);
@@ -76,15 +80,6 @@ class JobController extends AbstractController
         $response->setStatusCode(200);
 
         return $response;
-
-
-        // $jobs = $this->jobRepository->findAllJobs();
-
-        // foreach($jobs as $job){
-        //     echo $job->getRegion().'<br>';
-        // }
-        // dd('Coucou :)');
-
     }
 
 
