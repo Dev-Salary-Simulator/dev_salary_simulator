@@ -17,6 +17,8 @@ export default () => {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
+            data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
+            data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
             navigateTo('/');
@@ -34,6 +36,8 @@ export default () => {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
+            data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
+            data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
             navigateTo('/');
@@ -52,6 +56,8 @@ export default () => {
                 if (isProxy(data.value)){
                     data.value = toRaw(data.value);
                 }
+                data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
+                data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
                 userLogged.value = data.value.user;
                 localStorage.setItem('tokenDSS', data.value.jwt);
                 const route = useRoute();

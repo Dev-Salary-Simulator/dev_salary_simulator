@@ -15,9 +15,11 @@ export default () => {
             return {...res, data: res.data as Ref<TUser | null>}
         });
         if (!error?.value && data?.value) {
-            if (isProxy(data.value)){
-                data.value = toRaw(data.value);
+            if (isProxy(data.value[0])){
+                data.value = toRaw(data.value[0]);
             }
+            data.value.firstName && (data.value.firstname = data.value.firstName);
+            data.value.lastName && (data.value.lastname = data.value.lastName);
             userLogged.value = data.value;
         }
     }
