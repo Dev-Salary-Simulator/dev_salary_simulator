@@ -20,6 +20,11 @@ export default () => {
             }
             data.value.firstName && (data.value.firstname = data.value.firstName);
             data.value.lastName && (data.value.lastname = data.value.lastName);
+            data.value.oldJobs = data.value.oldJobs.map(job => {
+                job.nameJob = job.title;
+                job.namesStack = job.stack;
+                return job;
+            });
             userLogged.value = data.value;
         }
     }
@@ -36,6 +41,8 @@ export default () => {
                 data.value = toRaw(data.value);
             }
             if (userLogged.value) {
+                data.value.currentJob.nameJob = data.value.currentJob.title;
+                data.value.currentJob.namesStack = data.value.currentJob.stack;
                 userLogged.value.currentJob = data.value.currentJob;
             }
         }
@@ -51,7 +58,13 @@ export default () => {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
-            userLogged.value = data.value.user;
+            data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
+                job.nameJob = job.title;
+                job.namesStack = job.stack;
+                return job;
+            });
+            userLogged.value.currentJob = null;
+            userLogged.value.oldJobs = data.value.user.oldJobs;
         }
     }
 

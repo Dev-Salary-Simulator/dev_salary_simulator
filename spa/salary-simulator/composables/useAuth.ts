@@ -19,6 +19,15 @@ export default () => {
             }
             data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
             data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
+            data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
+                job.nameJob = job.title;
+                job.namesStack = job.stack;
+                return job;
+            });
+            if (data.value.user.currentJob) {
+                data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
+                data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+            }
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
             navigateTo('/');
@@ -38,6 +47,15 @@ export default () => {
             }
             data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
             data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
+            data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
+                job.nameJob = job.title;
+                job.namesStack = job.stack;
+                return job;
+            });
+            if (data.value.user.currentJob) {
+                data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
+                data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+            }
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
             navigateTo('/');
@@ -58,6 +76,15 @@ export default () => {
                 }
                 data.value.user.firstName && (data.value.user.firstname = data.value.user.firstName);
                 data.value.user.lastName && (data.value.user.lastname = data.value.user.lastName);
+                data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
+                    job.nameJob = job.title;
+                    job.namesStack = job.stack;
+                    return job;
+                });
+                if (data.value.user.currentJob) {
+                    data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
+                    data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+                }
                 userLogged.value = data.value.user;
                 localStorage.setItem('tokenDSS', data.value.jwt);
                 const route = useRoute();
