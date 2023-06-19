@@ -27,5 +27,3 @@ entryPoints:
     address: ":3000"
   auth:
     address: ":3001"
-  mongo:
-    address: ":27017"
