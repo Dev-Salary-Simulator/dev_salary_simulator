@@ -12,13 +12,13 @@ export default () => {
             body: payload,
             method: "PATCH",
         }).then(res => {
-            return {...res, data: res.data as Ref<{user: TUser}> | null}
+            return {...res, data: res.data as Ref<TUser | null>}
         });
         if (!error?.value && data?.value) {
             if (isProxy(data.value)){
                 data.value = toRaw(data.value);
             }
-            userLogged.value = data.value.user;
+            userLogged.value = data.value;
         }
     }
     async function updateCurrentJob(payload: {nameJob: string, nameStack: string[], nameRegion: string, salary: number, experience: number, status: string}){
