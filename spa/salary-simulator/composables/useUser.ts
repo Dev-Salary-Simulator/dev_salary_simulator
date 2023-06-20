@@ -6,7 +6,7 @@ export default () => {
 
     const userLogged = useState<TUser | null>('userLogged');
 
-    async function updateProfile(payload: {firstname: string, lastname: string, birthday: Date, password?: string}){
+    async function updateProfile(payload: {firstname: string, lastname: string, birthday: string, password?: string}){
         const {data, error}= await useFetch(`${urlBase}/user/`, {
             headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`},
             body: payload,
@@ -20,9 +20,13 @@ export default () => {
             }
             data.value.firstName && (data.value.firstname = data.value.firstName);
             data.value.lastName && (data.value.lastname = data.value.lastName);
+            data.value.currentJob.nameJob = data.value.currentJob.title;
+            data.value.currentJob.namesStack = data.value.currentJob.stack;
+            data.value.currentJob.nameRegion = data.value.currentJob.region;
             data.value.oldJobs = data.value.oldJobs.map(job => {
                 job.nameJob = job.title;
                 job.namesStack = job.stack;
+                job.nameRegion = job.region;
                 return job;
             });
             userLogged.value = data.value;
@@ -43,6 +47,7 @@ export default () => {
             if (userLogged.value) {
                 data.value.currentJob.nameJob = data.value.currentJob.title;
                 data.value.currentJob.namesStack = data.value.currentJob.stack;
+                data.value.currentJob.nameRegion = data.value.currentJob.region;
                 userLogged.value.currentJob = data.value.currentJob;
             }
         }
@@ -61,6 +66,7 @@ export default () => {
             data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
                 job.nameJob = job.title;
                 job.namesStack = job.stack;
+                job.nameRegion = job.region;
                 return job;
             });
             userLogged.value.currentJob = null;

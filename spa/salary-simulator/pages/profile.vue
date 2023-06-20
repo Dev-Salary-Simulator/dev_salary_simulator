@@ -38,7 +38,7 @@ const cancelEditProfile = () => {
     }
 }
 const handleUpdateProfile = () => {
-    const payload: any = {firstname: firstname.value, lastname: lastname.value, birthday: new Date(birthday.value)}
+    const payload: any = {firstname: firstname.value, lastname: lastname.value, birthday: birthday.value}
     !!password.value && (payload.password = password);
     updateProfile(payload).then(() => {
         password.value = '';
@@ -126,7 +126,7 @@ const archiveJob = () => {
                 </div>
                 <div class="col-lg-5 col-12 mb-4">
                     <Label forInput='statusForm' :classSup="'d-block'">Define your status</Label>
-                    <InputRadio :elements="[{text: 'self-employed'}, {text: 'full time employee'}]" v-model="status" id="statusForm"/>
+                    <InputRadio :elements="[{text: 'Self-employed'}, {text: 'Full-time employee'}]" v-model="status" id="statusForm"/>
                     <Label forInput='regionForm' :classSup="'d-block'">Your region</Label>
                     <Select :elements="namesRegions" :key="region" v-model="region" id="regionForm" placeholder="France, USA..." />
                     <Label forInput='salaryForm' :classSup="'d-block mt-3'">Salary</Label>

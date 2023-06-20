@@ -22,11 +22,13 @@ export default () => {
             data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
                 job.nameJob = job.title;
                 job.namesStack = job.stack;
+                job.nameRegion = job.region;
                 return job;
             });
             if (data.value.user.currentJob) {
                 data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
                 data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+                data.value.user.currentJob.nameRegion = data.value.user.currentJob.region;
             }
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
@@ -50,11 +52,13 @@ export default () => {
             data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
                 job.nameJob = job.title;
                 job.namesStack = job.stack;
+                job.nameRegion = job.region;
                 return job;
             });
             if (data.value.user.currentJob) {
                 data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
                 data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+                    data.value.user.currentJob.nameRegion = data.value.user.currentJob.region;
             }
             userLogged.value = data.value.user;
             localStorage.setItem('tokenDSS', data.value.jwt);
@@ -79,11 +83,13 @@ export default () => {
                 data.value.user.oldJobs = data.value.user.oldJobs.map(job => {
                     job.nameJob = job.title;
                     job.namesStack = job.stack;
+                    job.nameRegion = job.region;
                     return job;
                 });
                 if (data.value.user.currentJob) {
                     data.value.user.currentJob.nameJob = data.value.user.currentJob.title;
                     data.value.user.currentJob.namesStack = data.value.user.currentJob.stack;
+                    data.value.user.currentJob.nameRegion = data.value.user.currentJob.region;
                 }
                 userLogged.value = data.value.user;
                 localStorage.setItem('tokenDSS', data.value.jwt);
