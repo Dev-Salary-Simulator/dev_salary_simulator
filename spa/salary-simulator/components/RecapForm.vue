@@ -62,8 +62,8 @@ const enumExp: {[key: number]: string} = {
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TJob).experience]} experience` }}</span>
                 </div>
                 <div class="col-12 d-flex">
-                    <span class="recap-form-status title-l me-3">{{ (data as TJob).status }}</span>
-                    <span class="recap-form-region text-m d-flex align-items-center">
+                    <span v-if="(data as TJob).status" class="recap-form-status title-l me-3">{{ (data as TJob).status }}</span>
+                    <span v-if="(data as TJob).nameRegion" class="recap-form-region text-m d-flex align-items-center">
                         <img src="/img/marker-map.png" alt="marker">
                         {{ (data as TJob).nameRegion }}
                     </span>
@@ -83,8 +83,8 @@ const enumExp: {[key: number]: string} = {
                     <span class="recap-form-exp text-m">{{ `${enumExp[(data as TSavedSimulation).simulation.parameters.experience]} experience` }}</span>
                 </div>
                 <div class="col-12 d-flex">
-                    <span class="recap-form-status title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.status }}</span>
-                    <span class="recap-form-region text-m d-flex align-items-center">
+                    <span v-if="(data as TSavedSimulation).simulation.parameters.status" class="recap-form-status title-l me-3">{{ (data as TSavedSimulation).simulation.parameters.status }}</span>
+                    <span v-if="(data as TSavedSimulation).simulation.parameters.nameRegion" class="recap-form-region text-m d-flex align-items-center">
                         <img src="/img/marker-map.png" alt="marker">
                         {{ (data as TSavedSimulation).simulation.parameters.nameRegion }}
                     </span>
