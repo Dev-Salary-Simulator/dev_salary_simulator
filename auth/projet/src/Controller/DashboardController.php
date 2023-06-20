@@ -50,7 +50,7 @@ class DashboardController extends AbstractController
             AbstractNormalizer::IGNORED_ATTRIBUTES => ['password', 'salt', 'username', 'userIdentifier'],
             AbstractNormalizer::CALLBACKS => [
                 'birthday' => function ($date) {
-                    return $date instanceof \DateTime ? $date->format('d-m-Y') : '';
+                    return $date instanceof \DateTime ? $date->format('Y-m-d') : '';
                 }
             ]
         ]);
@@ -109,7 +109,7 @@ class DashboardController extends AbstractController
             AbstractNormalizer::IGNORED_ATTRIBUTES => ['password', 'salt', 'username', 'userIdentifier'],
             AbstractNormalizer::CALLBACKS => [
                 'birthday' => function ($date) {
-                    return $date instanceof \DateTime ? $date->format('d-m-Y') : '';
+                    return $date instanceof \DateTime ? $date->format('Y-m-d') : '';
                 }
             ]
         ]);
