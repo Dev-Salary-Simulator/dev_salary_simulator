@@ -73,11 +73,14 @@ class DashboardController extends AbstractController
         $decoded = json_decode($request->getContent());
         $firstName = $decoded->firstname;
         $lastName = $decoded->lastname;
+        $birthday = $decoded->birthday;
+
         $plainTextPassword = isset($decoded->password) ? $decoded->password : null;
 
         $user = $this->getUser();
         $user->setFirstName($firstName);
         $user->setLastName($lastName);
+        $user->setBirthday(new \DateTime($birthday));
         // On vérifie si l'utilisateur a renseigné un nouveau mot de passe
         if(isset($plainTextPassword) && !is_null($plainTextPassword)){
             if (
