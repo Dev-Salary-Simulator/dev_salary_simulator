@@ -22,7 +22,7 @@ export default () => {
         }
     }
     
-    async function saveSimulation(payload: {saveName: string, simulation: DTOSimulation}){
+    async function saveSimulation(payload: {saveName: string, simulation: {averageSalary: number, lowestSalary: number, highestSalary: number, parameters : DTOSimulation}}){
         if (localStorage.getItem('tokenDSS')) {
             const {data, error} = await useFetch(`${urlBase}/jobs/search/save`, {
                 headers: {Authorization: `Bearer ${localStorage.getItem('tokenDSS')}`},
@@ -41,7 +41,7 @@ export default () => {
                     savedSimu.saveName = savedSimu.name;
                     savedSimu.saveDate = savedSimu.date;
                     savedSimu.simulation.id = savedSimu.simulation._id;
-                    savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region;
+                    !!savedSimu.simulation.parameters.region && (savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region);
                     savedSimu.simulation.parameters.nameJob = savedSimu.simulation.parameters.title;
                     return savedSimu;
                 });

@@ -44,11 +44,16 @@ const handleSaveSimulation = () => {
     saveSimulation({
         saveName: saveName.value,
         simulation: {
-            nameJob: nameJobForm.value, 
-            experience: Math.round(experienceForm.value),
-            namesStack: stacksForm.value,
-            status: statusForm.value,
-            nameRegion: regionForm.value
+            averageSalary: simulationResult.value.averageSalary,
+            lowestSalary: simulationResult.value.lowestSalary,
+            highestSalary: simulationResult.value.highestSalary,
+            parameters: {
+                nameJob: nameJobForm.value, 
+                experience: Math.round(experienceForm.value),
+                namesStack: stacksForm.value,
+                status: statusForm.value,
+                nameRegion: regionForm.value
+            }
         }
     }).then(() => {
         saveName.value = '';

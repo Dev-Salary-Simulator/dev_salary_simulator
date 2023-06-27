@@ -19,7 +19,7 @@ export default () => {
                 savedSimu.saveName = savedSimu.name;
                 savedSimu.saveDate = savedSimu.date;
                 savedSimu.simulation.id = savedSimu.simulation._id;
-                savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region;
+                !!savedSimu.simulation.parameters.region && (savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region);
                 savedSimu.simulation.parameters.nameJob = savedSimu.simulation.parameters.title;
                 return savedSimu;
             });
@@ -65,7 +65,7 @@ export default () => {
                 savedSimu.saveName = savedSimu.name;
                 savedSimu.saveDate = savedSimu.date;
                 savedSimu.simulation.id = savedSimu.simulation._id;
-                savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region;
+                !!savedSimu.simulation.parameters.region && (savedSimu.simulation.parameters.nameRegion = savedSimu.simulation.parameters.region);
                 savedSimu.simulation.parameters.nameJob = savedSimu.simulation.parameters.title;
                 return savedSimu;
             });
